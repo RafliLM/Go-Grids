@@ -20,8 +20,8 @@ const isPasswordVisible = ref(false)
 
 <template>
   <div class="pop auth-wrapper d-flex align-center justify-center pa-4">
-    <VCard class="auth-card pa-4 pt-7" max-width="800" max-height="445">
-      <img class="" src="gglogo.png">
+    <VCard class="auth-card pa-4 pt-7" max-width="700" max-height="445">
+      <img max-width=100% src="gglogo.png">
       <VCol
               cols="20"
               class="text-b ml-5 text-base"
