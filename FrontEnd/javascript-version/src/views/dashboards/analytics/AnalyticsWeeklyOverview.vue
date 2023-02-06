@@ -95,7 +95,7 @@ const series = [{
 }]
 </script>
 
-<template>
+<!-- <template>
   <VCard>
     <VCardItem>
       <VCardTitle>Weekly Overview</VCardTitle>
@@ -139,5 +139,5 @@ const series = [{
       </VBtn>
     </VCardText>
   </VCard>
-</template>
+</template> -->
 

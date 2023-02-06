@@ -12,7 +12,7 @@ const triangleBg = computed(() => {
 
 <template>
   <VCard
-    title="Congratulations John! 🎉"
+    title="TEST! 🎉"
     subtitle="Best seller of the month"
     class="position-relative"
   >

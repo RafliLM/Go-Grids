@@ -28,7 +28,7 @@ const earnings = [
 ]
 </script>
 
-<template>
+<!-- <template>
   <VCard>
     <VCardItem>
       <VCardTitle>Total Earning</VCardTitle>
@@ -100,7 +100,7 @@ const earnings = [
       </VList>
     </VCardText>
   </VCard>
-</template>
+</template> -->
 
 <style lang="scss" scoped>
 .card-list {
