@@ -43,7 +43,7 @@ const salesByCountries = [
 ]
 </script>
 
-<!-- <template>
+<template>
   <VCard>
     <VCardItem>
       <VCardTitle>Sales by Countries</VCardTitle>
@@ -112,7 +112,7 @@ const salesByCountries = [
       </VList>
     </VCardText>
   </VCard>
-</template> -->
+</template>
 
   <style lang="scss" scoped>
   .card-list {

@@ -71,7 +71,7 @@ const chartOptions = computed(() => {
 })
 </script>
 
-<!-- <template>
+<template>
   <VCard>
     <VCardText>
       <h6 class="text-h6">
@@ -89,4 +89,4 @@ const chartOptions = computed(() => {
       </p>
     </VCardText>
   </VCard>
-</template> -->
+</template>

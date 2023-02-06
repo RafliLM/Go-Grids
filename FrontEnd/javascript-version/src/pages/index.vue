@@ -28,13 +28,13 @@ const newProject = {
 }
 </script>
 
-<template>
+<!-- <template>
   <VRow class="match-height">
     <VCol
       cols="12"
       md="4"
     >
-      <!-- <AnalyticsAward /> -->
+      <AnalyticsAward />
     </VCol>
 
     <VCol
@@ -63,14 +63,14 @@ const newProject = {
       md="4"
     >
       <VRow class="match-height">
-        <VCol
+        <VCol 
           cols="12"
           sm="6"
         >
           <AnalyticsTotalProfitLineCharts />
         </VCol>
 
-        <!-- <VCol
+        <VCol
           cols="12"
           sm="6"
         >
@@ -82,7 +82,7 @@ const newProject = {
           sm="6"
         >
           <CardStatisticsVertical v-bind="newProject" />
-        </VCol> -->
+        </VCol>
 
         <VCol
           cols="12"
@@ -111,4 +111,4 @@ const newProject = {
       <AnalyticsDatatable />
     </VCol>
   </VRow>
-</template>
+</template> -->

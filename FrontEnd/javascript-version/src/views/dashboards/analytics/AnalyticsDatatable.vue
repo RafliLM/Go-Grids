@@ -130,7 +130,7 @@ const headers = [
 const usreList = data
 </script>
 
-<!-- <template>
+<template>
   <VCard>
     <VTable
       :headers="headers"
@@ -154,11 +154,11 @@ const usreList = data
       <tbody>
         <tr
           v-for="row in data"
-          :key="row.fullName" -->
+          :key="row.fullName"
         >
           <!-- name -->
 
-          <!-- <td>
+          <td>
             <div class="d-flex flex-column">
               <span class="d-block font-weight-semibold text--primary text-truncate">{{ row.fullName }}</span>
               <small>{{ row.post }}</small>
@@ -170,7 +170,7 @@ const usreList = data
           <td v-text="`$${row.salary}`" />
           <td v-text="row.age" /> -->
           <!-- status -->
-          <!-- <td>
+          <td>
             <VChip
               small
               :color="statusColor[status[row.status]]"
@@ -183,4 +183,4 @@ const usreList = data
       </tbody>
     </VTable>
   </VCard>
-</template> -->
+</template>
