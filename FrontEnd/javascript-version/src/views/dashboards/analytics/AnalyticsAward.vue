@@ -17,7 +17,11 @@ const triangleBg = computed(() => {
       </div>
       <VRow>
         <VCol cols="1" md="1">
-        <VAvatar color="primary" size="50" variant="tonal">
+        <VAvatar
+          style="cursor: pointer;"
+          color="primary" 
+          size="50" 
+          variant="tonal">
       <VImg :src="avatar1" />
 
       <!-- SECTION Menu -->

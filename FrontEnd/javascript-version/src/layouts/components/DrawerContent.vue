@@ -22,13 +22,12 @@ const upgradeBanner = computed(() => {
       class="app-logo d-flex align-center gap-x-3 app-title-wrapper"
     >
       <!-- ℹ️ You can also use img tag or VImg here -->
-      <img src="gglogo.png" style="height: 80px;margin-top: 20px;">
-
-      <!-- <Transition name="vertical-nav-app-title">
-        <h1 class="font-weight-semibold leading-normal text-xl text-uppercase">
+      <Transition name="vertical-nav-app-title">
+        <img src="gglogo.png" style="height: 80px;margin-top: 20px;">
+        <!-- <h1 class="font-weight-semibold leading-normal text-xl text-uppercase">
           Materio
-        </h1>
-      </Transition> -->
+        </h1> -->
+      </Transition>
     </RouterLink>
   </div>
 
@@ -97,8 +96,8 @@ const upgradeBanner = computed(() => {
     <VerticalNavLink
       :item="{
         title: 'Calendar',
-        to: 'calendar',
-        icon: { icon: 'mdi-table' }
+        to: 'card-basic',
+        icon: { icon: 'mdi-calendar-blank-outline' }
       }"
     />
     <VerticalNavLink
