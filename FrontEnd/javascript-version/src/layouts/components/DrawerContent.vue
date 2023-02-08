@@ -84,35 +84,35 @@ const upgradeBanner = computed(() => {
       :item="{
         title: 'Journals',
         to: 'typography',
-        icon: { icon: 'mdi-alpha-t-box-outline' }
+        icon: { icon: 'mdi-notebook-outline' }
       }"
     />
-    <VerticalNavLink
+    <!-- <VerticalNavLink
       :item="{
         title: 'Icons',
         to: 'icons',
         icon: { icon: 'mdi-eye-outline' }
       }"
-    />
+    /> -->
     <VerticalNavLink
       :item="{
         title: 'Calendar',
         to: 'card-basic',
-        icon: { icon: 'mdi-credit-card-outline' }
+        icon: { icon: 'mdi-calendar-blank-outline' }
       }"
     />
     <VerticalNavLink
       :item="{
         title: 'Timeline',
         to: 'tables',
-        icon: { icon: 'mdi-table' }
+        icon: { icon: 'mdi-chart-timeline-variant' }
       }"
     />
     <VerticalNavLink
       :item="{
         title: 'Export',
         to: 'form-layouts',
-        icon: { icon: 'mdi-form-select' }
+        icon: { icon: 'mdi-tray-arrow-up' }
       }"
     />
   </ul>
