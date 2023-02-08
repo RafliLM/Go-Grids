@@ -51,7 +51,7 @@ const statistics = [
 
     <VCardText>
       <h6 class="text-sm mb-12">
-        <span>Total 48.5% Growth 😎</span>
+        <h3 class="text-h3">Hello KurKur😎</h3>
         <span class="font-weight-regular"> this month</span>
       </h6>
 
