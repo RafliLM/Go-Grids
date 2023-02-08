@@ -11,33 +11,44 @@ const triangleBg = computed(() => {
 </script>
 
 <template>
-  <VCard
-    title="TEST! 🎉"
-    subtitle="Best seller of the month"
-    class="position-relative"
-  >
-    <VCardText>
-      <h5 class="text-2xl font-weight-medium text-primary">
-        $42.8k
-      </h5>
-      <p>78% of target 🚀</p>
-      <VBtn size="small">
-        View Sales
-      </VBtn>
-    </VCardText>
-
-    <!-- Triangle Background -->
-    <VImg
-      :src="triangleBg"
-      class="triangle-bg flip-in-rtl"
-    />
-
-    <!-- Trophy -->
-    <VImg
-      :src="trophy"
-      class="trophy"
-    />
-  </VCard>
+  <VRow>
+    <div style="flex-grow: 1; padding: 20px; width: 25%">
+      <div style="float: left">
+        <UserProfile />
+      </div>
+      <VRow>
+        <VCol cols="1" md="1">
+          <VBadge v-bind="avatarBadgeProps" style="float: left; margin-top: 10%">
+            <VAvatar color="primary" size="50" variant="tonal">
+              <VImg :src="avatar1" />
+            </VAvatar>
+          </VBadge>
+        </VCol>
+        <VCol cols="1" md="2">
+          <div style="display: table-cell; padding-left: 40%">
+            <h3>Kurkur</h3>
+            <p>@kurkurcans</p>
+          </div>
+        </VCol>
+      </VRow>
+      <VCard>
+        <h2>Quotes</h2>
+        <VCardText style="box-shadow: 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); padding: 1rem; border-radius: 1rem">
+          <p style="font-style: italic">“Some wishes are only there to teach us how to wait.”</p>
+          <p style="font-style: italic; text-align: right">―Mandy Hale”</p>
+        </VCardText>
+        <VCardText
+          class="mt-7"
+          style="box-shadow: 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); padding: 1rem; border-radius: 1rem"
+        >
+          <p style="font-style: italic">
+            “Don’t rush into love. You’ll find the person meant for you when you least expect it.”
+          </p>
+          <p style="font-style: italic; text-align: right">―Franzie Gubatina”</p>
+        </VCardText>
+      </VCard>
+    </div>
+  </VRow>
 </template>
 
 <style lang="scss">
