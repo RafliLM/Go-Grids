@@ -14,15 +14,89 @@ const triangleBg = computed(() => {
   <VRow>
     <div style="flex-grow: 1; padding: 20px; width: 25%">
       <div style="float: left">
-        <UserProfile />
       </div>
       <VRow>
         <VCol cols="1" md="1">
-          <VBadge v-bind="avatarBadgeProps" style="float: left; margin-top: 10%">
-            <VAvatar color="primary" size="50" variant="tonal">
-              <VImg :src="avatar1" />
-            </VAvatar>
-          </VBadge>
+        <VAvatar color="primary" size="50" variant="tonal">
+      <VImg :src="avatar1" />
+
+      <!-- SECTION Menu -->
+      <VMenu
+        activator="parent"
+        width="230"
+        location="bottom end"
+        offset="14px"
+      >
+        <VList>
+          <!-- 👉 User Avatar & Name -->
+          <VListItem>
+            <template #prepend>
+              <VListItemAction start>
+                  <VAvatar
+                    color="primary"
+                    size="40"
+                    variant="tonal"
+                  >
+                    <VImg :src="avatar1" />
+                  </VAvatar>
+              </VListItemAction>
+            </template>
+
+            <VListItemTitle class="font-weight-semibold">
+              Kurkur
+            </VListItemTitle>
+            <VListItemSubtitle class="text-disabled">
+              @kurkurcans
+            </VListItemSubtitle>
+          </VListItem>
+
+          <VDivider class="my-2" />
+
+          <!-- 👉 Profile -->
+          <VListItem link>
+            <template #prepend>
+              <VIcon
+                class="me-2"
+                icon="mdi-account-outline"
+                size="22"
+              />
+            </template>
+
+            <VListItemTitle>Profile</VListItemTitle>
+          </VListItem>
+
+          <!-- 👉 Settings -->
+          <VListItem to="account-settings">
+            <template  #prepend>
+              <VIcon
+                class="me-2"
+                icon="mdi-cog-outline"
+                size="22"
+              />
+            </template>
+
+            <VListItemTitle>Settings</VListItemTitle>
+          </VListItem>
+
+          <!-- Divider -->
+          <VDivider class="my-2" />
+
+          <!-- 👉 Logout -->
+          <VListItem to="/login">
+            <template #prepend>
+              <VIcon
+                class="me-2"
+                icon="mdi-logout-variant"
+                size="22"
+              />
+            </template>
+
+            <VListItemTitle>Logout</VListItemTitle>
+          </VListItem>
+        </VList>
+      </VMenu>
+      <!-- !SECTION -->
+    </VAvatar>
         </VCol>
         <VCol cols="1" md="2">
           <div style="display: table-cell; padding-left: 40%">
