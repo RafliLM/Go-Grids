@@ -40,45 +40,6 @@ const upgradeBanner = computed(() => {
         icon: { icon: 'mdi-home-outline' }
       }"
     />
-    <!-- <VerticalNavLink
-      :item="{
-        title: 'Account Settings',
-        to: 'account-settings',
-        icon: { icon: 'mdi-account-cog-outline' }
-      }"
-    /> -->
-    <!-- 👉 Pages -->
-    <!-- <VerticalNavSectionTitle :item="{ heading: 'Pages' }" />
-    <VerticalNavLink
-      :item="{
-        title: 'Login',
-        to: 'login',
-        target: '_blank',
-        icon: { icon: 'mdi-login' }
-      }"
-    />
-    <VerticalNavLink
-      :item="{
-        title: 'Register',
-        to: 'register',
-        target: '_blank',
-        icon: { icon: 'mdi-account-plus-outline' }
-      }"
-    /> -->
-
-    <!-- ℹ️ This path doesn't exist so 404 route will catch this undefined path -->
-    <!-- <VerticalNavLink
-      :item="{
-        title: 'Error',
-        to: { path: '/error' },
-        target: '_blank',
-        icon: { icon: 'mdi-alert-circle-outline' }
-      }"
-    /> -->
-
-    <!-- 👉 User Interface -->
-    <!-- <VerticalNavSectionTitle :item="{ heading: 'User Interface' }" /> -->
-
     <VerticalNavLink
       :item="{
         title: 'Journals',
@@ -96,8 +57,8 @@ const upgradeBanner = computed(() => {
     <VerticalNavLink
       :item="{
         title: 'Calendar',
-        to: 'card-basic',
-        icon: { icon: 'mdi-calendar-blank-outline' }
+        to: 'calendar',
+        icon: { icon: 'mdi-table' }
       }"
     />
     <VerticalNavLink
