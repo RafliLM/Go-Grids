@@ -99,28 +99,30 @@ const triangleBg = computed(() => {
     </VAvatar>
         </VCol>
         <VCol cols="1" md="2">
-          <div style="display: table-cell; padding-left: 40%">
+          <div style="display: table-cell; padding-left: 30%">
             <h3>Kurkur</h3>
             <p>@kurkurcans</p>
           </div>
         </VCol>
       </VRow>
-      <VCard>
-        <h2>Quotes</h2>
-        <VCardText style="box-shadow: 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); padding: 1rem; border-radius: 1rem">
-          <p style="font-style: italic">“Some wishes are only there to teach us how to wait.”</p>
-          <p style="font-style: italic; text-align: right">―Mandy Hale”</p>
-        </VCardText>
-        <VCardText
-          class="mt-7"
-          style="box-shadow: 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); padding: 1rem; border-radius: 1rem"
-        >
-          <p style="font-style: italic">
-            “Don’t rush into love. You’ll find the person meant for you when you least expect it.”
-          </p>
-          <p style="font-style: italic; text-align: right">―Franzie Gubatina”</p>
-        </VCardText>
-      </VCard>
+        <VCard>
+          <h1>Quotes</h1>
+          <VCardText style="box-shadow: 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); padding: 1rem; border-radius: 1rem">
+            <p style="font-style: italic">
+              “Some wishes are only there to teach us how to wait.”
+            </p>
+            <p style="font-style: italic; text-align: right">―Mandy Hale”</p>
+          </VCardText>
+          <VCardText
+            class="mt-7"
+            style="box-shadow: 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); padding: 1rem; border-radius: 1rem"
+          >
+            <p style="font-style: italic">
+              “Don’t rush into love. You’ll find the person meant for you when you least expect it.”
+            </p>
+            <p style="font-style: italic; text-align: right">―Franzie Gubatina”</p>
+          </VCardText>
+        </VCard>
     </div>
   </VRow>
 </template>

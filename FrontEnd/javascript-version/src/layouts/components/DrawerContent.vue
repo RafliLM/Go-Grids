@@ -97,8 +97,8 @@ const upgradeBanner = computed(() => {
     <VerticalNavLink
       :item="{
         title: 'Calendar',
-        to: 'card-basic',
-        icon: { icon: 'mdi-calendar-blank-outline' }
+        to: 'calendar',
+        icon: { icon: 'mdi-table' }
       }"
     />
     <VerticalNavLink

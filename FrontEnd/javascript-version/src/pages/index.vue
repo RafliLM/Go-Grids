@@ -70,6 +70,7 @@ const newProject = {
     >
       <AnalyticsTransactions />
     </VCol>
+    <!-- Quotes -->
     <VCol
       cols="10"
       md="3"
