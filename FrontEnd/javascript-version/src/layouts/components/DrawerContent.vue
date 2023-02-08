@@ -82,7 +82,7 @@ const upgradeBanner = computed(() => {
 
     <VerticalNavLink
       :item="{
-        title: 'Typography',
+        title: 'Journals',
         to: 'typography',
         icon: { icon: 'mdi-alpha-t-box-outline' }
       }"
@@ -96,21 +96,21 @@ const upgradeBanner = computed(() => {
     />
     <VerticalNavLink
       :item="{
-        title: 'Cards',
+        title: 'Calendar',
         to: 'card-basic',
         icon: { icon: 'mdi-credit-card-outline' }
       }"
     />
     <VerticalNavLink
       :item="{
-        title: 'Tables',
+        title: 'Timeline',
         to: 'tables',
         icon: { icon: 'mdi-table' }
       }"
     />
     <VerticalNavLink
       :item="{
-        title: 'Form Layouts',
+        title: 'Export',
         to: 'form-layouts',
         icon: { icon: 'mdi-form-select' }
       }"
