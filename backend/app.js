@@ -5,11 +5,11 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', true);
 
-const port = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 const app = express();
 
 app.use(cors());
-app.use(express.json());
+app.use(bodyParser.json());
 
 
 // Database connection
@@ -22,6 +22,6 @@ mongoose
     .catch((err) => console.log(err))
 
 
-app.use("/api/journal", require('./routes/journal'))
+app.use("/api", require('./routes/index'))
 
-app.listen(port, () => console.log(`Server running at http://localhost:${port}`));
+app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
