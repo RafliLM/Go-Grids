@@ -21,3 +21,7 @@ function acceptEvent(){
 function declineEvent(){
     
 }
+
+function removeParticipant(){
+    
+}
