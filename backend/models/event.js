@@ -25,6 +25,9 @@ const eventSchema = mongoose.Schema({
         type : Date,
         default : Date.now
     },
+    participants : {
+        type : [participantSchema]
+    },
     timeHeld: {
         type : Date,
         required : function (value) {
