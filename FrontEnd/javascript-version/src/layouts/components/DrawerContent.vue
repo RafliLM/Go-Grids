@@ -22,7 +22,7 @@ const upgradeBanner = computed(() => {
       class="app-logo d-flex align-center gap-x-3 app-title-wrapper"
     >
       <!-- ℹ️ You can also use img tag or VImg here -->
-      <img src="gglogo.png" style="height: 90px;margin-top: 20px;">
+      <img src="gglogo.png" style="height: 80px;margin-top: 20px;">
 
       <!-- <Transition name="vertical-nav-app-title">
         <h1 class="font-weight-semibold leading-normal text-xl text-uppercase">
