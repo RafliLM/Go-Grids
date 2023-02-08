@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', true);
 
-const PORT = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 const app = express();
 
 app.use(cors());
@@ -24,6 +24,4 @@ mongoose
 
 app.use("/api/journal", require('./routes/journal'))
 
-app.listen((PORT) => {
-    console.log(`Server listening on port ${PORT}`)
-})
+app.listen(port, () => console.log(`Server running at http://localhost:${port}`));
