@@ -1,4 +1,4 @@
-<script setup>
+<!--<script setup>
 const statistics = [
   {
     title: 'Sales',
@@ -25,9 +25,10 @@ const statistics = [
     color: 'info',
   },
 ]
-</script>
+</script>-->
 
 <template>
+<!-- Hallo Kurkur -->
   <VCard>
     <VCardItem>
       <div class="main"  style= "width: 200%" >
@@ -52,7 +53,11 @@ const statistics = [
         </v-form> 
        </div>
       </VCol>
-      <!-- <template #append>
+    </VCardItem>
+  </VCard>
+</template>
+
+<!--<template #append>
         <div class="me-n3">
           <VBtn
             icon
@@ -66,7 +71,4 @@ const statistics = [
             />
           </VBtn>
         </div>
-      </template> -->
-    </VCardItem>
-  </VCard>
-</template>
+</template>-->

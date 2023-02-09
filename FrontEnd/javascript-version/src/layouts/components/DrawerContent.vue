@@ -43,7 +43,7 @@ const upgradeBanner = computed(() => {
     <VerticalNavLink
       :item="{
         title: 'Journals',
-        to: 'typography',
+        to: 'journals',
         icon: { icon: 'mdi-notebook-outline' }
       }"
     />
