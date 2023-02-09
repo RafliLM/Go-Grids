@@ -24,7 +24,7 @@ module.exports = class API {
         // console.log(post)
         try {
             await Events.create(post)
-            res.status(201).json({ message: "Successfully create new Journal" })
+            res.status(201).json({ message: "Successfully create new Event" })
         } catch (error) {
             res.status(400).json({ message: error.message })
         }
@@ -38,7 +38,7 @@ module.exports = class API {
         try {
             await Events.findOneAndUpdate({user_id:user._id, _id:id},newEvents);
             // await Post.findByIdAndUpdate(id, newPost);
-            res.status(200).json({ message: "Successfully update your Journal" })
+            res.status(200).json({ message: "Successfully update your Event" })
         } catch (error) {
             res.status(404).json({ message: error.message })
         }
@@ -50,7 +50,7 @@ module.exports = class API {
         const user = await User.findOne({token:token});
         try {
             const result = await Events.findOneAndDelete({user_id:user._id, _id : id});
-            res.status(200).json({ message: "Successfully Delete your Journal" })
+            res.status(200).json({ message: "Successfully Delete your Event" })
         } catch (error) {
             res.status(404).json({ message: error.message })
         }
