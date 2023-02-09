@@ -45,6 +45,7 @@ const statistics = [
             outlined
             plain
             raised
+            color="primary"
             type="submit"
               >+ Add Grid Journal
           </v-btn>
