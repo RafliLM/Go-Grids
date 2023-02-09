@@ -3,7 +3,7 @@ import TypographyHeadlines from '@/views/user-interface/typography/TypographyHea
 import TypographyTexts from '@/views/user-interface/typography/TypographyTexts.vue'
 </script>
 
-<template>
+<!-- <template>
   <VRow>
     <VCol cols="12">
       <TypographyHeadlines />
@@ -13,4 +13,4 @@ import TypographyTexts from '@/views/user-interface/typography/TypographyTexts.v
       <TypographyTexts />
     </VCol>
   </VRow>
-</template>
+</template> -->

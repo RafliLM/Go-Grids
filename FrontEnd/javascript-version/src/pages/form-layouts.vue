@@ -6,14 +6,13 @@ import DemoFormLayoutVerticalForm from '@/views/user-interface/form-layouts/Demo
 import DemoFormLayoutVerticalFormWithIcons from '@/views/user-interface/form-layouts/DemoFormLayoutVerticalFormWithIcons.vue'
 </script>
 
-<template>
+<!-- <template>
   <div>
     <VRow>
       <VCol
         cols="12"
         md="6"
       >
-        <!-- 👉 Horizontal Form -->
         <VCard title="Horizontal Form">
           <VCardText>
             <DemoFormLayoutHorizontalForm />
@@ -24,7 +23,6 @@ import DemoFormLayoutVerticalFormWithIcons from '@/views/user-interface/form-lay
         cols="12"
         md="6"
       >
-        <!-- 👉 Horizontal Form with Icons -->
         <VCard title="Horizontal Form with Icons">
           <VCardText>
             <DemoFormLayoutHorizontalFormWithIcons />
@@ -35,7 +33,6 @@ import DemoFormLayoutVerticalFormWithIcons from '@/views/user-interface/form-lay
         cols="12"
         md="6"
       >
-        <!-- 👉 Vertical Form -->
         <VCard title="Vertical Form">
           <VCardText>
             <DemoFormLayoutVerticalForm />
@@ -46,7 +43,6 @@ import DemoFormLayoutVerticalFormWithIcons from '@/views/user-interface/form-lay
         cols="12"
         md="6"
       >
-        <!-- 👉 Vertical Form with Icons -->
         <VCard title="Vertical Form with Icons">
           <VCardText>
             <DemoFormLayoutVerticalFormWithIcons />
@@ -54,7 +50,6 @@ import DemoFormLayoutVerticalFormWithIcons from '@/views/user-interface/form-lay
         </VCard>
       </VCol>
       <VCol cols="12">
-        <!-- 👉 Multiple Column -->
         <VCard title="Multiple Column">
           <VCardText>
             <DemoFormLayoutMultipleColumn />
@@ -63,4 +58,4 @@ import DemoFormLayoutVerticalFormWithIcons from '@/views/user-interface/form-lay
       </VCol>
     </VRow>
   </div>
-</template>
+</template> -->
