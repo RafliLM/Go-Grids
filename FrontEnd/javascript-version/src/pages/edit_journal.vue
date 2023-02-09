@@ -27,7 +27,7 @@
             </CCard>
         </CCol>
     </CRow>
-    <v-form  ref="form" @submit.onclick="submitForm" enctype="multipart/form-data" style="right: 25px; position: absolute;">
+    <v-form  ref="form" @submit.onclick="submitForm" enctype="multipart/form-data" style="right: 800px; position: absolute;">
         <v-btn
         depressed
         elevation="2"
@@ -40,7 +40,9 @@
         width="120"
         >SUBMIT
         </v-btn>
+    </v-form>
 
+    <v-form  ref="form" @submit.onclick="submitForm" enctype="multipart/form-data" style="right: 600px; position: absolute;">
         <v-btn
         depressed
         elevation="2"
