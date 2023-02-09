@@ -109,8 +109,8 @@ const triangleBg = computed(() => {
           </div>
         </VCol>
       </VRow>
+        <h1>Quotes</h1>
         <VCard>
-          <h1>Quotes</h1>
           <VCardText style="box-shadow: 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); padding: 1rem; border-radius: 1rem">
             <p style="font-style: italic">
               “Some wishes are only there to teach us how to wait.”
