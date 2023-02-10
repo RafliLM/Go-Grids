@@ -22,7 +22,7 @@ const isPasswordVisible = ref(false)
 
 <template>
   <div class="auth-wrapper d-flex align-center justify-center pa-4">
-    <VCard class="auth-card pa-4 pt-7" max-width="700" >
+    <VCard class="auth-card pa-4 pt-7" max-width="700" style="background-color: transparent;" >
       <img max-width=100% src="gglogo.png">
       <VCol
       cols="12"
@@ -40,12 +40,13 @@ const isPasswordVisible = ref(false)
     <VCard
       class="auth-card pa-4 pt-7"
       max-width="448"
+      style="background-color: transparent;"
     >
       <VCardItem class="justify-center">
       </VCardItem>
 
       <VCardText class="pt-2">
-        <h3 class="text-h3 font-weight-bold mb-3">
+        <h3 class="text-h3 font-weight-bold mb-3" style="font-family: 'Poppins', sans-serif !important;">
           Get Started!
         </h3>
         <p class="mb-0 text-b">
