@@ -30,7 +30,7 @@ const isPasswordVisible = ref(false)
       >
         <span>If you already have an account</span><br>
         <RouterLink
-        class="text-primary"
+        class="text-secondary"
         to="login"
         >
           Log In Here!
