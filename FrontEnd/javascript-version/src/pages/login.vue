@@ -28,7 +28,7 @@ const isPasswordVisible = ref(false)
             >
               <span>If you don't have an account </span><br>
               <RouterLink
-                class="text-primary mt-2"
+                class="text-secondary mt-2"
                 :to="{ name: 'register' }"
               >
                 Register Here!
@@ -78,7 +78,7 @@ const isPasswordVisible = ref(false)
                 />
 
                 <a
-                  class="ms-2 mb-1 text-b"
+                  class="ms-2 mb-1 text-secondary"
                   href="javascript:void(0)"
                 >
                   Forgot Password?
