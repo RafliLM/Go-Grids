@@ -64,9 +64,17 @@ const Demo = defineComponent({
       calendarApi.unselect() // clear date selection
 
       Swal.fire({
-        text: "Please enter a new title for your event",
+        text: "What event do you want to attend?",
         input: 'text',
-        showCancelButton: true
+        inputAttributes: {
+          placeholder: 'Event Name'
+        },
+        showCancelButton: true,
+        cancelButtonText: 'Cancel',
+        confirmButtonText: 'Confirm',
+        confirmButtonColor: '#14162E',
+        
+        
         
     }).then((result) => {
       if (result.isConfirmed) {
@@ -162,5 +170,6 @@ b { /* used for event dates/times */
   max-width: 1000px;
   margin: 0 auto;
 }
+
 
 </style>

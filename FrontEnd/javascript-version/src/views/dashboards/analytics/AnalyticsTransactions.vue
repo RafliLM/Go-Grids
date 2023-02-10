@@ -39,7 +39,7 @@ const statistics = [
       </div>
       <VCol cols="8" md="6">
       <div class="right">
-        <v-form  ref="form" @submit.onclick="submitForm" enctype="multipart/form-data" style="right: 25px; position: absolute;">
+        <v-form  ref="form" enctype="multipart/form-data" style="right: 25px; position: absolute;">
           <v-btn
             depressed
             elevation="2"
