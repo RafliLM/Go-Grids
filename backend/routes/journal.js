@@ -5,6 +5,5 @@ const API = require('../controllers/journal');
 
 
 router.patch('/:id', API.updateJournal)
-router.delete('/:id', API.deleteJournals)
 
 module.exports = router;
