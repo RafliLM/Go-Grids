@@ -2,6 +2,7 @@ const Journals = require('../models/journal.js');
 const journal = require('../models/journal.js');
 const User = require('../models/user');
 const mongo = require('mongodb');
+const moment = require('moment');
 
 
 module.exports = class API {
@@ -19,15 +20,12 @@ module.exports = class API {
     static async getJournalsByDate(req, res) {
         const token = req.user;
         const date = req.params.date;
-        let afterDate = date.split('-')
-        afterDate[2] = (parseInt(afterDate[2]) + 1).toString()
-        afterDate = afterDate.join('-')
-        console.log(afterDate)
+        var today = moment(new Date()).format('YYYY-MM-DD[T00:00:00.000Z]');
         // console.log(token);
 
         try {
             const user = await User.findOne({token:token});
-            const journal = await Journals.find({user_id:user._id, created: { $gte: date, $lte: afterDate }});
+            const journal = await Journals.find({user_id:user._id, created: { $gte: today }});
 
             res.status(200).json(journal);
         } catch (error) {
