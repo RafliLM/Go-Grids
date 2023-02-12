@@ -7,6 +7,7 @@ const API = require('../controllers/journal');
 router.post('/register', userController.register)
 router.post('/login', userController.login)
 router.post('/create', API.createJournal)
+router.get('/all', API.getAllJournals)
 router.use('/user', verifyToken, require('./user'))
 router.use('/journal', verifyToken, require('./journal'))
 router.use('/event', verifyToken, require('./event'))

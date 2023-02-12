@@ -1,13 +1,21 @@
 const mongoose = require('mongoose');
 
+const gridSchema = mongoose.Schema({
+    question: {
+        type : String,
+        required : true   
+    },
+    answer: {
+        type : String,
+        required : true 
+    }
+})
+
 const postSchema = mongoose.Schema({
     user_id : mongoose.SchemaTypes.ObjectId,
-    question_1: String,
-    question_2: String,
-    question_3: String,
-    question_4: String,
-    question_5: String,
-    question_6: String,
+    grid : {
+        type : [gridSchema]
+    },
     my_feel: String,
     created: {
         type: Date,
@@ -15,4 +23,4 @@ const postSchema = mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('Journal', postSchema);
+module.exports = mongoose.model('Journal', postSchema, "Journals");

@@ -6,7 +6,7 @@ const mongo = require('mongodb');
 
 module.exports = class API {
     static async getAllJournals(req, res) {
-        const token = req.headers.token;
+        const token = req.user;
         try {
             const user = await User.findOne({token:token});
             const journal = await Journals.find({user_id:user._id});
@@ -36,13 +36,13 @@ module.exports = class API {
     }
 
     static async createJournal(req, res) {
-        const token = req.headers.token;
+        const token = req.user;
         const journal = req.body;
         const user = await User.findOne({token:token});
         journal.user_id = user._id;
         // console.log(post)
         try {
-            await Journals.create(post)
+            await Journals.create(journal)
             res.status(201).json({ message: "Successfully create new Journal" })
         } catch (error) {
             res.status(400).json({ message: error.message })
