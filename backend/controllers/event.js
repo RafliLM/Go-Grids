@@ -6,7 +6,7 @@ const mongo = require('mongodb');
 
 module.exports = class API {
     static async getEvent(req, res) {
-        const token = req.headers.token;
+        const token = req.user;
         try {
             const user = await User.findOne({token:token});
             const event = await Events.find({user_id:user._id});
@@ -17,7 +17,7 @@ module.exports = class API {
     }
 
     static async createEvent(req, res) {
-        const token = req.headers.token;
+        const token = req.user;
         const event = req.body;
         const user = await User.findOne({token:token});
         event.user_id = user._id;
@@ -32,7 +32,7 @@ module.exports = class API {
 
     static async updateEvent(req, res) {
         const id = mongo.ObjectId(req.params.id);
-        const token = req.headers.token;
+        const token = req.user;
         const user = await User.findOne({token:token});
         const newEvents = req.body;
         try {
@@ -46,7 +46,7 @@ module.exports = class API {
 
     static async deleteEvent(req, res) {
         const id = mongo.ObjectId(req.params.id);
-        const token = req.headers.token;
+        const token = req.user;
         const user = await User.findOne({token:token});
         try {
             const result = await Events.findOneAndDelete({user_id:user._id, _id : id});
