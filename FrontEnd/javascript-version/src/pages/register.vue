@@ -46,10 +46,10 @@ const isPasswordVisible = ref(false)
       </VCardItem>
 
       <VCardText class="pt-2">
-        <h3 class="text-h3 font-weight-bold mb-3" style="font-family: 'Poppins', sans-serif !important;">
+        <h3 class="text-h3 font-weight-bold mb-0" style="font-family: 'Poppins', sans-serif !important;">
           Get Started!
         </h3>
-        <p class="mb-0 text-b">
+        <p class="mb-2 text-b">
           Create your account now!
         </p>
       </VCardText>
@@ -57,6 +57,18 @@ const isPasswordVisible = ref(false)
       <VCardText>
         <VForm @submit.prevent="() => {}">
           <VRow>
+            <VCol cols="6">
+              <VTextField
+                v-model="form.username"
+                label="Enter First Name"
+              />
+            </VCol>
+            <VCol cols="6">
+              <VTextField
+                v-model="form.username"
+                label="Enter Last Name"
+              />
+            </VCol>
             <!-- Username -->
             <VCol cols="12">
               <VTextField
@@ -81,6 +93,16 @@ const isPasswordVisible = ref(false)
                 :type="isPasswordVisible ? 'text' : 'password'"
                 :append-inner-icon="isPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
                 @click:append-inner="isPasswordVisible = !isPasswordVisible"
+              />  
+            </VCol>
+            <!-- Confirm Password -->
+            <VCol cols="12">
+              <VTextField
+                v-model="form.password"
+                label="Confirm Password"
+                :type="isPasswordVisible ? 'text' : 'password'"
+                :append-inner-icon="isPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
+                @click:append-inner="isPasswordVisible = !isPasswordVisible"
               />
               <VBtn
                 block
@@ -90,7 +112,6 @@ const isPasswordVisible = ref(false)
                 Sign up
               </VBtn>
             </VCol>
-
             <!-- login instead -->
             
           </VRow>

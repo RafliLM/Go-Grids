@@ -41,10 +41,10 @@ const isPasswordVisible = ref(false)
       style="background-color: transparent;"
     >
       <VCardText class="pt-2">
-        <h3 class="text-h3 text-b font-weight-bold mb-3" style="font-family: 'Poppins', sans-serif !important;">
+        <h3 class="text-h3 text-b font-weight-bold mb-0" style="font-family: 'Poppins', sans-serif !important;">
           Welcome!
         </h3>
-        <p class="mb-0 text-b font-weight-normal">
+        <p class="mb-2 text-b font-weight-normal">
           Please enter your email and password
         </p>
       </VCardText>
