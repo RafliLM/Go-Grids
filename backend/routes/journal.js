@@ -4,6 +4,6 @@ const API = require('../controllers/journal');
 
 
 
-router.patch('/:id', API.updateJournal)
+
 
 module.exports = router;

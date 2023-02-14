@@ -3,11 +3,18 @@ const mongoose = require('mongoose');
 const gridSchema = mongoose.Schema({
     question: {
         type : String,
-        required : true   
+        required : false  
     },
     answer: {
         type : String,
-        required : true 
+        required : false
+    }
+})
+
+const feelSchema = mongoose.Schema({
+    status: {
+        type : String,
+        enum : ['angry', 'happy', 'sad']
     }
 })
 
@@ -16,7 +23,24 @@ const postSchema = mongoose.Schema({
     grid : {
         type : [gridSchema]
     },
-    my_feel: String,
+    grid2 : {
+        type : [gridSchema]
+    },
+    grid3 : {
+        type : [gridSchema]
+    },
+    grid4 : {
+        type : [gridSchema]
+    },
+    grid5 : {
+        type : [gridSchema]
+    },
+    grid6 : {
+        type : [gridSchema]
+    },
+    myfeel : {
+        type : [feelSchema]
+    },
     created: {
         type: Date,
         default: Date.now
