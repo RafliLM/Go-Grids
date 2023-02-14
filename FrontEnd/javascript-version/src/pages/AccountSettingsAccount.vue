@@ -45,7 +45,7 @@ const isConfirmPasswordVisible = ref(false)
   <VRow>
     <VCol cols="12">
       <VCard>
-        <h1> Account Settings ⚙️</h1>
+        <h1 style="padding-left: 20px; padding-top: 10px;"> Account Settings ⚙️</h1>
         <VCardText class="d-flex">
           <!-- 👉 Avatar -->
           <VAvatar
