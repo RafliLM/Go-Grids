@@ -73,15 +73,14 @@ const isPasswordVisible = ref(false)
             <VCol cols="12">
               <VTextField
                 v-model="form.username"
-                label="Username"
+                label="Enter Email"
               />
             </VCol>
             <!-- email -->
             <VCol cols="12">
               <VTextField
                 v-model="form.email"
-                label="Email"
-                type="email"
+                label="Enter Username"
               />
             </VCol>
 
