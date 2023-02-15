@@ -21,18 +21,6 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
       /> -->
 
       <VSpacer />
-
-      <a
-        href="https://github.com/themeselection/materio-vuetify-vuejs-admin-template-free"
-        target="_blank"
-        rel="noopener noreferrer"
-        style="color: inherit"
-      >
-        <VIcon
-          class="ms-6 me-4"
-          icon="mdi-github"
-        />
-      </a>
       <NavbarThemeSwitcher />
       <VBtn
         icon

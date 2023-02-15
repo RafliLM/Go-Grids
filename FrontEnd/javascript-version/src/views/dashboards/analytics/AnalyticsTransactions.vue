@@ -1,4 +1,4 @@
-<script setup>
+<!--<script setup>
 const statistics = [
   {
     title: 'Sales',
@@ -25,9 +25,10 @@ const statistics = [
     color: 'info',
   },
 ]
-</script>
+</script>-->
 
 <template>
+<!-- Hallo Kurkur -->
   <VCard>
     <VCardItem>
       <div class="main"  style= "width: 200%" >
@@ -38,7 +39,7 @@ const statistics = [
       </div>
       <VCol cols="8" md="6">
       <div class="right">
-        <v-form  ref="form" @submit.onclick="submitForm" enctype="multipart/form-data" style="right: 25px; position: absolute;">
+        <v-form  ref="form" enctype="multipart/form-data" style="right: 25px; position: absolute;">
           <v-btn
             depressed
             elevation="2"
@@ -52,7 +53,11 @@ const statistics = [
         </v-form> 
        </div>
       </VCol>
-      <!-- <template #append>
+    </VCardItem>
+  </VCard>
+</template>
+
+<!--<template #append>
         <div class="me-n3">
           <VBtn
             icon
@@ -66,7 +71,4 @@ const statistics = [
             />
           </VBtn>
         </div>
-      </template> -->
-    </VCardItem>
-  </VCard>
-</template>
+</template>-->

@@ -20,7 +20,7 @@ const isPasswordVisible = ref(false)
 
 <template>
   <div class="pop auth-wrapper d-flex align-center justify-center pa-4">
-    <VCard class="auth-card pa-4 pt-7" max-width="700" max-height="445">
+    <VCard class="auth-card pa-4 pt-7" max-width="700" max-height="445" style="background-color: transparent;">
       <img max-width=100% src="gglogo.png">
       <VCol
               cols="20"
@@ -28,7 +28,7 @@ const isPasswordVisible = ref(false)
             >
               <span>If you don't have an account </span><br>
               <RouterLink
-                class="text-primary mt-2"
+                class="text-secondary mt-2"
                 :to="{ name: 'register' }"
               >
                 Register Here!
@@ -38,12 +38,13 @@ const isPasswordVisible = ref(false)
     <VCard
       class="auth-card pa-4 pt-7"
       max-width="448"
+      style="background-color: transparent;"
     >
       <VCardText class="pt-2">
-        <h3 class="text-h3 text-b font-weight-bold mb-3">
+        <h3 class="text-h3 text-b font-weight-bold mb-0" style="font-family: 'Poppins', sans-serif !important;">
           Welcome!
         </h3>
-        <p class="mb-0 text-b font-weight-normal">
+        <p class="mb-2 text-b font-weight-normal">
           Please enter your email and password
         </p>
       </VCardText>
@@ -78,7 +79,7 @@ const isPasswordVisible = ref(false)
                 />
 
                 <a
-                  class="ms-2 mb-1 text-b"
+                  class="ms-2 mb-1 text-secondary"
                   href="javascript:void(0)"
                 >
                   Forgot Password?
