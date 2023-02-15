@@ -4,7 +4,7 @@ import CardNavigation from '@/views/pages/cards/card-basic/CardNavigation.vue'
 import CardSolid from '@/views/pages/cards/card-basic/CardSolid.vue'
 </script>
 
-<template>
+<!-- <template>
   <div>
     <p class="text-2xl mb-6">
       Basic Cards
@@ -24,4 +24,4 @@ import CardSolid from '@/views/pages/cards/card-basic/CardSolid.vue'
 
     <CardSolid />
   </div>
-</template>
+</template> -->

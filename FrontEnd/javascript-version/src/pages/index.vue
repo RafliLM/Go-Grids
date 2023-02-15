@@ -28,16 +28,57 @@ const newProject = {
 }
 </script>
 
-<!-- <template>
+<template>
+<!-- <div class="container" style="display: flex;">
+  <div class="main"  style= "width: 200%" >
+    <h1> Hello, Kurkur 👋</h1>
+    <p>How do you feel today?</p>
+    <div class="grid-container">
+    <div>
+    <h2> Today's Journal</h2>
+    <p>🗓 {{moment().format("DD-MM-YYYY")}}  </p> 
+     </div>
+  <div class="right">
+    <v-form  ref="form" @submit.onclick="submitForm" enctype="multipart/form-data">
+      <v-btn
+        depressed
+        elevation="2"
+        outlined
+        plain
+        raised
+        type="submit"
+          >+ Add Grid Journal</v-btn>
+    </v-form> 
+  </div>
+
+  <div style="flex-grow: 1; padding: 20px; width: 25%" >
+    <div  style="float:left;">
+      <UserProfile /> 
+    </div>
+    
+    <div style="display: table-cell; padding-left: 10%;">
+      <h3>Kurkur</h3>
+      <p >@kurkurcans</p>
+    </div>
+    <hr>
+    
+  </div> -->
   <VRow class="match-height">
     <VCol
-      cols="12"
-      md="4"
+      cols="10"
+      md="9"
+    >
+      <AnalyticsTransactions />
+    </VCol>
+    <!-- Quotes -->
+    <VCol
+      cols="10"
+      md="3"
     >
       <AnalyticsAward />
     </VCol>
 
-    <VCol
+    <!-- <VCol
       cols="12"
       md="8"
     >
@@ -109,6 +150,23 @@ const newProject = {
 
     <VCol cols="12">
       <AnalyticsDatatable />
-    </VCol>
+    </VCol> -->
   </VRow>
-</template> -->
+</template>
+
+<style lang="scss" scoped>
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}
+
+.right {
+    text-align: right;
+    align-self: center;
+}
+
+.mt{
+  margin-top: -1.5rem;
+}
+</style>

@@ -22,7 +22,7 @@ const isPasswordVisible = ref(false)
 
 <template>
   <div class="auth-wrapper d-flex align-center justify-center pa-4">
-    <VCard class="auth-card pa-4 pt-7" max-width="700" >
+    <VCard class="auth-card pa-4 pt-7" max-width="700" style="background-color: transparent;" >
       <img max-width=100% src="gglogo.png">
       <VCol
       cols="12"
@@ -30,7 +30,7 @@ const isPasswordVisible = ref(false)
       >
         <span>If you already have an account</span><br>
         <RouterLink
-        class="text-primary"
+        class="text-secondary"
         to="login"
         >
           Log In Here!
@@ -40,15 +40,16 @@ const isPasswordVisible = ref(false)
     <VCard
       class="auth-card pa-4 pt-7"
       max-width="448"
+      style="background-color: transparent;"
     >
       <VCardItem class="justify-center">
       </VCardItem>
 
       <VCardText class="pt-2">
-        <h3 class="text-h3 font-weight-bold mb-3">
+        <h3 class="text-h3 font-weight-bold mb-0" style="font-family: 'Poppins', sans-serif !important;">
           Get Started!
         </h3>
-        <p class="mb-0 text-b">
+        <p class="mb-2 text-b">
           Create your account now!
         </p>
       </VCardText>
@@ -56,19 +57,30 @@ const isPasswordVisible = ref(false)
       <VCardText>
         <VForm @submit.prevent="() => {}">
           <VRow>
+            <VCol cols="6">
+              <VTextField
+                v-model="form.username"
+                label="Enter First Name"
+              />
+            </VCol>
+            <VCol cols="6">
+              <VTextField
+                v-model="form.username"
+                label="Enter Last Name"
+              />
+            </VCol>
             <!-- Username -->
             <VCol cols="12">
               <VTextField
                 v-model="form.username"
-                label="Username"
+                label="Enter Email"
               />
             </VCol>
             <!-- email -->
             <VCol cols="12">
               <VTextField
                 v-model="form.email"
-                label="Email"
-                type="email"
+                label="Enter Username"
               />
             </VCol>
 
@@ -77,6 +89,16 @@ const isPasswordVisible = ref(false)
               <VTextField
                 v-model="form.password"
                 label="Password"
+                :type="isPasswordVisible ? 'text' : 'password'"
+                :append-inner-icon="isPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
+                @click:append-inner="isPasswordVisible = !isPasswordVisible"
+              />  
+            </VCol>
+            <!-- Confirm Password -->
+            <VCol cols="12">
+              <VTextField
+                v-model="form.password"
+                label="Confirm Password"
                 :type="isPasswordVisible ? 'text' : 'password'"
                 :append-inner-icon="isPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
                 @click:append-inner="isPasswordVisible = !isPasswordVisible"
@@ -89,7 +111,6 @@ const isPasswordVisible = ref(false)
                 Sign up
               </VBtn>
             </VCol>
-
             <!-- login instead -->
             
           </VRow>

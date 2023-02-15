@@ -1,6 +1,4 @@
 const mongoose = require('mongoose')
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
 
 const userSchema = mongoose.Schema({
     firstname: {
@@ -16,11 +14,11 @@ const userSchema = mongoose.Schema({
     username: {
         type: String,
         required: true,
-        minlength: 8,
+        minlength: 9,
         unique: true,
         trim: true
     },
-    profilepicture: {
+    profilePicture: {
         type: String
     },
     email: {
@@ -32,9 +30,7 @@ const userSchema = mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
-        minlength: 8,
-        trim: true
+        required: true
     }
 })
 

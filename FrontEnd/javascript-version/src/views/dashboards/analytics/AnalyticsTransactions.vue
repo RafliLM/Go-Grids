@@ -1,4 +1,4 @@
-<script setup>
+<!--<script setup>
 const statistics = [
   {
     title: 'Sales',
@@ -25,14 +25,39 @@ const statistics = [
     color: 'info',
   },
 ]
-</script>
+</script>-->
 
 <template>
+<!-- Hallo Kurkur -->
   <VCard>
     <VCardItem>
-      <VCardTitle>Transactions</VCardTitle>
+      <div class="main"  style= "width: 200%" >
+        <h1> Hello, Kurkur 👋</h1>
+        <p>How is it going on?</p>
+        <h1>😀😭😡</h1>
+        <h2> Today's Journal</h2>
+      </div>
+      <VCol cols="8" md="6">
+      <div class="right">
+        <v-form  ref="form" enctype="multipart/form-data" style="right: 25px; position: absolute;">
+          <v-btn
+            depressed
+            elevation="2"
+            outlined
+            plain
+            raised
+            color="primary"
+            type="submit"
+              >+ Add Grid Journal
+          </v-btn>
+        </v-form> 
+       </div>
+      </VCol>
+    </VCardItem>
+  </VCard>
+</template>
 
-      <template #append>
+<!--<template #append>
         <div class="me-n3">
           <VBtn
             icon
@@ -46,46 +71,4 @@ const statistics = [
             />
           </VBtn>
         </div>
-      </template>
-    </VCardItem>
-
-    <VCardText>
-      <h6 class="text-sm mb-12">
-        <span>Total 48.5% Growth 😎</span>
-        <span class="font-weight-regular"> this month</span>
-      </h6>
-
-      <VRow>
-        <VCol
-          v-for="item in statistics"
-          :key="item.title"
-          cols="6"
-          sm="3"
-        >
-          <div class="d-flex align-center">
-            <div class="me-3">
-              <VAvatar
-                :color="item.color"
-                rounded
-                size="42"
-                class="elevation-1"
-              >
-                <VIcon
-                  size="24"
-                  :icon="item.icon"
-                />
-              </VAvatar>
-            </div>
-
-            <div class="d-flex flex-column">
-              <span class="text-caption">
-                {{ item.title }}
-              </span>
-              <span class="text-h6 font-weight-medium">{{ item.stats }}</span>
-            </div>
-          </div>
-        </VCol>
-      </VRow>
-    </VCardText>
-  </VCard>
-</template>
+</template>-->
