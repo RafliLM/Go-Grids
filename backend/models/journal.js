@@ -38,6 +38,24 @@ const postSchema = mongoose.Schema({
     grid6 : {
         type : [gridSchema]
     },
+    grid7 : {
+        type : [gridSchema]
+    },
+    grid8 : {
+        type : [gridSchema]
+    },
+    grid9 : {
+        type : [gridSchema]
+    },
+    grid10 : {
+        type : [gridSchema]
+    },
+    grid11 : {
+        type : [gridSchema]
+    },
+    grid12 : {
+        type : [gridSchema]
+    },
     myfeel : {
         type : [feelSchema]
     },
