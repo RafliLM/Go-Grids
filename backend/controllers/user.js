@@ -132,7 +132,6 @@ const resetPassword = async (req, res) => {
     }
 }
 
-
 const userController = {
     register,
     login,
