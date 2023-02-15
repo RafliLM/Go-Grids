@@ -17,7 +17,7 @@ const eventSchema = mongoose.Schema({
         type : String,
         required: true
     },
-    event: {
+    title: {
         type : String,
         required : true
     },
