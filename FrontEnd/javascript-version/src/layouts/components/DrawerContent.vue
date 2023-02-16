@@ -23,7 +23,7 @@ const upgradeBanner = computed(() => {
     >
       <!-- ℹ️ You can also use img tag or VImg here -->
       <Transition name="vertical-nav-app-title">
-        <img src="gglogo.png" style="height: 80px;margin-top: 20px;">
+        <img src="gglogo.png" style="height: 100px; margin-top: 10px; margin-left: auto; margin-right: auto;">
         <!-- <h1 class="font-weight-semibold leading-normal text-xl text-uppercase">
           Materio
         </h1> -->
