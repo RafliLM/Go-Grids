@@ -5,9 +5,10 @@ import authV1MaskDark from '@/assets/images/pages/auth-v1-mask-dark.png'
 import authV1MaskLight from '@/assets/images/pages/auth-v1-mask-light.png'
 import authV1Tree2 from '@/assets/images/pages/auth-v1-tree-2.png'
 import authV1Tree from '@/assets/images/pages/auth-v1-tree.png'
+import axios from 'axios'
 
 const form = ref({
-  email: '',
+  username: '',
   password: '',
   remember: false,
 })
@@ -16,6 +17,16 @@ const authThemeMask = computed(() => {
   return vuetifyTheme.global.name.value === 'light' ? authV1MaskLight : authV1MaskDark
 })
 const isPasswordVisible = ref(false)
+const login = (username, password) => {
+  axios.post("http://localhost:5000/api/login", {
+    username,
+    password,
+  }).then(res => {
+    localStorage.setItem('token', res.data.token)
+  }).catch(err => {
+    console.log(err)
+  })
+}
 </script>
 
 <template>
@@ -55,9 +66,8 @@ const isPasswordVisible = ref(false)
             <!-- email -->
             <VCol cols="12">
               <VTextField
-                v-model="form.email"
-                label="Email"
-                type="email"
+                v-model="form.username"
+                label="Username"
               />
             </VCol>
 
@@ -90,7 +100,7 @@ const isPasswordVisible = ref(false)
               <VBtn
                 block
                 type="submit"
-                to="/"
+                @click="login(form.username, form.password)"
               >
                 Login
               </VBtn>

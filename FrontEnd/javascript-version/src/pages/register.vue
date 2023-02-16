@@ -6,18 +6,40 @@ import authV1MaskDark from '@/assets/images/pages/auth-v1-mask-dark.png'
 import authV1MaskLight from '@/assets/images/pages/auth-v1-mask-light.png'
 import authV1Tree2 from '@/assets/images/pages/auth-v1-tree-2.png'
 import authV1Tree from '@/assets/images/pages/auth-v1-tree.png'
+import axios from 'axios'
 
 const form = ref({
+  firstname: '',
+  lastname: '',
   username: '',
   email: '',
   password: '',
-  privacyPolicies: false,
+  confirm: '',
 })
 const vuetifyTheme = useTheme()
 const authThemeMask = computed(() => {
   return vuetifyTheme.global.name.value === 'light' ? authV1MaskLight : authV1MaskDark
 })
 const isPasswordVisible = ref(false)
+const register = data => {
+  if(confirm == password){
+    axios.post("http://localhost:5000/api/register", {
+      firstname : data.firstname,
+      lastname : data.lastname,
+      username : data.username,
+      email : data.email,
+      password : data.password,
+    }).then(res => {
+      console.log(res)
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+  else{
+
+  }
+  
+}
 </script>
 
 <template>
@@ -59,27 +81,27 @@ const isPasswordVisible = ref(false)
           <VRow>
             <VCol cols="6">
               <VTextField
-                v-model="form.username"
+                v-model="form.firstname"
                 label="Enter First Name"
               />
             </VCol>
             <VCol cols="6">
               <VTextField
-                v-model="form.username"
+                v-model="form.lastname"
                 label="Enter Last Name"
               />
             </VCol>
             <!-- Username -->
             <VCol cols="12">
               <VTextField
-                v-model="form.username"
+                v-model="form.email"
                 label="Enter Email"
               />
             </VCol>
             <!-- email -->
             <VCol cols="12">
               <VTextField
-                v-model="form.email"
+                v-model="form.username"
                 label="Enter Username"
               />
             </VCol>
@@ -107,6 +129,7 @@ const isPasswordVisible = ref(false)
                 block
                 type="submit"
                 class="mt-7"
+                @click="register(form)"
               >
                 Sign up
               </VBtn>
