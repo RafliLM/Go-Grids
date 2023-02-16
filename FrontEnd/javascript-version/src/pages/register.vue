@@ -22,7 +22,7 @@ const authThemeMask = computed(() => {
 })
 const isPasswordVisible = ref(false)
 const register = data => {
-  if(confirm == password){
+  if(data.confirm == data.password){
     axios.post("http://localhost:5000/api/register", {
       firstname : data.firstname,
       lastname : data.lastname,
@@ -36,7 +36,7 @@ const register = data => {
     })
   }
   else{
-
+    console.log("Password and Confirm password not match")
   }
   
 }
@@ -119,7 +119,7 @@ const register = data => {
             <!-- Confirm Password -->
             <VCol cols="12">
               <VTextField
-                v-model="form.password"
+                v-model="form.confirm"
                 label="Confirm Password"
                 :type="isPasswordVisible ? 'text' : 'password'"
                 :append-inner-icon="isPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
