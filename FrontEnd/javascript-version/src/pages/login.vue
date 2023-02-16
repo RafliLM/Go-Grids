@@ -23,7 +23,7 @@ const login = (username, password) => {
     password,
   }).then(res => {
     localStorage.setItem('token', res.data.token)
-    window.location.href = "/";
+    this.$router.push('/');
   }).catch(err => {
     console.log(err)
   })
