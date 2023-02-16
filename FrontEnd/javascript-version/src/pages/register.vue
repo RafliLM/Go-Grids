@@ -22,7 +22,7 @@ const authThemeMask = computed(() => {
 })
 const isPasswordVisible = ref(false)
 const register = data => {
-  if(confirm == password){
+  if(data.confirm == data.password){
     axios.post("http://localhost:5000/api/register", {
       firstname : data.firstname,
       lastname : data.lastname,
@@ -30,13 +30,13 @@ const register = data => {
       email : data.email,
       password : data.password,
     }).then(res => {
-      console.log(res)
+      
     }).catch(err => {
       console.log(err)
     })
   }
   else{
-
+    console.log("Password and Confirm password not match")
   }
   
 }
@@ -48,7 +48,7 @@ const register = data => {
       <img max-width=100% src="gglogo.png">
       <VCol
       cols="12"
-      class="text-base ml-5 text-b"
+      class="text-base text-b"
       >
         <span>If you already have an account</span><br>
         <RouterLink
@@ -60,7 +60,7 @@ const register = data => {
       </VCol>
     </VCard>
     <VCard
-      class="auth-card pa-4 pt-7"
+      class="auth-card pa-4"
       max-width="448"
       style="background-color: transparent;"
     >
@@ -119,7 +119,7 @@ const register = data => {
             <!-- Confirm Password -->
             <VCol cols="12">
               <VTextField
-                v-model="form.password"
+                v-model="form.confirm"
                 label="Confirm Password"
                 :type="isPasswordVisible ? 'text' : 'password'"
                 :append-inner-icon="isPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"

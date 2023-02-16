@@ -23,6 +23,7 @@ const login = (username, password) => {
     password,
   }).then(res => {
     localStorage.setItem('token', res.data.token)
+    window.location.href = "/";
   }).catch(err => {
     console.log(err)
   })
@@ -34,17 +35,17 @@ const login = (username, password) => {
     <VCard class="auth-card pa-4 pt-7" max-width="700" max-height="445" style="background-color: transparent;">
       <img max-width=100% src="gglogo.png">
       <VCol
-              cols="20"
-              class="text-b ml-5 text-base"
-            >
-              <span>If you don't have an account </span><br>
-              <RouterLink
-                class="text-secondary mt-2"
-                :to="{ name: 'register' }"
-              >
-                Register Here!
-              </RouterLink>
-            </VCol>
+        cols="20"
+          class="text-b text-base"
+      >
+        <span>If you don't have an account </span><br>
+        <RouterLink
+        class="text-secondary mt-2"
+        :to="{ name: 'register' }"
+        >
+          Register Here!
+          </RouterLink>
+      </VCol>
     </VCard>
     <VCard
       class="auth-card pa-4 pt-7"
