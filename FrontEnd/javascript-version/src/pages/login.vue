@@ -23,6 +23,7 @@ const login = (username, password) => {
     password,
   }).then(res => {
     localStorage.setItem('token', res.data.token)
+    window.location.href = "/";
   }).catch(err => {
     console.log(err)
   })

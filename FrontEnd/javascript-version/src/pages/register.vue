@@ -30,7 +30,7 @@ const register = data => {
       email : data.email,
       password : data.password,
     }).then(res => {
-      console.log(res)
+      
     }).catch(err => {
       console.log(err)
     })
