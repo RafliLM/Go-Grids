@@ -34,10 +34,8 @@ module.exports = class API {
     }
 
     static async createJournal(req, res) {
-        const token = req.user;
         const journal = req.body;
-        const user = await User.findOne({token:token});
-        journal.user_id = user._id;
+        journal.user_id = req.user;
         // console.log(post)
         try {
             await Journals.create(journal)
