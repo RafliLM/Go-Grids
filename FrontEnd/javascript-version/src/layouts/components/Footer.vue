@@ -12,11 +12,11 @@
         class="mx-1"
       />
       By <a
-        href="https://themeselection.com"
+        href=""
         target="_blank"
         rel="noopener noreferrer"
         class="text-primary ms-1"
-      >J1</a>
+      >Go-Grids Team</a>
     </span>
     <!-- 👉 Footer: right content -->
     <!-- <span class="d-md-flex gap-x-4 text-primary d-none">

@@ -1,6 +1,8 @@
 const Users = require('../models/user')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const nodemailer = require('nodemailer')
+const randexp = require('randexp')
 
 const register = async (req, res) => {
     try {
@@ -28,7 +30,7 @@ const login = async (req, res) => {
         const user = await Users.findOne({username})
         if(!user)
             res.status(404).json({message : "username not found"})
-        const match = bcrypt.compare(password, user.password)
+        const match = await bcrypt.compare(password, user.password)
         if (match) {
             let token = jwt.sign({
                 id : user._id
@@ -50,7 +52,7 @@ const login = async (req, res) => {
 const updateProfile = async (req, res) => {
     try {
         let user = req.body
-        if(password){
+        if(user.password){
             let result = user.password.match(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,32}$/)
             if(result){
                 const salt = bcrypt.genSaltSync(parseInt(process.env.SALT))
@@ -58,13 +60,10 @@ const updateProfile = async (req, res) => {
                 user.password = password
             }
         }
-        else{
-
-        }
-
-        const updateuser = await Users.findByIdAndUpdate(req.user.id, )
+        await Users.findByIdAndUpdate(req.user.id, user)
+        res.status(200).json({message: "Profile updated successfully"})
     } catch (error) {
-        res.send(error.message)
+        res.status(400).json({message: error.message})
     }
 }
 
@@ -85,13 +84,61 @@ const findUsersByUsername = async (req, res) => {
     }
 }
 
+const resetPassword = async (req, res) => {
+    try {
+        const username = req.body.username
+        const user = await Users.findOne({username})
+        if(user){
+            let transport = nodemailer.createTransport({
+                service : "Gmail",
+                host: 'smtp.gmail.com',
+                port: 465,
+                secure: true, // use SSL
+                auth: {
+                    user: 'raflilutfiansyah28@gmail.com',
+                    pass: 'bzssurdpjrkorxyn'
+                }
+            })
+            let newPassword = new randexp(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,32}$/).gen()
+            const salt = bcrypt.genSaltSync(parseInt(process.env.SALT))
+            const hashedPassword = bcrypt.hashSync(newPassword, salt)
+            const updatePassword = await Users.updateOne({
+                username : user.username
+            }, {
+                password : hashedPassword
+            })
+            transport.sendMail({
+                to : user.email,
+                subject : "Reset Password",
+                html : 
+                `
+                    <h1>Go Grids</h1>
+                    <p>Your new password is ${newPassword}</p>
+                `
+            }, (err, result) => {
+                if(err){
+                    res.status(404).json({message : err.message})
+                }
+                else{
+                    res.status(200).json({message : "Reset password success"})
+                }
+            })
+        }
+        else{
+            res.status(404).json({message : "Username not found"})
+        }
+    } catch (error) {
+        res.status(400).json({message : error.message})
+    }
+}
 
 const userController = {
     register,
     login,
     updateProfile,
     getUserProfile,
-    findUsersByUsername
+    findUsersByUsername,
+    resetPassword
 }
 
 module.exports = userController

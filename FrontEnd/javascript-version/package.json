@@ -20,9 +20,15 @@
         "chart.js": "^3.9.1",
         "eslint-import-resolver-alias": "^1.1.2",
         "jwt-decode": "^3.1.2",
+        "moment": "^2.29.4",
         "pinia": "^2.0.22",
         "prismjs": "^1.29.0",
         "sass": "^1.54.9",
+<<<<<<< Updated upstream
+=======
+        "swal": "^0.1.0",
+>>>>>>> Stashed changes
+        "sweetalert2": "^11.7.1",
         "unplugin-vue-define-options": "^0.6.2",
         "vue": "^3.2.37",
         "vue-chartjs": "^4.1.1",
