@@ -30,7 +30,7 @@ const register = data => {
       email : data.email,
       password : data.password,
     }).then(res => {
-      console.log(res)
+      
     }).catch(err => {
       console.log(err)
     })
@@ -48,7 +48,7 @@ const register = data => {
       <img max-width=100% src="gglogo.png">
       <VCol
       cols="12"
-      class="text-base ml-5 text-b"
+      class="text-base text-b"
       >
         <span>If you already have an account</span><br>
         <RouterLink
@@ -60,7 +60,7 @@ const register = data => {
       </VCol>
     </VCard>
     <VCard
-      class="auth-card pa-4 pt-7"
+      class="auth-card pa-4"
       max-width="448"
       style="background-color: transparent;"
     >
