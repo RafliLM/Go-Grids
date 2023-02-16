@@ -7,9 +7,8 @@ const moment = require('moment');
 
 module.exports = class API {
     static async getAllJournals(req, res) {
-        const token = req.user;
         try {
-            const user = await User.findOne({token:token});
+            const user = await User.findOne(req.user);
             const journal = await Journals.find({user_id:user._id});
             res.status(200).json(journal);
         } catch (error) {
@@ -18,13 +17,12 @@ module.exports = class API {
     }
 
     static async getJournalsByDate(req, res) {
-        const token = req.user;
         const date = req.params.date;
         var today = moment(new Date()).format('YYYY-MM-DD[T00:00:00.000Z]');
         // console.log(token);
 
         try {
-            const user = await User.findOne({token:token});
+            const user = await User.findOne(req.user);
             const journal = await Journals.find({user_id:user._id, created: { $gte: today }});
 
             res.status(200).json(journal);
@@ -34,10 +32,8 @@ module.exports = class API {
     }
 
     static async createJournal(req, res) {
-        const token = req.user;
         const journal = req.body;
-        const user = await User.findOne({token:token});
-        journal.user_id = user._id;
+        journal.user_id = req.user;
         // console.log(post)
         try {
             await Journals.create(journal)

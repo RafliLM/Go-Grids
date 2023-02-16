@@ -11,53 +11,15 @@ const gridSchema = mongoose.Schema({
     }
 })
 
-const feelSchema = mongoose.Schema({
-    status: {
-        type : String,
-        enum : ['angry', 'happy', 'sad']
-    }
-})
 
 const postSchema = mongoose.Schema({
     user_id : mongoose.SchemaTypes.ObjectId,
     grid : {
         type : [gridSchema]
     },
-    grid2 : {
-        type : [gridSchema]
-    },
-    grid3 : {
-        type : [gridSchema]
-    },
-    grid4 : {
-        type : [gridSchema]
-    },
-    grid5 : {
-        type : [gridSchema]
-    },
-    grid6 : {
-        type : [gridSchema]
-    },
-    grid7 : {
-        type : [gridSchema]
-    },
-    grid8 : {
-        type : [gridSchema]
-    },
-    grid9 : {
-        type : [gridSchema]
-    },
-    grid10 : {
-        type : [gridSchema]
-    },
-    grid11 : {
-        type : [gridSchema]
-    },
-    grid12 : {
-        type : [gridSchema]
-    },
     myfeel : {
-        type : [feelSchema]
+        type : String,
+        enum : ['angry', 'happy', 'sad']
     },
     created: {
         type: Date,
