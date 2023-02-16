@@ -18,8 +18,8 @@ html {
 .loading-logo {
   position: absolute;
   margin: auto;
-  inset-block-start: 32%;
-  inset-inline-start: calc(40% - 45px);
+  inset-block-start: 30%;
+  inset-inline-start: calc(47% - 45px);
 }
 
 .loading {

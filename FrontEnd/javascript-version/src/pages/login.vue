@@ -6,6 +6,7 @@ import authV1MaskLight from '@/assets/images/pages/auth-v1-mask-light.png'
 import authV1Tree2 from '@/assets/images/pages/auth-v1-tree-2.png'
 import authV1Tree from '@/assets/images/pages/auth-v1-tree.png'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 const form = ref({
   username: '',
@@ -23,9 +24,16 @@ const login = (username, password) => {
     password,
   }).then(res => {
     localStorage.setItem('token', res.data.token)
-    this.$router.push('/');
+    window.location.href = 'http://localhost:5173/';
   }).catch(err => {
     console.log(err)
+    Swal.fire({
+        position: 'top',
+        icon: 'error',
+        title: 'Your Username or Password wrong',
+        showConfirmButton: false,
+        timer: 1500
+      })
   })
 }
 </script>
