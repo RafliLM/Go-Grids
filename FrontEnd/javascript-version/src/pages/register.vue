@@ -7,6 +7,7 @@ import authV1MaskLight from '@/assets/images/pages/auth-v1-mask-light.png'
 import authV1Tree2 from '@/assets/images/pages/auth-v1-tree-2.png'
 import authV1Tree from '@/assets/images/pages/auth-v1-tree.png'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 const form = ref({
   firstname: '',
@@ -30,7 +31,15 @@ const register = data => {
       email : data.email,
       password : data.password,
     }).then(res => {
-      
+      console.log(res)
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Your Account Has Been Created',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      window.location.href = 'http://localhost:5173/login';
     }).catch(err => {
       console.log(err)
     })
