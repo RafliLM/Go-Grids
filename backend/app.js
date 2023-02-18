@@ -3,6 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const swaggerUi = require('swagger-ui-express')
+const swaggerDocument = require('./swagger.json')
 mongoose.set('strictQuery', true);
 
 const PORT = process.env.PORT || 5000;
@@ -23,5 +25,6 @@ mongoose
 
 
 app.use("/api", require('./routes/index'))
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
