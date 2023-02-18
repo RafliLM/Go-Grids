@@ -52,44 +52,48 @@ export default {
               <template v-slot:activator="{ props }">
                 <v-btn color="primary" v-bind="props"> + Add Grid Journal </v-btn>
               </template>
-              <v-card>
-                <v-card-title>
+              <v-card height="44rem">
+                <v-card-title class="pl-10">
                   <h1>Add Journal ✏️</h1>
                 </v-card-title>
                 <v-card-text>
                   <v-container>
                     <v-row>
                       <v-col cols="12">
-                        <v-text-field label="Tuday's Goal" required></v-text-field>
+                        <v-text-field label="Title" required></v-text-field>
                       </v-col>
                       <v-col cols="12">
                         <v-textarea
-                          label="Hari ini saya akan mengerjakan tugas mata kuliah Analisis Perancangan Perangkat Lunak"
+                          label="Content"
                         ></v-textarea>
+                      </v-col>
+                      <v-col cols="12">
+                        <v-card-actions class="mx-8">
+                          <!-- <v-spacer></v-spacer> -->
+                          <v-btn
+                            color="#ffffff"
+                            size="lg"
+                            variant="text"
+                            @click="dialog = true"
+                            style="right: 917px; position: absolute; background-color: #14162e"
+                          >
+                            SUBMIT
+                          </v-btn>
+                          <v-btn
+                            color="#ffffff"
+                            variant="text"
+                            size="lg"
+                            @click="dialog = false"
+                            style="right: 817px; position: absolute; background-color: #808080"
+                          >
+                            CANCEL
+                          </v-btn>
+                          <br />
+                        </v-card-actions>
                       </v-col>
                     </v-row>
                   </v-container>
                 </v-card-text>
-                <v-card-actions class="mx-8">
-                  <!-- <v-spacer></v-spacer> -->
-                  <v-btn
-                    color="#ffffff"
-                    variant="text"
-                    @click="dialog = true"
-                    style="right: 900px; position: absolute; background-color: #14162e"
-                  >
-                    SUBMIT
-                  </v-btn>
-                  <v-btn
-                    color="#ffffff"
-                    variant="text"
-                    @click="dialog = false"
-                    style="right: 800px; position: absolute; background-color: #808080"
-                  >
-                    CANCEL
-                  </v-btn>
-                  <br />
-                </v-card-actions>
               </v-card>
             </v-dialog>
           </v-row>
