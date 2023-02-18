@@ -7,6 +7,7 @@ import authV1MaskLight from '@/assets/images/pages/auth-v1-mask-light.png'
 import authV1Tree2 from '@/assets/images/pages/auth-v1-tree-2.png'
 import authV1Tree from '@/assets/images/pages/auth-v1-tree.png'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 const form = ref({
   firstname: '',
@@ -31,6 +32,14 @@ const register = data => {
       password : data.password,
     }).then(res => {
       console.log(res)
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Your Account Has Been Created',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      window.location.href = 'http://localhost:5173/login';
     }).catch(err => {
       console.log(err)
     })
@@ -48,7 +57,7 @@ const register = data => {
       <img max-width=100% src="gglogo.png">
       <VCol
       cols="12"
-      class="text-base ml-5 text-b"
+      class="text-base text-b"
       >
         <span>If you already have an account</span><br>
         <RouterLink
@@ -60,7 +69,7 @@ const register = data => {
       </VCol>
     </VCard>
     <VCard
-      class="auth-card pa-4 pt-7"
+      class="auth-card pa-4"
       max-width="448"
       style="background-color: transparent;"
     >

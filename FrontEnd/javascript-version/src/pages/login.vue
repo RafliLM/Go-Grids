@@ -6,6 +6,7 @@ import authV1MaskLight from '@/assets/images/pages/auth-v1-mask-light.png'
 import authV1Tree2 from '@/assets/images/pages/auth-v1-tree-2.png'
 import authV1Tree from '@/assets/images/pages/auth-v1-tree.png'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 const form = ref({
   username: '',
@@ -23,8 +24,16 @@ const login = (username, password) => {
     password,
   }).then(res => {
     localStorage.setItem('token', res.data.token)
+    window.location.href = 'http://localhost:5173/';
   }).catch(err => {
     console.log(err)
+    Swal.fire({
+        position: 'top',
+        icon: 'error',
+        title: 'Your Username or Password wrong',
+        showConfirmButton: false,
+        timer: 1500
+      })
   })
 }
 </script>
@@ -34,17 +43,17 @@ const login = (username, password) => {
     <VCard class="auth-card pa-4 pt-7" max-width="700" max-height="445" style="background-color: transparent;">
       <img max-width=100% src="gglogo.png">
       <VCol
-              cols="20"
-              class="text-b ml-5 text-base"
-            >
-              <span>If you don't have an account </span><br>
-              <RouterLink
-                class="text-secondary mt-2"
-                :to="{ name: 'register' }"
-              >
-                Register Here!
-              </RouterLink>
-            </VCol>
+        cols="20"
+          class="text-b text-base"
+      >
+        <span>If you don't have an account </span><br>
+        <RouterLink
+        class="text-secondary mt-2"
+        :to="{ name: 'register' }"
+        >
+          Register Here!
+          </RouterLink>
+      </VCol>
     </VCard>
     <VCard
       class="auth-card pa-4 pt-7"
