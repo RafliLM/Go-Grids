@@ -64,7 +64,12 @@ export default {
           <v-row justify="center" style="right: 200px; position: absolute">
             <v-dialog v-model="dialog" persistent width="1024">
               <template v-slot:activator="{ props }">
-                <v-btn color="primary" v-bind="props"> + Add Grid Journal </v-btn>
+                <v-btn 
+                color="primary" 
+                v-bind="props"
+                > 
+                + Add Grid Journal 
+                </v-btn>
               </template>
               <v-card height="44rem">
                 <v-card-title class="pl-10">
@@ -85,28 +90,29 @@ export default {
                       </v-textarea>
                       </v-col>
                       <v-col cols="12">
-                        <v-card-actions class=jarak>
+                        <v-form ref="form" enctype="multipart/form-data" style="right: 48px; position: absolute; margin-top: -12px" class="jarak">
                           <!-- <v-spacer></v-spacer> -->
                           <v-btn
                             color="#ffffff"
-                            size="lg"
+                            size="large"
+                            type="submit"
                             variant="text"
                             @click="dialog = true"
-                            style="right: 910px; position: absolute; background-color: #14162e"
+                            style="right: 860px; position: absolute; background-color: #14162e"
                           >
-                            SUBMIT
+                            CONFIRM
                           </v-btn>
                           <v-btn
                             color="#ffffff"
                             variant="text"
-                            size="lg"
+                            size="large"
                             @click="dialog = false"
-                            style="right: 810px; position: absolute; background-color: #808080"
+                            style="right: 760px; position: absolute; background-color: #808080"
                           >
                             CANCEL
                           </v-btn>
                           <br />
-                        </v-card-actions>
+                        </v-form>
                       </v-col>
                     </v-row>
                   </v-container>
@@ -115,7 +121,16 @@ export default {
             </v-dialog>
           </v-row>
           <v-form ref="form" enctype="multipart/form-data" style="right: 48px; position: absolute; margin-top: -12px">
-            <v-btn outlined plain raised depressed elevation="2" type="submit" variant="#ffffff" color="black">
+            <v-btn 
+            outlined 
+            plain 
+            raised 
+            depressed 
+            elevation="2" 
+            type="submit" 
+            variant="#ffffff" 
+            color="black"
+            >
               <strong>DELETE ALL</strong>
             </v-btn>
           </v-form>
