@@ -35,15 +35,29 @@ export default {
 }
 </script>
 
+<style type="text/css">
+.jarak{
+  margin-top: -20px;
+}
+.satu {
+  font-size: 70px;
+}
+</style>
+
 <template>
   <!-- Hallo Kurkur -->
   <VCard>
     <VCardItem>
-      <div class="main" style="width: 200%">
-        <h1>Hello, Kurkur 👋</h1>
-        <p>How is it going on?</p>
-        <h1>😀😭😡</h1>
-        <h2>Today's Journal</h2>
+      <div class="pt-5 main" style="width: 200%">
+        <h1 class="pl-5">
+          Hello, Kurkur 👋
+        </h1>
+        <p class="pl-5">How do you feel today?</p>
+        <a href="\" class="satu">
+        😀😭😡
+        </a>
+
+        <h2 class="pl-5">Today's Journal</h2>
       </div>
       <VCol cols="8" md="6">
         <div class="right">
@@ -63,17 +77,22 @@ export default {
                         <v-text-field label="Title" required></v-text-field>
                       </v-col>
                       <v-col cols="12">
-                        <v-textarea label="Content"></v-textarea>
+                        <v-textarea 
+                        auto-grow 
+                        counter
+                        label="Content"
+                        >
+                      </v-textarea>
                       </v-col>
                       <v-col cols="12">
-                        <v-card-actions class="mx-8">
+                        <v-card-actions class=jarak>
                           <!-- <v-spacer></v-spacer> -->
                           <v-btn
                             color="#ffffff"
                             size="lg"
                             variant="text"
                             @click="dialog = true"
-                            style="right: 917px; position: absolute; background-color: #14162e"
+                            style="right: 910px; position: absolute; background-color: #14162e"
                           >
                             SUBMIT
                           </v-btn>
@@ -82,7 +101,7 @@ export default {
                             variant="text"
                             size="lg"
                             @click="dialog = false"
-                            style="right: 817px; position: absolute; background-color: #808080"
+                            style="right: 810px; position: absolute; background-color: #808080"
                           >
                             CANCEL
                           </v-btn>
@@ -95,21 +114,8 @@ export default {
               </v-card>
             </v-dialog>
           </v-row>
-          <v-form 
-          ref="form" 
-          enctype="multipart/form-data" 
-          style="right: 48px; position: absolute; margin-top: -12px"
-          >
-            <v-btn 
-            outlined 
-            plain 
-            raised 
-            depressed 
-            elevation="2" 
-            type="submit"
-            variant="#ffffff"
-            color="black"
-            >
+          <v-form ref="form" enctype="multipart/form-data" style="right: 48px; position: absolute; margin-top: -12px">
+            <v-btn outlined plain raised depressed elevation="2" type="submit" variant="#ffffff" color="black">
               <strong>DELETE ALL</strong>
             </v-btn>
           </v-form>
