@@ -1,0 +1,78 @@
+{
+    "swagger" : "2.0",
+    "info" : {
+        "title" : "Go-Grids",
+        "description" : "API documentation for Go-Grids web",
+        "version" : "1.0.0"
+    },
+    "host" : "localhost:5000",
+    "tags" : [
+        {
+            "name" : "Users",
+            "description" : "Endpoints that handle user and auth"
+        },
+        {
+            "name" : "Journals",
+            "description" : "Endpoints that handle CRUD on journal"
+         },
+         {
+            "name" : "Events",
+            "description" : "Endpoints that handle CRUD on event and user interaction with event"
+         }
+    ],
+    "paths" :
+        {
+            "/register" : {
+                "post" : {
+                    "summary" : "Create a new user account.",
+                    "tags" : ["Users"],
+                    "consumes" : [
+                        "application/json"
+                    ],
+                    "produces" : [
+                        "application/json"
+                    ],
+                    "parameters" : [
+                        {
+                            "name" : "body",
+                            "in" : "body",
+                            "description" : "User object that needs to be added create an account",
+                            "required" : true,
+                            "schema" : {
+                                "type" : "object",
+                                "properties" : {
+                                    "firstname" : {
+                                        "type" : "string"
+                                    },
+                                    "lastname" : {
+                                        "type" : "string"
+                                    },
+                                    "username" : {
+                                        "type" : "string",
+                                        "minLength" : 9
+                                    },
+                                    "email" : {
+                                        "type" : "string",
+                                        "format" : "email"
+                                    },
+                                    "password" : {
+                                        "type" : "string",
+                                        "pattern" : "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)[A-Za-z\\d]{8,32}$"
+                                    }
+                                }
+                                
+                            }
+                        }
+                    ],
+                    "responses" : {
+                        "201" : {
+                            "description" : "Account created"
+                        },
+                        "400" : {
+                            "description" : "Bad request"
+                        }
+                    }
+                }
+            }
+        }
+}

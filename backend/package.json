@@ -19,7 +19,8 @@
     "moment": "^2.29.4",
     "mongoose": "^6.9.1",
     "nodemailer": "^6.9.1",
-    "randexp": "^0.5.3"
+    "randexp": "^0.5.3",
+    "swagger-ui-express": "^4.6.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
