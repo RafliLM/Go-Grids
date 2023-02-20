@@ -50,7 +50,7 @@ export default {
           <v-row justify="center" style="right: 60px; position: absolute">
             <v-dialog v-model="dialog" persistent width="1024">
               <template v-slot:activator="{ props }">
-                <v-btn color="primary" v-bind="props"> + Add Grid Journal </v-btn>
+                <v-btn class="button-AddGrid" color="primary" v-bind="props"> + Add Grid Journal </v-btn>
               </template>
               <v-card height="44rem">
                 <v-card-title class="pl-10">
@@ -60,17 +60,17 @@ export default {
                   <v-container>
                     <v-row>
                       <v-col cols="12">
-                        <v-text-field label="Title" required></v-text-field>
+                        <v-text-field class="input-Title" label="Title" required></v-text-field>
                       </v-col>
                       <v-col cols="12">
-                        <v-textarea
+                        <v-textarea class="input-Content"
                           label="Content"
                         ></v-textarea>
                       </v-col>
                       <v-col cols="12">
                         <v-card-actions class="mx-8">
                           <!-- <v-spacer></v-spacer> -->
-                          <v-btn
+                          <v-btn class="button-SubmitJournal"
                             color="#ffffff"
                             size="lg"
                             variant="text"
@@ -79,7 +79,7 @@ export default {
                           >
                             SUBMIT
                           </v-btn>
-                          <v-btn
+                          <v-btn class="button-CancelJournal"
                             color="#ffffff"
                             variant="text"
                             size="lg"
