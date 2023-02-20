@@ -47,7 +47,7 @@ export default {
       </div>
       <VCol cols="8" md="6">
         <div class="right">
-          <v-row justify="center" style="right: 60px; position: absolute">
+          <v-row justify="center" style="right: 200px; position: absolute">
             <v-dialog v-model="dialog" persistent width="1024">
               <template v-slot:activator="{ props }">
                 <v-btn color="primary" v-bind="props"> + Add Grid Journal </v-btn>
@@ -63,9 +63,7 @@ export default {
                         <v-text-field label="Title" required></v-text-field>
                       </v-col>
                       <v-col cols="12">
-                        <v-textarea
-                          label="Content"
-                        ></v-textarea>
+                        <v-textarea label="Content"></v-textarea>
                       </v-col>
                       <v-col cols="12">
                         <v-card-actions class="mx-8">
@@ -97,18 +95,24 @@ export default {
               </v-card>
             </v-dialog>
           </v-row>
-          <!-- <v-form  ref="form" enctype="multipart/form-data" style="right: 25px; position: absolute;">
-          <v-btn
-            depressed
-            elevation="2"
-            outlined
-            plain
-            raised
-            color="primary"
+          <v-form 
+          ref="form" 
+          enctype="multipart/form-data" 
+          style="right: 48px; position: absolute; margin-top: -12px"
+          >
+            <v-btn 
+            outlined 
+            plain 
+            raised 
+            depressed 
+            elevation="2" 
             type="submit"
-              >+ Add Grid Journal
-          </v-btn>
-        </v-form>  -->
+            variant="#ffffff"
+            color="black"
+            >
+              <strong>DELETE ALL</strong>
+            </v-btn>
+          </v-form>
         </div>
       </VCol>
     </VCardItem>
