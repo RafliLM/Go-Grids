@@ -73,6 +73,56 @@
                         }
                     }
                 }
+            },
+
+            "/journal/create" : {
+                "post" : {
+                    "summary" : "Create a new journal.",
+                    "tags" : ["Journals"],
+                    "consumes" : [
+                        "application/json"
+                    ],
+                    "produces" : [
+                        "application/json"
+                    ],
+                    "parameters" : [
+                        {
+                            "name" : "body",
+                            "in" : "body",
+                            "description" : "User create journal",
+                            "required" : true,
+                            "schema" : {
+                                "type" : "object",
+                                "properties" : {
+                                    "grid" : {
+                                        "type": "object",
+                                        "properties" :{
+                                            "question" :{
+                                                "type" : "string"
+                                            },
+                                            "answer" :{
+                                                "type" : "string"
+                                            }
+                                        }
+                                    },
+                                
+                                    "myfeel" : {
+                                        "type" : "string"
+                                    }
+                                }
+                                
+                            }
+                        }
+                    ],
+                    "responses" : {
+                        "201" : {
+                            "description" : "Account created"
+                        },
+                        "400" : {
+                            "description" : "Bad request"
+                        }
+                    }
+                }
             }
         }
 }
