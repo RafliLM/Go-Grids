@@ -1,5 +1,4 @@
 const Journals = require('../models/journal.js');
-const journal = require('../models/journal.js');
 const User = require('../models/user');
 const mongo = require('mongodb');
 const moment = require('moment');
@@ -45,29 +44,32 @@ module.exports = class API {
     static async updateJournal(req, res) {
         try {
             let id = req.params.id
-            const user = req.user;
-            if(id == user._id){
-                id = mongo.ObjectId(req.params.id);
-                const newJournals = req.body;
-                await Journals.findOneAndUpdate({user_id:user._id, _id:id},newJournals);
+            const journal = await Journals.findById(id)
+            const user = req.user
+            if(journal.user_id.equals(user._id)){
+                const newJournal = req.body;
+                await Journals.findByIdAndUpdate(id, newJournal)
                 res.status(200).json({ message: "Successfully update your Journal"});
             }
             else{
                 res.status(403).json({message : "Unauthorized"})
             }
-            
         } catch (error) {
             res.status(404).json({ message: error.message })
         }
     }
 
     static async deleteJournals(req, res) {
-        const id = mongo.ObjectId(req.params.id);
-        const token = req.user;
-        const user = await User.findOne({token:token});
         try {
-            const result = await Journals.findOneAndDelete({user_id:user._id, _id : id});
-            res.status(200).json({ message: "Successfully Delete your Journal" })
+            const id = req.params.id
+            const journal = await Journals.findById(id)
+            if(journal.user_id.equals(req.user._id)){
+                const deletedJournal = await Journals.findByIdAndDelete(id)
+                res.status(200).json({message: "Successfully delete journal"})
+            }
+            else{
+                res.status(403).json({message : "Unauthorized"})
+            }
         } catch (error) {
             res.status(404).json({ message: error.message })
         }
