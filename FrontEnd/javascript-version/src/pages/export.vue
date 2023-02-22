@@ -7,22 +7,16 @@ import TableFixedHeader from '@/views/user-interface/tables/TableFixedHeader.vue
 </script>
 
 <template>
-<VCard>
-    <div style="padding-top: 30px; posis" >
-        <h4 style="padding-left: 25px ;" class="text-h4 font-weight-bold" >
-        Export to PDF 📂
-        </h4>
-        <p style="padding-left: 25px ;">
-        Export all your journal to PDF
-        </p>
-    </div>
-    <VRow>
-        <!-- basic -->
-        <VCol cols="12">
-        <VCard>
-            <TableDark />
-        </VCard>
-        </VCol>
-    </VRow>
-</VCard>
+  <VRow>
+    <!-- basic -->
+    <VCol cols="12">
+      <VCard style="padding-left: 28px;">
+    <button style="background-color: #14162E; border-radius: 8px; height: 40px; width: 150px; ;">
+        <a style="color: white;">
+            generate to PDF
+        </a>
+    </button>
+      </VCard>
+    </VCol>
+  </VRow>
 </template>
