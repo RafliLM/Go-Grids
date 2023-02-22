@@ -42,6 +42,14 @@ export default {
 .satu {
   font-size: 70px;
 }
+.gridTitle{
+  font-weight: bold;
+  font-size: medium;
+}
+.gridContent{
+  color: black;
+  font-size: small;
+}
 </style>
 
 <template>
@@ -128,6 +136,36 @@ export default {
           </v-form>
         </div>
       </VCol>
+      
+      <div style="margin-top: 20px;"> 
+        <VCol
+          cols="10"
+          sm="5"
+          md="4"
+        >
+          <VCard style=" box-shadow: 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); padding: 1rem; border-radius: 1rem;">
+
+            <v-col class="text-right" style="margin-top: -20px; margin-left: 28px;">
+              <v-spacer></v-spacer>
+              <v-btn size="x-small" right icon>
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </v-col>
+            
+            <div style="margin-top: -40px;">
+              <VCardItem>
+                <VCardTitle class="gridTitle">Today's Goal</VCardTitle>
+              </VCardItem>
+
+              <VCardText style="padding-bottom: 10px;" class="gridContent">
+                Hari ini saya akan mengerjakan tugas mata kuliah Akuntansi
+              </VCardText>
+            </div>
+          </VCard>
+        </VCol>
+
+      </div>
+
     </VCardItem>
   </VCard>
 </template>
