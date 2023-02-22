@@ -22,22 +22,20 @@ const vuetifyTheme = useTheme()
     </div>
 
     <div class="right" >
-      <v-form 
-          ref="form" 
-          enctype="multipart/form-data" 
-          style="right: 48px; position: absolute; margin-top: -12px"
-          >
-            <v-btn 
-            outlined 
-            plain 
-            raised 
-            depressed 
-            elevation="2" 
-            type="submit"
-            >
-              TODAY
-            </v-btn>
-          </v-form>
+      <v-form  ref="form" @submit.onclick="submitForm" enctype="multipart/form-data" style="right: 25px; position: absolute;">
+        <v-btn class="button-Today"
+          depressed
+          elevation="2"
+          outlined
+          plain
+          raised
+          color="primary"
+          type="submit"
+          height="50"
+          width="120"
+          >Today
+        </v-btn>
+      </v-form>
     </div>
   </div>
 </div>

@@ -17,14 +17,14 @@ module.exports = class API {
     }
 
     static async getJournalsByDate(req, res) {
-        const date = req.params.date;
-        var today = moment(new Date()).format('YYYY-MM-DD[T00:00:00.000Z]');
-        // console.log(token);
-
         try {
+            let currentDate = req.params.date;
+            currentDate = new Date(currentDate);
+            currentDate.setHours(0, 0, 0);
+            let tommorow = new Date(`${currentDate.getFullYear()}-${currentDate.getMonth()+1}-${currentDate.getDate() + 1}`)
+            console.log(currentDate, tommorow)
             const user = await User.findOne(req.user);
-            const journal = await Journals.find({user_id:user._id, created: { $gte: today }});
-
+            const journal = await Journals.find({user_id:user._id, date: { $gte: currentDate, $lt: tommorow }});
             res.status(200).json(journal);
         } catch (error) {
             res.status(404).json({ message: error.message })
@@ -32,10 +32,9 @@ module.exports = class API {
     }
 
     static async createJournal(req, res) {
-        const journal = req.body;
-        journal.user_id = req.user;
-        // console.log(post)
         try {
+            const journal = req.body;
+            journal.user_id = req.user;
             await Journals.create(journal)
             res.status(201).json({ message: "Successfully create new Journal" })
         } catch (error) {
@@ -44,14 +43,19 @@ module.exports = class API {
     }
 
     static async updateJournal(req, res) {
-        const id = mongo.ObjectId(req.params.id);
-        const token = req.user;
-        const user = await User.findOne({token:token});
-        const newJournals = req.body;
         try {
-            await Journals.findOneAndUpdate({user_id:user._id, _id:id},newJournals);
-            // await Post.findByIdAndUpdate(id, newPost);
-            res.status(200).json({ message: "Successfully update your Journal" })
+            let id = req.params.id
+            const user = req.user;
+            if(id == user._id){
+                id = mongo.ObjectId(req.params.id);
+                const newJournals = req.body;
+                await Journals.findOneAndUpdate({user_id:user._id, _id:id},newJournals);
+                res.status(200).json({ message: "Successfully update your Journal"});
+            }
+            else{
+                res.status(403).json({message : "Unauthorized"})
+            }
+            
         } catch (error) {
             res.status(404).json({ message: error.message })
         }
