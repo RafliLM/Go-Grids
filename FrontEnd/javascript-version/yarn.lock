@@ -558,6 +558,11 @@
     "@intlify/core-base" "9.2.2"
     "@intlify/shared" "9.2.2"
 
+"@jamescoyle/vue-icon@^0.1.2":
+  "integrity" "sha512-KFrImXx5TKIi6iQXlnyLEBl4rNosNKbTeRnr70ucTdUaciVmd9qK9d/pZAaKt1Ob/8xNnX2GMp8LisyHdKtEgw=="
+  "resolved" "https://registry.npmjs.org/@jamescoyle/vue-icon/-/vue-icon-0.1.2.tgz"
+  "version" "0.1.2"
+
 "@jridgewell/gen-mapping@^0.1.0":
   "integrity" "sha512-sQXCasFk+U8lWYEe66WxRDOE9PjVz4vSM51fTu3Hw+ClTpUSQb718772vH3pyS5pShp6lvQM7SxgIDXXXmOX7w=="
   "resolved" "https://registry.npmjs.org/@jridgewell/gen-mapping/-/gen-mapping-0.1.1.tgz"
@@ -602,6 +607,11 @@
   "integrity" "sha512-rzlxTfR64hqY8yiBzDjmANfcd8rv+T5C0Yedv/TWk2QyAQYdc66e0kaN1ipmnYU3RukHRTRcBARHzzm+tIhL7w=="
   "resolved" "https://registry.npmjs.org/@mdi/font/-/font-7.0.96.tgz"
   "version" "7.0.96"
+
+"@mdi/js@^7.1.96":
+  "integrity" "sha512-wlrJs6Ryhaa5CqhK3FjTfMRnb/s7HeLkKMFqwQySkK86cdN1TGdzpSM3O4tsmzCA1dYBeTbXvOwSE/Y42cUrvA=="
+  "resolved" "https://registry.npmjs.org/@mdi/js/-/js-7.1.96.tgz"
+  "version" "7.1.96"
 
 "@nodelib/fs.scandir@2.1.5":
   "integrity" "sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g=="

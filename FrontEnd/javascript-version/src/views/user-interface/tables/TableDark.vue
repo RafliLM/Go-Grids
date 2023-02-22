@@ -1,90 +1,91 @@
-<script setup>
-const desserts = [
-  {
-    dessert: 'Frozen Yogurt',
-    calories: 159,
-    fat: 6,
-    carbs: 24,
-    protein: 4,
-  },
-  {
-    dessert: 'Ice cream sandwich',
-    calories: 237,
-    fat: 6,
-    carbs: 24,
-    protein: 4,
-  },
-  {
-    dessert: 'Eclair',
-    calories: 262,
-    fat: 6,
-    carbs: 24,
-    protein: 4,
-  },
-  {
-    dessert: 'Cupcake',
-    calories: 305,
-    fat: 6,
-    carbs: 24,
-    protein: 4,
-  },
-  {
-    dessert: 'Gingerbread',
-    calories: 356,
-    fat: 6,
-    carbs: 24,
-    protein: 4,
-  },
-]
+<script>
+  export default {
+    data () {
+      return {
+        desserts: [
+          {
+            name: 'Anna',
+            calories: 159,
+          },
+          {
+            name: 'Diana',
+            calories: 237,
+          },
+          {
+            name: 'Aziz',
+            calories: 262,
+          },
+          {
+            name: 'Fanny',
+            calories: 305,
+          },
+          {
+            name: 'Faza',
+            calories: 356,
+          },
+          {
+            name: 'Gefi',
+            calories: 375,
+          },
+          {
+            name: 'Nabil A',
+            calories: 392,
+          },
+          {
+            name: 'Rafli',
+            calories: 408,
+          },
+          {
+            name: 'Rifatia',
+            calories: 452,
+          },
+          {
+            name: 'Rijal',
+            calories: 518,
+          },
+          {
+            name: 'Syahda',
+            calories: 550,
+          },
+        ],
+      }
+    },
+  }
 </script>
 
+<style type="text/css">
+.s {
+  font-size: 70px;
+}
+</style>
+
 <template>
-  <VTable theme="dark">
+  <v-table
+    fixed-header
+    height="300px"
+  >
     <thead>
       <tr>
-        <th class="text-uppercase text--primary">
-          Dessert (100g serving)
+        <th width="300px">
+          <h3>
+            Timestemp
+          </h3>
         </th>
-        <th class="text-center text-uppercase text--primary">
-          Calories
-        </th>
-        <th class="text-center text-uppercase text--primary">
-          Fat (g)
-        </th>
-        <th class="text-center text-uppercase text--primary">
-          Carbs (g)
-        </th>
-        <th class="text-center text-uppercase text--primary">
-          Protein (g)
+        <th>
+          <h3>
+            Content
+          </h3>
         </th>
       </tr>
     </thead>
     <tbody>
       <tr
         v-for="item in desserts"
-        :key="item.dessert"
+        :key="item.name"
       >
-        <td>{{ item.dessert }}</td>
-        <td class="text-center">
-          {{ item.calories }}
-        </td>
-        <td class="text-center">
-          {{ item.fat }}
-        </td>
-        <td class="text-center">
-          {{ item.carbs }}
-        </td>
-        <td class="text-center">
-          {{ item.protein }}
-        </td>
+        <td>{{ item.name }}</td>
+        <td>{{ item.calories }}</td>
       </tr>
     </tbody>
-  </VTable>
+  </v-table>
 </template>
-
-<style lang="scss">
-.v-table {
-  color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity))
-}
-</style>
-
