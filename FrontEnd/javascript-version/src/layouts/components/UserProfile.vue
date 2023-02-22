@@ -64,7 +64,7 @@ const avatarBadgeProps = {
               />
             </template>
 
-            <VListItemTitle>Profile</VListItemTitle>
+            <VListItemTitle class="button-HeaderProfile">Profile</VListItemTitle>
           </VListItem>
 
           <!-- 👉 Settings -->
@@ -77,7 +77,7 @@ const avatarBadgeProps = {
               />
             </template>
 
-            <VListItemTitle>Settings</VListItemTitle>
+            <VListItemTitle class="button-HeaderSettings">Settings</VListItemTitle>
           </VListItem>
 
           <!-- 👉 Pricing -->
@@ -90,7 +90,7 @@ const avatarBadgeProps = {
               />
             </template>
 
-            <VListItemTitle>Pricing</VListItemTitle>
+            <VListItemTitle class="button-HeaderPricing">Pricing</VListItemTitle>
           </VListItem>
 
           <!-- 👉 FAQ -->
@@ -103,7 +103,7 @@ const avatarBadgeProps = {
               />
             </template>
 
-            <VListItemTitle>FAQ</VListItemTitle>
+            <VListItemTitle class="button-HeaderFAQ">FAQ</VListItemTitle>
           </VListItem>
 
           <!-- Divider -->
@@ -119,7 +119,7 @@ const avatarBadgeProps = {
               />
             </template>
 
-            <VListItemTitle>Logout</VListItemTitle>
+            <VListItemTitle class="button-HeaderLogout">Logout</VListItemTitle>
           </VListItem>
         </VList>
       </VMenu>

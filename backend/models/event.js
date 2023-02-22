@@ -1,17 +1,5 @@
 const mongoose = require('mongoose')
 
-const participantSchema = mongoose.Schema({
-    username: {
-        type : String,
-        required : true   
-    },
-    status: {
-        type : String,
-        enum : ['invited', 'joined'],
-        default : 'invited'
-    }
-})
-
 const eventSchema = mongoose.Schema({
     creator: {
         type : String,
@@ -26,13 +14,24 @@ const eventSchema = mongoose.Schema({
         default : Date.now
     },
     participants : {
-        type : [participantSchema]
+        type : [{
+            username : {
+                type : String,
+                required : true
+            },
+            status : {
+                type : String,
+                enum : ['invited', 'joined'],
+                default : 'invited'
+            }
+        }]
     },
     timeHeld: {
         type : Date,
-        required : function (value) {
-            return value > Date.now
-        }
+        validate : (input) => {
+            return new Date(input) >= new Date()
+        },
+        required : true
     }
 })
 

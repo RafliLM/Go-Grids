@@ -33,14 +33,14 @@ const upgradeBanner = computed(() => {
 
   <!-- 👉 Nav items -->
   <ul style="margin-top: 25px;">
-    <VerticalNavLink
+    <VerticalNavLink class="button-NavDashboard"
       :item="{
         title: 'Dashboard',
         to: 'index',
         icon: { icon: 'mdi-home-outline' }
       }"
     />
-    <VerticalNavLink
+    <VerticalNavLink class="button-NavJournals"
       :item="{
         title: 'Journals',
         to: 'journals',
@@ -54,21 +54,21 @@ const upgradeBanner = computed(() => {
         icon: { icon: 'mdi-eye-outline' }
       }"
     /> -->
-    <VerticalNavLink
+    <VerticalNavLink class="button-NavCalendar"
       :item="{
         title: 'Calendar',
         to: 'calendar',
         icon: { icon: 'mdi-table' }
       }"
     />
-    <VerticalNavLink
+    <VerticalNavLink class="button-NavTimeline"
       :item="{
         title: 'Timeline',
         to: 'tables',
         icon: { icon: 'mdi-chart-timeline-variant' }
       }"
     />
-    <VerticalNavLink
+    <VerticalNavLink class="button-NavExport"
       :item="{
         title: 'Export',
         to: 'export',

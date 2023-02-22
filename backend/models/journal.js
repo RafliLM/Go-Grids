@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const gridSchema = mongoose.Schema({
+const gridSchema = new mongoose.Schema({
     question: {
         type : String,
         required : false  
@@ -9,10 +9,10 @@ const gridSchema = mongoose.Schema({
         type : String,
         required : false
     }
-})
+}, { _id : false})
 
 
-const postSchema = mongoose.Schema({
+const postSchema = new mongoose.Schema({
     user_id : mongoose.SchemaTypes.ObjectId,
     grid : {
         type : [gridSchema]
@@ -21,10 +21,12 @@ const postSchema = mongoose.Schema({
         type : String,
         enum : ['angry', 'happy', 'sad']
     },
-    created: {
+    date: {
         type: Date,
         default: Date.now
     },
 });
+
+postSchema.index({user_id: 1, date: 1}, {unique : true})
 
 module.exports = mongoose.model('Journal', postSchema, "Journals");

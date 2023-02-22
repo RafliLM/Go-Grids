@@ -66,7 +66,7 @@ const triangleBg = computed(() => {
               />
             </template>
 
-            <VListItemTitle>Profile</VListItemTitle>
+            <VListItemTitle class="button-Profile">Profile</VListItemTitle>
           </VListItem>
 
           <!-- 👉 Settings -->
@@ -79,7 +79,7 @@ const triangleBg = computed(() => {
               />
             </template>
 
-            <VListItemTitle>Settings</VListItemTitle>
+            <VListItemTitle class="button-Settings">Settings</VListItemTitle>
           </VListItem>
 
           <!-- Divider -->
@@ -95,7 +95,7 @@ const triangleBg = computed(() => {
               />
             </template>
 
-            <VListItemTitle>Logout</VListItemTitle>
+            <VListItemTitle class="button-Logout">Logout</VListItemTitle>
           </VListItem>
         </VList>
       </VMenu>
