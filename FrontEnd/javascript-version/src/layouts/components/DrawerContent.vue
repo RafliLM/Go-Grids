@@ -71,7 +71,7 @@ const upgradeBanner = computed(() => {
     <VerticalNavLink class="button-NavExport"
       :item="{
         title: 'Export',
-        to: 'form-layouts',
+        to: 'export',
         icon: { icon: 'mdi-tray-arrow-up' }
       }"
     />
