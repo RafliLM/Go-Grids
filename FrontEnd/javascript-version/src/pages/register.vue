@@ -60,12 +60,14 @@ const register = data => {
       class="text-base text-b"
       >
         <span>If you already have an account</span><br>
+        <div class="button-LoginHereRegister">
         <RouterLink
         class="text-secondary"
         to="login"
         >
           Log In Here!
         </RouterLink>
+        </div>
       </VCol>
     </VCard>
     <VCard
@@ -89,27 +91,27 @@ const register = data => {
         <VForm @submit.prevent="() => {}">
           <VRow>
             <VCol cols="6">
-              <VTextField
+              <VTextField class="input-EnterFirstName"
                 v-model="form.firstname"
                 label="Enter First Name"
               />
             </VCol>
             <VCol cols="6">
-              <VTextField
+              <VTextField class="input-EnterLastName"
                 v-model="form.lastname"
                 label="Enter Last Name"
               />
             </VCol>
             <!-- Username -->
             <VCol cols="12">
-              <VTextField
+              <VTextField class="input-EnterEmail"
                 v-model="form.email"
                 label="Enter Email"
               />
             </VCol>
             <!-- email -->
             <VCol cols="12">
-              <VTextField
+              <VTextField class="input-EnterUsername"
                 v-model="form.username"
                 label="Enter Username"
               />
@@ -117,7 +119,7 @@ const register = data => {
 
             <!-- password -->
             <VCol cols="12">
-              <VTextField
+              <VTextField class="input-PasswordRegister"
                 v-model="form.password"
                 label="Password"
                 :type="isPasswordVisible ? 'text' : 'password'"
@@ -127,13 +129,14 @@ const register = data => {
             </VCol>
             <!-- Confirm Password -->
             <VCol cols="12">
-              <VTextField
+              <VTextField class="input-ConfirmPasswordRegister"
                 v-model="form.confirm"
                 label="Confirm Password"
                 :type="isPasswordVisible ? 'text' : 'password'"
                 :append-inner-icon="isPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
                 @click:append-inner="isPasswordVisible = !isPasswordVisible"
               />
+              <div class="button-SignUpRegister">
               <VBtn
                 block
                 type="submit"
@@ -142,6 +145,7 @@ const register = data => {
               >
                 Sign up
               </VBtn>
+              </div>
             </VCol>
             <!-- login instead -->
             

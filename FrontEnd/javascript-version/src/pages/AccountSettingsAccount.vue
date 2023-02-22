@@ -69,7 +69,9 @@ const isConfirmPasswordVisible = ref(false)
                   icon="mdi-cloud-upload-outline"
                   class="d-sm-none"
                 />
+                <div class="button-UploadNewPhoto">
                 <span class="d-none d-sm-block">Upload new photo</span>
+              </div>
               </VBtn>
 
               <input
@@ -94,14 +96,14 @@ const isConfirmPasswordVisible = ref(false)
           <!-- 👉 Form -->
           <VForm class="mt-6">
             <VRow>
-              <VCol
+              <VCol class="input-FirtsNameAccountSetting"
                 md="6"
                 cols="5"
               >
                 <h3> First Name</h3>
               </VCol>
 
-              <VCol
+              <VCol class="input-LasrNameAccountSetting"
                 md="6"
                 cols="12"
               >
@@ -137,14 +139,14 @@ const isConfirmPasswordVisible = ref(false)
           <!-- 👉 Form -->
           <VForm class="mt-6">
             <VRow>
-              <VCol
+              <VCol class="input-EmailAccountSetting"
                 md="6"
                 cols="5"
               >
                 <h3>Email</h3>
               </VCol>
 
-              <VCol
+              <VCol class="input-UsernameAccountSetting"
                 md="6"
                 cols="12"
               >
@@ -181,7 +183,7 @@ const isConfirmPasswordVisible = ref(false)
           <!-- 👉 Form -->
           <VForm class="mt-6">
             <VRow>
-              <VCol
+              <VCol class="input-CurrentPasswordAccountSetting"
                 md="6"
                 cols="5"
               >
@@ -205,14 +207,14 @@ const isConfirmPasswordVisible = ref(false)
             </VRow>
 
             <VRow>
-              <VCol
+              <VCol class="input-NewPasswordAccountSetting"
                 md="6"
                 cols="5"
               >
                 <h3>New Password</h3>
               </VCol>
 
-              <VCol
+              <VCol class="input-ConfirmPasswordAccountSetting"
                 md="6"
                 cols="5"
               >
@@ -249,12 +251,14 @@ const isConfirmPasswordVisible = ref(false)
               </VCol>
             
               <!-- 👉 Form Actions -->
+              <div class="button-SaveChanges">
               <VCol
                 cols="12"
                 class="d-flex flex-wrap gap-4"
               >
                 <VBtn>Save changes</VBtn>
               </VCol>
+              </div>
             </VRow>
           </VForm>
         </VCardText>
