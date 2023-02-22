@@ -45,6 +45,7 @@ export default {
 .gridTitle{
   font-weight: bold;
   font-size: medium;
+  color: black;
 }
 .gridContent{
   color: black;
