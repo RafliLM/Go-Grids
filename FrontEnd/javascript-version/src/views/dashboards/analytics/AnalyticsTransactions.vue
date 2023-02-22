@@ -35,19 +35,33 @@ export default {
 }
 </script>
 
+<style type="text/css">
+.jarak{
+  margin-top: -20px;
+}
+.satu {
+  font-size: 70px;
+}
+</style>
+
 <template>
   <!-- Hallo Kurkur -->
   <VCard>
     <VCardItem>
-      <div class="main" style="width: 200%">
-        <h1>Hello, Kurkur 👋</h1>
-        <p>How is it going on?</p>
-        <h1>😀😭😡</h1>
-        <h2>Today's Journal</h2>
+      <div class="pt-5 main" style="width: 200%">
+        <h1 class="pl-5">
+          Hello, Kurkur 👋
+        </h1>
+        <p class="pl-5">How do you feel today?</p>
+        <a href="\" class="satu">
+        😀😭😡
+        </a>
+
+        <h2 class="pl-5">Today's Journal</h2>
       </div>
       <VCol cols="8" md="6">
         <div class="right">
-          <v-row justify="center" style="right: 60px; position: absolute">
+          <v-row justify="center" style="right: 200px; position: absolute">
             <v-dialog v-model="dialog" persistent width="1024">
               <template v-slot:activator="{ props }">
                 <v-btn class="button-AddGrid" color="primary" v-bind="props"> + Add Grid Journal </v-btn>
@@ -68,28 +82,29 @@ export default {
                         ></v-textarea>
                       </v-col>
                       <v-col cols="12">
-                        <v-card-actions class="mx-8">
+                        <v-form ref="form" enctype="multipart/form-data" style="right: 48px; position: absolute; margin-top: -12px" class="jarak">
                           <!-- <v-spacer></v-spacer> -->
                           <v-btn class="button-SubmitJournal"
                             color="#ffffff"
-                            size="lg"
+                            size="large"
+                            type="submit"
                             variant="text"
                             @click="dialog = true"
-                            style="right: 917px; position: absolute; background-color: #14162e"
+                            style="right: 860px; position: absolute; background-color: #14162e"
                           >
-                            SUBMIT
+                            CONFIRM
                           </v-btn>
                           <v-btn class="button-CancelJournal"
                             color="#ffffff"
                             variant="text"
-                            size="lg"
+                            size="large"
                             @click="dialog = false"
-                            style="right: 817px; position: absolute; background-color: #808080"
+                            style="right: 760px; position: absolute; background-color: #808080"
                           >
                             CANCEL
                           </v-btn>
                           <br />
-                        </v-card-actions>
+                        </v-form>
                       </v-col>
                     </v-row>
                   </v-container>
@@ -97,18 +112,20 @@ export default {
               </v-card>
             </v-dialog>
           </v-row>
-          <!-- <v-form  ref="form" enctype="multipart/form-data" style="right: 25px; position: absolute;">
-          <v-btn
-            depressed
-            elevation="2"
-            outlined
-            plain
-            raised
-            color="primary"
-            type="submit"
-              >+ Add Grid Journal
-          </v-btn>
-        </v-form>  -->
+          <v-form ref="form" enctype="multipart/form-data" style="right: 48px; position: absolute; margin-top: -12px">
+            <v-btn 
+            outlined 
+            plain 
+            raised 
+            depressed 
+            elevation="2" 
+            type="submit" 
+            variant="#ffffff" 
+            color="black"
+            >
+              <strong>DELETE ALL</strong>
+            </v-btn>
+          </v-form>
         </div>
       </VCol>
     </VCardItem>
