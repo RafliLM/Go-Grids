@@ -28,11 +28,30 @@ const statistics = [
 </script>-->
 
 <script>
+import Swal from 'sweetalert2'
+
 export default {
   data: () => ({
     dialog: false,
   }),
+  methods: {
+    showSwal() {
+      Swal.fire({
+        title: "Add Journal ✏️",
+        width: '800px',
+        html:
+        '<input id="swal-input1" class="swal2-input" autofocus placeholder="Journal Title" style="width:600px;">' +
+        '<textarea id="swal-input2" class="swal2-input" autogrow placeholder="Journal Content" style="width:600px; height:100px;">',
+        confirmButtonText: 'Confirm',
+        confirmButtonColor: '#14162E',
+        cancelButtonText: 'Cancel',
+        showCancelButton: true,
+      });
+    }
+  }
 }
+
+
 </script>
 
 <style type="text/css">
@@ -62,11 +81,9 @@ export default {
       <VCol cols="8" md="6">
         <div class="right">
           <v-row justify="center" style="right: 200px; position: absolute">
-            <v-dialog v-model="dialog" persistent width="1024">
-              <template v-slot:activator="{ props }">
-                <v-btn class="button-AddGrid" color="primary" v-bind="props"> + Add Grid Journal </v-btn>
-              </template>
-              <v-card height="44rem">
+            <v-btn class="button-AddGrid" color="primary" @click="showSwal()"> + Add Grid Journal </v-btn>
+
+              <!-- <v-card height="44rem">
                 <v-card-title class="pl-10">
                   <h1>Add Journal ✏️</h1>
                 </v-card-title>
@@ -83,7 +100,6 @@ export default {
                       </v-col>
                       <v-col cols="12">
                         <v-form ref="form" enctype="multipart/form-data" style="right: 48px; position: absolute; margin-top: -12px" class="jarak">
-                          <!-- <v-spacer></v-spacer> -->
                           <v-btn class="button-SubmitJournal"
                             color="#ffffff"
                             size="large"
@@ -109,8 +125,7 @@ export default {
                     </v-row>
                   </v-container>
                 </v-card-text>
-              </v-card>
-            </v-dialog>
+              </v-card> -->
           </v-row>
           <v-form ref="form" enctype="multipart/form-data" style="right: 48px; position: absolute; margin-top: -12px">
             <v-btn 
@@ -131,6 +146,7 @@ export default {
     </VCardItem>
   </VCard>
 </template>
+
 
 <!--<template #append>
         <div class="me-n3">
