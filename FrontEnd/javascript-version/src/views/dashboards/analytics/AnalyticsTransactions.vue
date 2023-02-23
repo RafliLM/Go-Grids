@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       profile: {
-        username: localStorage.getItem("token"),
+        username: localStorage.getItem("username"),
       }
     };
   },
@@ -45,9 +45,9 @@ export default {
       const config = {
         headers: { Authorization: `Bearer ${token}` } // mengirim token pada header permintaan
       };
-      axios.get("//localhost:5000/api/user/profile", config)
+      axios.get("//localhost:5000/api/user", config)
         .then(response => {
-          this.profile = response.data;
+          this.profile = response.data.firstname;
         })
         .catch(error => {
           console.log(error);
