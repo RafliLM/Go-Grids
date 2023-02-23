@@ -36,7 +36,8 @@ export default {
     return {
       profile: {
         username: localStorage.getItem("username"),
-      }
+      },
+      grid:[]
     };
   },
   methods: {
@@ -52,11 +53,7 @@ export default {
         .catch(error => {
           console.log(error);
         });
-    }
-  },
-  mounted() {
-    this.getProfile();
-  },
+    },
     showSwal() {
       Swal.fire({
         title: "Add Journal ✏️",
@@ -68,11 +65,45 @@ export default {
         confirmButtonColor: '#14162E',
         cancelButtonText: 'Cancel',
         showCancelButton: true,
-      });
+      }).then((result) => {
+    if (result.isConfirmed) {
+      const question = document.getElementById('swal-input1').value;
+      const answer = document.getElementById('swal-input2').value;
+      const newGrid = { question, answer };
+      this.grid.push(newGrid);
+      const token = localStorage.getItem('token');
+      const config = {
+        headers: { Authorization: `Bearer ${token}` }
+      };
+      axios.post('//localhost:5000/api/journal/create', { question, answer }, config)
+        .then(response => {
+          console.log(response.data);
+          Swal.fire({
+            title: 'Success!',
+            text: 'Journal added successfully!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          });
+        })
+        .catch(error => {
+          console.log(error);
+          Swal.fire({
+            title: 'Error!',
+            text: 'Failed to add journal!',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+        });
     }
-  };
-
+  });
+    }
+  },
+  mounted() {
+    this.getProfile();
+  }
+};
 </script>
+
 
 <style type="text/css">
 .jarak{
