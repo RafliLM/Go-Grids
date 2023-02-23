@@ -104,8 +104,10 @@ const props = defineProps({
           </VListItem>
         </VList>
       </VMenu>
+
+
       <!-- !SECTION -->
-    </VAvatar>
+      </VAvatar>
         </VCol>
         <VCol cols="1" md="7">
           <div style=" padding-left: 20%;">
@@ -113,6 +115,16 @@ const props = defineProps({
             <p>@{{ username }}</p>
           </div>
         </VCol>
+      
+      <VRow>
+        <VCard>
+          <v-date-picker
+            v-model="picker"
+            elevation="15"
+          ></v-date-picker>
+        </VCard>
+      </VRow>
+      
       </VRow>
         <h1>Quotes</h1>
         <VCard style="background-color: transparent;">
