@@ -63,7 +63,7 @@ const register = data => {
         <div class="button-LoginHereRegister">
         <RouterLink
         class="text-secondary"
-        to="login"
+        to="/"
         >
           Log In Here!
         </RouterLink>
