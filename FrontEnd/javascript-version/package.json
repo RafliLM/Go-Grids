@@ -51,7 +51,7 @@
         "@iconify/tools": "^2.1.0",
         "@iconify/vue": "^3.2.1",
         "@intlify/vite-plugin-vue-i18n": "^5.0.1",
-        "@vitejs/plugin-vue": "^3.1.0",
+        "@vitejs/plugin-vue": "^3.2.0",
         "@vitejs/plugin-vue-jsx": "^2.0.1",
         "eslint": "^8.23.1",
         "eslint-config-airbnb-base": "^15.0.0",

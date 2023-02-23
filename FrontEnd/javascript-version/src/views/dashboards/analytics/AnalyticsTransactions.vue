@@ -29,12 +29,34 @@ const statistics = [
 
 <script>
 import Swal from 'sweetalert2'
+import axios from 'axios'
 
 export default {
-  data: () => ({
-    dialog: false,
-  }),
+  data() {
+    return {
+      profile: {
+        username: localStorage.getItem("username"),
+      }
+    };
+  },
   methods: {
+    getProfile() {
+      const token = localStorage.getItem("token"); // membaca token dari local storage
+      const config = {
+        headers: { Authorization: `Bearer ${token}` } // mengirim token pada header permintaan
+      };
+      axios.get("//localhost:5000/api/user", config)
+        .then(response => {
+          this.profile = response.data.firstname;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  },
+  mounted() {
+    this.getProfile();
+  },
     showSwal() {
       Swal.fire({
         title: "Add Journal ✏️",
@@ -48,9 +70,7 @@ export default {
         showCancelButton: true,
       });
     }
-  }
-}
-
+  };
 
 </script>
 
@@ -78,7 +98,7 @@ export default {
     <VCardItem>
       <div class="pt-5 main" style="width: 200%">
         <h1 class="pl-5">
-          Hello, Kurkur 👋
+          Hello, {{ this.profile }} 👋
         </h1>
         <p class="pl-5">How do you feel today?</p>
         <a href="\" class="satu">
