@@ -47,6 +47,19 @@ export default {
         cancelButtonText: 'Cancel',
         showCancelButton: true,
       });
+    },
+    showSwalEdit() {
+      Swal.fire({
+        title: "Edit Journal ✏️",
+        width: '800px',
+        html:
+        '<input id="swal-input1" class="swal2-input" autofocus style="width:600px;">' +
+        '<textarea id="swal-input2" class="swal2-input" autogrow  style="width:600px; height:100px;">',
+        confirmButtonText: 'Confirm',
+        confirmButtonColor: '#14162E',
+        cancelButtonText: 'Cancel',
+        showCancelButton: true,
+      });
     }
   }
 }
@@ -159,24 +172,22 @@ export default {
           sm="5"
           md="4"
         >
-          <VCard @click.stop="dialog = true" style=" box-shadow: 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); padding: 1rem; border-radius: 1rem;">
 
-            <v-col class="text-right" style="margin-top: -20px; margin-left: 28px;">
-              <v-spacer></v-spacer>
-              <v-btn size="x-small" right icon>
-                <v-icon>mdi-close</v-icon>
-              </v-btn>
-            </v-col>
-            
-            <div style="margin-top: -40px;">
-              <VCardItem>
-                <VCardTitle class="gridTitle">Today's Goal</VCardTitle>
-              </VCardItem>
+          <v-col class="text-right" style="margin-bottom: -40px; margin-left: 20px; position: relative; z-index: 1;">
+            <v-spacer></v-spacer>
+            <v-btn size="x-small" right icon>
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </v-col>
 
-              <VCardText style="padding-bottom: 10px;" class="gridContent">
-                Hari ini saya akan mengerjakan tugas mata kuliah Akuntansi
-              </VCardText>
-            </div>
+          <VCard @click.stop="showSwalEdit()" style=" position: relative; z-index: 0; box-shadow: 0 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); padding: 1rem; border-radius: 1rem;">            
+            <VCardItem>
+              <VCardTitle class="gridTitle">Today's Goal</VCardTitle>
+            </VCardItem>
+
+            <VCardText style="padding-bottom: 10px;" class="gridContent">
+              Hari ini saya akan mengerjakan tugas mata kuliah Akuntansi
+            </VCardText>
           </VCard>
         </VCol>
 

@@ -8,6 +8,9 @@ const vuetifyTheme = useTheme()
 const triangleBg = computed(() => {
   return vuetifyTheme.global.name.value === 'light' ? triangleLight : triangleDark
 })
+
+
+
 </script>
 
 <template>
@@ -99,8 +102,10 @@ const triangleBg = computed(() => {
           </VListItem>
         </VList>
       </VMenu>
+
+
       <!-- !SECTION -->
-    </VAvatar>
+      </VAvatar>
         </VCol>
         <VCol cols="1" md="2">
           <div style="display: table-cell; padding-left: 30%">
@@ -108,6 +113,16 @@ const triangleBg = computed(() => {
             <p>@kurkurcans</p>
           </div>
         </VCol>
+      
+      <VRow>
+        <VCard>
+          <v-date-picker
+            v-model="picker"
+            elevation="15"
+          ></v-date-picker>
+        </VCard>
+      </VRow>
+      
       </VRow>
         <h1>Quotes</h1>
         <VCard style="background-color: transparent;">
