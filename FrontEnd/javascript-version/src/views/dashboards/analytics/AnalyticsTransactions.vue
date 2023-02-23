@@ -160,7 +160,6 @@ export default {
           md="4"
         >
           <VCard @click.stop="dialog = true" style=" box-shadow: 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); padding: 1rem; border-radius: 1rem;">
-
             <v-col class="text-right" style="margin-top: -20px; margin-left: 28px;">
               <v-spacer></v-spacer>
               <v-btn size="x-small" right icon>
