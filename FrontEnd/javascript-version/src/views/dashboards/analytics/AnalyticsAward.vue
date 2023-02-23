@@ -8,6 +8,11 @@ const vuetifyTheme = useTheme()
 const triangleBg = computed(() => {
   return vuetifyTheme.global.name.value === 'light' ? triangleLight : triangleDark
 })
+
+const props = defineProps({
+  fullname : String,
+  username : String
+})
 </script>
 
 <template>
@@ -47,10 +52,10 @@ const triangleBg = computed(() => {
             </template>
 
             <VListItemTitle class="font-weight-semibold">
-              Kurkur
+              {{ fullname }}
             </VListItemTitle>
             <VListItemSubtitle class="text-disabled">
-              @kurkurcans
+              {{ username }}
             </VListItemSubtitle>
           </VListItem>
 
@@ -102,10 +107,10 @@ const triangleBg = computed(() => {
       <!-- !SECTION -->
     </VAvatar>
         </VCol>
-        <VCol cols="1" md="2">
-          <div style="display: table-cell; padding-left: 30%">
-            <h3>Kurkur</h3>
-            <p>@kurkurcans</p>
+        <VCol cols="1" md="7">
+          <div style=" padding-left: 20%;">
+            <h3>{{ fullname }}</h3>
+            <p>@{{ username }}</p>
           </div>
         </VCol>
       </VRow>

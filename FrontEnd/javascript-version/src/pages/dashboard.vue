@@ -9,23 +9,25 @@ import AnalyticsTotalProfitLineCharts from '@/views/dashboards/analytics/Analyti
 import AnalyticsTransactions from '@/views/dashboards/analytics/AnalyticsTransactions.vue'
 import AnalyticsWeeklyOverview from '@/views/dashboards/analytics/AnalyticsWeeklyOverview.vue'
 import CardStatisticsVertical from '@core/components/CardStatisticsVertical.vue'
+import axios from 'axios'
+import { onMounted, ref } from 'vue'
 
-const totalProfit = {
-  title: 'Total Profit',
-  color: 'secondary',
-  icon: 'mdi-poll',
-  stats: '$25.6k',
-  change: 42,
-  subtitle: 'Weekly Project',
-}
-const newProject = {
-  title: 'New Project',
-  color: 'primary',
-  icon: 'mdi-briefcase-variant-outline',
-  stats: '862',
-  change: -18,
-  subtitle: 'Yearly Project',
-}
+const token = localStorage.getItem("token")
+
+const data = ref(null)
+
+onMounted(async () => {
+  await axios.get("http://localhost:5000/api/user/", {
+    headers : {
+      Authorization: `Bearer ${token}`
+    }
+  }).then(res => {
+    data.value = res.data
+  }).catch(err => {
+    console.log(err)
+  })
+})
+
 </script>
 
 <template>
@@ -70,12 +72,11 @@ const newProject = {
     >
       <AnalyticsTransactions />
     </VCol>
-    <!-- Quotes -->
     <VCol
       cols="10"
       md="3"
     >
-      <AnalyticsAward />
+      <AnalyticsAward v-if="data" :fullname="`${data.firstname} ${data.lastname}`" :username="data.username"/>
     </VCol>
 
     <!-- <VCol
