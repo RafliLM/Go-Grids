@@ -37,7 +37,7 @@ export default {
       profile: {
         username: localStorage.getItem("username"),
       },
-      grid: []
+      grid:[]
     };
   },
   methods: {
