@@ -1,172 +1,142 @@
 <script setup>
-import AnalyticsAward from '@/views/dashboards/analytics/AnalyticsAward.vue'
-import AnalyticsBarCharts from '@/views/dashboards/analytics/AnalyticsBarCharts.vue'
-import AnalyticsDatatable from '@/views/dashboards/analytics/AnalyticsDatatable.vue'
-import AnalyticsDepositWithdraw from '@/views/dashboards/analytics/AnalyticsDepositWithdraw.vue'
-import AnalyticsSalesByCountries from '@/views/dashboards/analytics/AnalyticsSalesByCountries.vue'
-import AnalyticsTotalEarning from '@/views/dashboards/analytics/AnalyticsTotalEarning.vue'
-import AnalyticsTotalProfitLineCharts from '@/views/dashboards/analytics/AnalyticsTotalProfitLineCharts.vue'
-import AnalyticsTransactions from '@/views/dashboards/analytics/AnalyticsTransactions.vue'
-import AnalyticsWeeklyOverview from '@/views/dashboards/analytics/AnalyticsWeeklyOverview.vue'
-import CardStatisticsVertical from '@core/components/CardStatisticsVertical.vue'
+import { useTheme } from 'vuetify'
+import logo from '@/assets/logo.svg?raw'
+import authV1MaskDark from '@/assets/images/pages/auth-v1-mask-dark.png'
+import authV1MaskLight from '@/assets/images/pages/auth-v1-mask-light.png'
+import authV1Tree2 from '@/assets/images/pages/auth-v1-tree-2.png'
+import authV1Tree from '@/assets/images/pages/auth-v1-tree.png'
+import axios from 'axios'
+import Swal from 'sweetalert2'
 
-const totalProfit = {
-  title: 'Total Profit',
-  color: 'secondary',
-  icon: 'mdi-poll',
-  stats: '$25.6k',
-  change: 42,
-  subtitle: 'Weekly Project',
-}
-const newProject = {
-  title: 'New Project',
-  color: 'primary',
-  icon: 'mdi-briefcase-variant-outline',
-  stats: '862',
-  change: -18,
-  subtitle: 'Yearly Project',
+const form = ref({
+  username: '',
+  password: '',
+  remember: false,
+})
+const vuetifyTheme = useTheme()
+const authThemeMask = computed(() => {
+  return vuetifyTheme.global.name.value === 'light' ? authV1MaskLight : authV1MaskDark
+})
+const isPasswordVisible = ref(false)
+const login = (username, password) => {
+  axios.post("http://localhost:5000/api/login", {
+    username,
+    password,
+  }).then(res => {
+    localStorage.setItem('token', res.data.token)
+    window.location.href = 'http://localhost:5173/dashboard';
+  }).catch(err => {
+    console.log(err)
+    Swal.fire({
+        position: 'top',
+        icon: 'error',
+        title: 'Your Username or Password wrong',
+        showConfirmButton: false,
+        timer: 1500
+      })
+  })
 }
 </script>
 
 <template>
-<!-- <div class="container" style="display: flex;">
-  <div class="main"  style= "width: 200%" >
-    <h1> Hello, Kurkur 👋</h1>
-    <p>How do you feel today?</p>
-    <div class="grid-container">
-    <div>
-    <h2> Today's Journal</h2>
-    <p>🗓 {{moment().format("DD-MM-YYYY")}}  </p> 
-     </div>
-  <div class="right">
-    <v-form  ref="form" @submit.onclick="submitForm" enctype="multipart/form-data">
-      <v-btn
-        depressed
-        elevation="2"
-        outlined
-        plain
-        raised
-        type="submit"
-          >+ Add Grid Journal</v-btn>
-    </v-form> 
+  <div class="pop auth-wrapper d-flex align-center justify-center pa-4">
+    <VCard class="auth-card pa-4 pt-7" max-width="700" max-height="445" style="background-color: transparent;">
+      <img max-width=100% src="gglogo.png">
+      <VCol
+        cols="20"
+          class="text-b text-base"
+      >
+        <span>If you don't have an account </span><br>
+        <div class="button-RegisterHere">
+        <RouterLink
+        class="text-secondary mt-2"
+        :to="{ name: 'register' }"
+        >
+          Register Here!
+          </RouterLink>
+        </div>
+      </VCol>
+    </VCard>
+    <VCard
+      class="auth-card pa-4 pt-7"
+      max-width="448"
+      style="background-color: transparent;"
+    >
+      <VCardText class="pt-2">
+        <h3 class="text-h3 text-b font-weight-bold mb-0" style="font-family: 'Poppins', sans-serif !important;">
+          Welcome!
+        </h3>
+        <p class="mb-2 text-b font-weight-normal">
+          Please enter your email and password
+        </p>
+      </VCardText>
+
+      <VCardText>
+        <VForm @submit.prevent="() => {}">
+          <VRow>
+            <!-- email -->
+            <VCol cols="12">
+              <VTextField class="input-UsernameLogin"
+                v-model="form.username"
+                label="Username"
+              />
+            </VCol>
+
+            <!-- password -->
+            <VCol cols="12">
+              <VTextField class="input-PasswordLogin"
+                v-model="form.password"
+                label="Password"
+                :type="isPasswordVisible ? 'text' : 'password'"
+                :append-inner-icon="isPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
+                @click:append-inner="isPasswordVisible = !isPasswordVisible"
+              />
+
+              <!-- remember me checkbox -->
+              <div class="d-flex align-center justify-space-between flex-wrap mt-1 mb-4">
+                <VCheckbox class="button-RememberMeLogin"
+                  v-model="form.remember"
+                  label="Remember me"
+                />
+
+                <div class="button-ForgetPassword">
+                <a
+                  class="ms-2 mb-1 text-secondary"
+                  href="javascript:void(0)"
+                >
+                  Forgot Password?
+                </a>
+                </div>
+              </div>
+
+              <!-- login button -->
+              <VBtn class="button-LoginLogin"
+                block
+                type="submit"
+                @click="login(form.username, form.password)"
+              >
+                Login
+              </VBtn>
+            </VCol>
+
+            <!-- create account -->
+          </VRow>
+        </VForm>
+      </VCardText>
+    </VCard>
+    <VImg
+      class="auth-footer-mask d-none d-md-block"
+      :src="authThemeMask"
+    />
   </div>
-
-  <div style="flex-grow: 1; padding: 20px; width: 25%" >
-    <div  style="float:left;">
-      <UserProfile /> 
-    </div>
-    
-    <div style="display: table-cell; padding-left: 10%;">
-      <h3>Kurkur</h3>
-      <p >@kurkurcans</p>
-    </div>
-    <hr>
-    
-  </div> -->
-  <VRow class="match-height">
-    <VCol
-      cols="10"
-      md="9"
-    >
-      <AnalyticsTransactions />
-    </VCol>
-    <!-- Quotes -->
-    <VCol
-      cols="10"
-      md="3"
-    >
-      <AnalyticsAward />
-    </VCol>
-
-    <!-- <VCol
-      cols="12"
-      md="8"
-    >
-      <AnalyticsTransactions />
-    </VCol>
-
-    <VCol
-      cols="12"
-      md="4"
-    >
-      <AnalyticsWeeklyOverview />
-    </VCol>
-
-    <VCol
-      cols="12"
-      md="4"
-    >
-      <AnalyticsTotalEarning />
-    </VCol>
-
-    <VCol
-      cols="12"
-      md="4"
-    >
-      <VRow class="match-height">
-        <VCol 
-          cols="12"
-          sm="6"
-        >
-          <AnalyticsTotalProfitLineCharts />
-        </VCol>
-
-        <VCol
-          cols="12"
-          sm="6"
-        >
-          <CardStatisticsVertical v-bind="totalProfit" />
-        </VCol>
-
-        <VCol
-          cols="12"
-          sm="6"
-        >
-          <CardStatisticsVertical v-bind="newProject" />
-        </VCol>
-
-        <VCol
-          cols="12"
-          sm="6"
-        >
-          <AnalyticsBarCharts />
-        </VCol>
-      </VRow>
-    </VCol>
-
-    <VCol
-      cols="12"
-      md="4"
-    >
-      <AnalyticsSalesByCountries />
-    </VCol>
-
-    <VCol
-      cols="12"
-      md="8"
-    >
-      <AnalyticsDepositWithdraw />
-    </VCol>
-
-    <VCol cols="12">
-      <AnalyticsDatatable />
-    </VCol> -->
-  </VRow>
 </template>
 
-<style lang="scss" scoped>
-.grid-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 20px;
-}
+<style lang="scss">
+@use "@core/scss/pages/page-auth.scss";
 
-.right {
-    text-align: right;
-    align-self: center;
-}
-
-.mt{
-  margin-top: -1.5rem;
-}
 </style>
+
+<route lang="yaml">
+meta:
+  layout: blank
+</route>

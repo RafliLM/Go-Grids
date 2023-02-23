@@ -110,7 +110,7 @@ const avatarBadgeProps = {
           <VDivider class="my-2" />
 
           <!-- 👉 Logout -->
-          <VListItem to="/login">
+          <VListItem to="/">
             <template #prepend>
               <VIcon
                 class="me-2"
