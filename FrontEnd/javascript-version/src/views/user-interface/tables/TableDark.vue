@@ -53,12 +53,6 @@
   }
 </script>
 
-<style type="text/css">
-.s {
-  font-size: 70px;
-}
-</style>
-
 <template>
   <v-table
     fixed-header
