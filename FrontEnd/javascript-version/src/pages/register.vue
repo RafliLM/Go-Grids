@@ -39,7 +39,7 @@ const register = data => {
         showConfirmButton: false,
         timer: 1500
       })
-      window.location.href = 'http://localhost:5173/login';
+      window.location.href = 'http://localhost:5173/';
     }).catch(err => {
       console.log(err)
     })
@@ -63,7 +63,7 @@ const register = data => {
         <div class="button-LoginHereRegister">
         <RouterLink
         class="text-secondary"
-        to="login"
+        to="/"
         >
           Log In Here!
         </RouterLink>

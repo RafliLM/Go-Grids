@@ -36,7 +36,7 @@ const upgradeBanner = computed(() => {
     <VerticalNavLink class="button-NavDashboard"
       :item="{
         title: 'Dashboard',
-        to: 'index',
+        to: 'dashboard',
         icon: { icon: 'mdi-home-outline' }
       }"
     />

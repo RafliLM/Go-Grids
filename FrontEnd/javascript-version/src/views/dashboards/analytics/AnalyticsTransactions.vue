@@ -29,12 +29,31 @@ const statistics = [
 
 <script>
 import Swal from 'sweetalert2'
+import axios from 'axios'
 
 export default {
-  data: () => ({
-    dialog: false,
-  }),
+  data() {
+    return {
+      profile: {
+        username: localStorage.getItem("username"),
+      },
+      grid:[]
+    };
+  },
   methods: {
+    getProfile() {
+      const token = localStorage.getItem("token"); // membaca token dari local storage
+      const config = {
+        headers: { Authorization: `Bearer ${token}` } // mengirim token pada header permintaan
+      };
+      axios.get("//localhost:5000/api/user", config)
+        .then(response => {
+          this.profile = response.data.firstname;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     showSwal() {
       Swal.fire({
         title: "Add Journal ✏️",
@@ -46,26 +65,45 @@ export default {
         confirmButtonColor: '#14162E',
         cancelButtonText: 'Cancel',
         showCancelButton: true,
-      });
-    },
-    showSwalEdit() {
-      Swal.fire({
-        title: "Edit Journal ✏️",
-        width: '800px',
-        html:
-        '<input id="swal-input1" class="swal2-input" autofocus style="width:600px;">' +
-        '<textarea id="swal-input2" class="swal2-input" autogrow  style="width:600px; height:100px;">',
-        confirmButtonText: 'Confirm',
-        confirmButtonColor: '#14162E',
-        cancelButtonText: 'Cancel',
-        showCancelButton: true,
-      });
+      }).then((result) => {
+    if (result.isConfirmed) {
+      const question = document.getElementById('swal-input1').value;
+      const answer = document.getElementById('swal-input2').value;
+      const newGrid = { question, answer };
+      this.grid.push(newGrid);
+      const token = localStorage.getItem('token');
+      const config = {
+        headers: { Authorization: `Bearer ${token}` }
+      };
+      axios.post('//localhost:5000/api/journal/create', { question, answer }, config)
+        .then(response => {
+          console.log(response.data);
+          Swal.fire({
+            title: 'Success!',
+            text: 'Journal added successfully!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          });
+        })
+        .catch(error => {
+          console.log(error);
+          Swal.fire({
+            title: 'Error!',
+            text: 'Failed to add journal!',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+        });
     }
+  });
+    }
+  },
+  mounted() {
+    this.getProfile();
   }
-}
-
-
+};
 </script>
+
 
 <style type="text/css">
 .jarak{
@@ -91,7 +129,7 @@ export default {
     <VCardItem>
       <div class="pt-5 main" style="width: 200%">
         <h1 class="pl-5">
-          Hello, Kurkur 👋
+          Hello, {{ this.profile }} 👋
         </h1>
         <p class="pl-5">How do you feel today?</p>
         <a href="\" class="satu">
