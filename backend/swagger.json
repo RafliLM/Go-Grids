@@ -22,7 +22,56 @@
     ],
     "paths" :
         {
-            "/register" : {
+            "/api/login" : {
+                "post" : {
+                    "summary" : "User login",
+                    "tags" : ["Users"],
+                    "consumes" : [
+                        "application/json"
+                    ],
+                    "produces" : [
+                        "application/json"
+                    ],
+                    "parameters" : [
+                        {
+                            "name" : "body",
+                            "in" : "body",
+                            "description" : "Logs user into system",
+                            "type" :"string",
+                            "required" : true,
+                            "schema" : {
+                                "type" : "object",
+                                "properties" : {
+                                    "username" : {
+                                        "type" : "string",
+                                        "minLength" : 9
+                                    },
+                                    "password" : {
+                                        "type" : "string",
+                                        "pattern" : "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)[A-Za-z\\d]{8,32}$"
+                                    }
+                                }
+                                
+                            }
+                        }
+                        
+                    ],
+                    "responses" : {
+                        "200" : {
+                            "description" : "((Token))"
+                        },
+                        "400" : {
+                            "description" : "Bad request"
+                        },
+                        "403" : {
+                            "description" : "Wrong Password"
+                        }
+                    }
+
+                }
+            },
+
+            "/api/register" : {
                 "post" : {
                     "summary" : "Create a new user account.",
                     "tags" : ["Users"],
@@ -66,7 +115,383 @@
                     ],
                     "responses" : {
                         "201" : {
-                            "description" : "Account created"
+                            "description" : "Successfully registered a new user"
+                        },
+                        "400" : {
+                            "description" : "Bad request"
+                        }
+                    }
+                }
+            },
+
+            "/api/user/profile" : {
+                "get" : {
+                    "summary" : "Get user profile",
+                    "tags" : ["Users"],
+                    "consumes" : [
+                        "application/json"
+                    ],
+                    "produces" : [
+                        "application/json"
+                    ],
+
+                    "parameters" : [
+                        {
+                            "name": "Authorization",
+                            "description": "Bearer token",
+                            "in" : "header",
+                            "required": true,
+                            "schema": {
+                              "type": "string"
+                            }
+                          }
+                        ],
+                    "responses" : {
+                        "200" : {
+                            "description" : "OK"
+                        },
+                        "400" : {
+                            "description" : "Bad request"
+                        }
+                    },
+                    "security" : [{"bearerAuth" : []}]
+                }
+            },
+
+            "/api/user/:username" : {
+                "get" : {
+                    "summary" : "Get user by user name",
+                    "tags" : ["Users"],
+                    "operationId":"findUsersByUsername",
+                    "consumes" : [
+                        "application/json"
+                    ],
+                    "produces" : [
+                        "application/json"
+                    ],
+
+                    "parameters" : [
+                        {
+                            "name": "Authorization",
+                            "description": "Bearer token",
+                            "in" : "header",
+                            "required": true,
+                            "schema": {
+                              "type": "string"
+                            }
+                          },
+                        {
+                            "name": "Username",
+                            "description": "The name that needs to be fetched.",
+                            "in" : "path",
+                            "required": true,
+                            "schema": {
+                              "type": "string"
+                            }
+                          }
+                        ],
+                    "responses" : {
+                        "200" : {
+                            "description" : "OK"
+                        },
+                        "400" : {
+                            "description" : "Bad request"
+                        }
+                    }
+                }
+            },
+
+            "/api/user/update" : {
+                "put" : {
+                    "summary" : "Update users.",
+                    "tags" : ["Users"],
+                    "consumes" : [
+                        "application/json"
+                    ],
+                    "produces" : [
+                        "application/json"
+                    ],
+                    "parameters" : [
+                        {
+                            "name": "Authorization",
+                            "description": "Bearer token",
+                            "in" : "header",
+                            "required": true,
+                            "schema": {
+                              "type": "string"
+                            }
+                          },
+                        {
+                            "name" : "body",
+                            "in" : "body",
+                            "description" : "Update user",
+                            "required" : true,
+                            "schema" : {
+                                "type" : "object",
+                                "properties" : {
+                                    "firstname" : {
+                                        "type" : "string"
+                                    },
+                                    "lastname" : {
+                                        "type" : "string"
+                                    },
+                                    "username" : {
+                                        "type" : "string",
+                                        "minLength" : 9
+                                    },
+                                    "email" : {
+                                        "type" : "string",
+                                        "format" : "email"
+                                    },
+                                    "password" : {
+                                        "type" : "string",
+                                        "pattern" : "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)[A-Za-z\\d]{8,32}$"
+                                    }
+                                }
+                                
+                            }
+                        }
+                    ],
+                    "responses" : {
+                        "200" : {
+                            "description" : "Profile updated successfully"
+                        },
+                        "400" : {
+                            "description" : "Bad request"
+                        }
+                    }
+                }
+            },
+
+            "/api/journal/create" : {
+                "post" : {
+                    "summary" : "Create a new journal.",
+                    "tags" : ["Journals"],
+                    "consumes" : [
+                        "application/json"
+                    ],
+                    "produces" : [
+                        "application/json"
+                    ],
+
+                    "parameters" : [
+                        {
+                            "name": "Authorization",
+                            "description": "Bearer token",
+                            "in" : "header",
+                            "required": true,
+                            "schema": {
+                              "type": "string"
+                            }
+                          },
+                        {
+                            "name" : "body",
+                            "in" : "body",
+                            "description" : "User create journal",
+                            "required" : true,
+                            "schema" : {
+                                "type" : "object",
+                                "properties" : {
+                                    "grid" : {
+                                        "type": "object",
+                                        "properties" :{
+                                            "question" :{
+                                                "type" : "string"
+                                            },
+                                            "answer" :{
+                                                "type" : "string"
+                                            }
+                                        }
+                                    },
+                                
+                                    "myfeel" : {
+                                        "type" : "string"
+                                    }
+                                }
+                                
+                            }
+                        }
+                    ],
+                    "responses" : {
+                        "201" : {
+                            "description" : "Successfully create new Journal"
+                        },
+                        "400" : {
+                            "description" : "Bad request"
+                        }
+                    }
+                }
+            },
+
+            "/api/journal/all" : {
+                "get" : {
+                    "summary" : "Get all journal",
+                    "tags" : ["Journals"],
+                    "consumes" : [
+                        "application/json"
+                    ],
+                    "produces" : [
+                        "application/json"
+                    ],
+
+                    "parameters" : [
+                        {
+                            "name": "Authorization",
+                            "description": "Bearer token",
+                            "in" : "header",
+                            "required": true,
+                            "schema": {
+                              "type": "string"
+                            }
+                          }
+                        ],
+                    "responses" : {
+                        "201" : {
+                            "description" : "OK"
+                        },
+                        "400" : {
+                            "description" : "Bad request"
+                        }
+                    }
+                }
+            },
+
+
+            "/api/journal/date/:date" : {
+                "get" : {
+                    "summary" : "Get all journal by date",
+                    "tags" : ["Journals"],
+                    "consumes" : [
+                        "application/json"
+                    ],
+                    "produces" : [
+                        "application/json"
+                    ],
+
+                    "parameters" : [
+                        {
+                            "name": "Authorization",
+                            "description": "Bearer token",
+                            "in" : "header",
+                            "required": true,
+                            "schema": {
+                              "type": "string"
+                            }
+                          },
+                          {
+                          "in": "query",
+                          "name": "Path Variable",
+                          "description": "Date",
+                          "pattern": "^(3[01]|[12][0-9]|0[1-9])-(1[0-2]|0[1-9])-[0-9]{4}$"
+                          }
+                        ],
+                    "responses" : {
+                        "200" : {
+                            "description" : "OK"
+                        },
+                        "400" : {
+                            "description" : "Bad request"
+                        }
+                    }
+                }
+            },
+
+            "/api/delete/:id" : {
+                "delete" : {
+                    "summary" : "delete journal",
+                    "tags" : ["Journals"],
+                    "consumes" : [
+                        "application/json"
+                    ],
+                    "produces" : [
+                        "application/json"
+                    ],
+
+                    "parameters" : [
+                        {
+                            "name": "Authorization",
+                            "description": "Bearer token",
+                            "in" : "header",
+                            "required": true,
+                            "schema": {
+                              "type": "string"
+                            }
+                          },
+                          {
+                            "in": "path",
+                            "name": "id",  
+                            "required": true,
+                            "schema":{
+                              "type": "integer",
+                              "minimum": 1
+                            },
+                            "description": "Journal ID"
+                          }
+                        ],
+                    "responses" : {
+                        "200" : {
+                            "description" : "Successfully Delete your Journal"
+                        },
+                        "400" : {
+                            "description" : "Bad request"
+                        }
+                    }
+                }
+            },
+
+
+            "/api/update/:id" : {
+                "patch" : {
+                    "summary" : "Update journal",
+                    "tags" : ["Journals"],
+                    "consumes" : [
+                        "application/json"
+                    ],
+                    "produces" : [
+                        "application/json"
+                    ],
+
+                    "parameters" : [
+                        {
+                            "name": "Authorization",
+                            "description": "Bearer token",
+                            "in" : "header",
+                            "required": true,
+                            "schema": {
+                              "type": "string"
+                            }
+                          },
+                        {
+                            "name" : "body",
+                            "in" : "body",
+                            "description" : "User create journal",
+                            "required" : true,
+                            "schema" : {
+                                "type" : "object",
+                                "properties" : {
+                                    "grid" : {
+                                        "type": "object",
+                                        "properties" :{
+                                            "question" :{
+                                                "type" : "string"
+                                            },
+                                            "answer" :{
+                                                "type" : "string"
+                                            }
+                                        }
+                                    },
+                                
+                                    "myfeel" : {
+                                        "type" : "string"
+                                    }
+                                }
+                                
+                            }
+                        }
+                    ],
+                    "responses" : {
+                        "200" : {
+                            "description" : "Successfully update your Journal"
                         },
                         "400" : {
                             "description" : "Bad request"
