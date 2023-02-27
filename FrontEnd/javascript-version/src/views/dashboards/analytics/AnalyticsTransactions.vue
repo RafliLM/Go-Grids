@@ -1,32 +1,3 @@
-<!--<script setup>
-const statistics = [
-  {
-    title: 'Sales',
-    stats: '245k',
-    icon: 'mdi-trending-up',
-    color: 'primary',
-  },
-  {
-    title: 'Customers',
-    stats: '12.5k',
-    icon: 'mdi-account-outline',
-    color: 'success',
-  },
-  {
-    title: 'Product',
-    stats: '1.54k',
-    icon: 'mdi-cellphone-link',
-    color: 'warning',
-  },
-  {
-    title: 'Revenue',
-    stats: '$88k',
-    icon: 'mdi-currency-usd',
-    color: 'info',
-  },
-]
-</script>-->
-
 <script>
 import Swal from 'sweetalert2'
 import axios from 'axios'
@@ -37,7 +8,6 @@ export default {
       profile: {
         username: localStorage.getItem("username"),
       },
-      grid:[]
     };
   },
   methods: {
@@ -69,13 +39,16 @@ export default {
     if (result.isConfirmed) {
       const question = document.getElementById('swal-input1').value;
       const answer = document.getElementById('swal-input2').value;
-      const newGrid = { question, answer };
-      this.grid.push(newGrid);
+      const grid = [{ question, answer }];
       const token = localStorage.getItem('token');
       const config = {
         headers: { Authorization: `Bearer ${token}` }
       };
-      axios.post('//localhost:5000/api/journal/create', { question, answer }, config)
+      const data = {
+        grid: grid
+      };
+      axios.post('//localhost:5000/api/journal/create', data, config)
+
         .then(response => {
           console.log(response.data);
           Swal.fire({
@@ -143,49 +116,6 @@ export default {
           <v-row justify="center" style="right: 200px; position: absolute">
             <v-btn class="button-AddGrid" color="primary" @click="showSwal()"> + Add Grid Journal </v-btn>
 
-              <!-- <v-card height="44rem">
-                <v-card-title class="pl-10">
-                  <h1>Add Journal ✏️</h1>
-                </v-card-title>
-                <v-card-text>
-                  <v-container>
-                    <v-row>
-                      <v-col cols="12">
-                        <v-text-field class="input-Title" label="Title" required></v-text-field>
-                      </v-col>
-                      <v-col cols="12">
-                        <v-textarea class="input-Content"
-                          label="Content"
-                        ></v-textarea>
-                      </v-col>
-                      <v-col cols="12">
-                        <v-form ref="form" enctype="multipart/form-data" style="right: 48px; position: absolute; margin-top: -12px" class="jarak">
-                          <v-btn class="button-SubmitJournal"
-                            color="#ffffff"
-                            size="large"
-                            type="submit"
-                            variant="text"
-                            @click="dialog = true"
-                            style="right: 860px; position: absolute; background-color: #14162e"
-                          >
-                            CONFIRM
-                          </v-btn>
-                          <v-btn class="button-CancelJournal"
-                            color="#ffffff"
-                            variant="text"
-                            size="large"
-                            @click="dialog = false"
-                            style="right: 760px; position: absolute; background-color: #808080"
-                          >
-                            CANCEL
-                          </v-btn>
-                          <br />
-                        </v-form>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-card-text>
-              </v-card> -->
           </v-row>
           <v-form ref="form" enctype="multipart/form-data" style="right: 48px; position: absolute; margin-top: -12px">
             <v-btn 
@@ -237,18 +167,3 @@ export default {
 </template>
 
 
-<!--<template #append>
-        <div class="me-n3">
-          <VBtn
-            icon
-            color="default"
-            size="x-small"
-            variant="text"
-          >
-            <VIcon
-              size="24"
-              icon="mdi-dots-vertical"
-            />
-          </VBtn>
-        </div>
-</template>-->
