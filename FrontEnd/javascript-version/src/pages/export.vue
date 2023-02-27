@@ -28,7 +28,7 @@ import TableFixedHeader from '@/views/user-interface/tables/TableFixedHeader.vue
     <VRow>
         <!-- basic -->
         <VCol cols="12">
-        <VCard>
+        <VCard style="padding-left: 25px;">
             <TableDark />
         </VCard>
         </VCol>
