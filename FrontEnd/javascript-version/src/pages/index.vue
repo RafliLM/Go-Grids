@@ -100,12 +100,12 @@ const login = (username, password) => {
                 />
 
                 <div class="button-ForgetPassword">
-                <a
-                  class="ms-2 mb-1 text-secondary"
-                  href="javascript:void(0)"
+                <RouterLink
+                class="text-secondary mt-2"
+                :to="{ name: 'forgot' }"
                 >
                   Forgot Password?
-                </a>
+                </RouterLink>
                 </div>
               </div>
 
