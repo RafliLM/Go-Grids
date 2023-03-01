@@ -82,7 +82,7 @@ const findUsersByUsername = async (req, res) => {
         const users = await Users.find({username : {$regex: req.params.username, $options: "$i"}})
         res.status(200).json(users)
     } catch (error) {
-        res.send(error)
+        res.status(400).send(error)
     }
 }
 

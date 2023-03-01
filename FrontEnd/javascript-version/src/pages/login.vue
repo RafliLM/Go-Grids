@@ -23,7 +23,8 @@ const login = (username, password) => {
     username,
     password,
   }).then(res => {
-    localStorage.setItem('token', res.data.token)
+    localStorage.setItem('token', res.data.token);
+    localStorage.setItem('username', res.data.username);
     window.location.href = 'http://localhost:5173/';
   }).catch(err => {
     console.log(err)

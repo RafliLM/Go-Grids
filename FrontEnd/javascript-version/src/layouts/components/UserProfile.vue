@@ -1,4 +1,4 @@
-<script setup>
+<!-- <script setup>
 import avatar1 from '@/assets/images/avatars/avatar-1.png'
 
 const avatarBadgeProps = {
@@ -18,18 +18,18 @@ const avatarBadgeProps = {
       color="primary"
       variant="tonal"
     >
-      <VImg :src="avatar1" />
+      <VImg :src="avatar1" /> -->
 
       <!-- SECTION Menu -->
-      <VMenu
+      <!-- <VMenu
         activator="parent"
         width="230"
         location="bottom end"
         offset="14px"
       >
-        <VList>
+        <VList> -->
           <!-- 👉 User Avatar & Name -->
-          <VListItem>
+          <!-- <VListItem>
             <template #prepend>
               <VListItemAction start>
                 <VBadge v-bind="avatarBadgeProps">
@@ -52,10 +52,10 @@ const avatarBadgeProps = {
             </VListItemSubtitle>
           </VListItem>
 
-          <VDivider class="my-2" />
+          <VDivider class="my-2" /> -->
 
           <!-- 👉 Profile -->
-          <VListItem link>
+          <!-- <VListItem link>
             <template #prepend>
               <VIcon
                 class="me-2"
@@ -65,10 +65,10 @@ const avatarBadgeProps = {
             </template>
 
             <VListItemTitle class="button-HeaderProfile">Profile</VListItemTitle>
-          </VListItem>
+          </VListItem> -->
 
           <!-- 👉 Settings -->
-          <VListItem link>
+          <!-- <VListItem link>
             <template #prepend>
               <VIcon
                 class="me-2"
@@ -78,10 +78,10 @@ const avatarBadgeProps = {
             </template>
 
             <VListItemTitle class="button-HeaderSettings">Settings</VListItemTitle>
-          </VListItem>
+          </VListItem> -->
 
           <!-- 👉 Pricing -->
-          <VListItem link>
+          <!-- <VListItem link>
             <template #prepend>
               <VIcon
                 class="me-2"
@@ -91,10 +91,10 @@ const avatarBadgeProps = {
             </template>
 
             <VListItemTitle class="button-HeaderPricing">Pricing</VListItemTitle>
-          </VListItem>
+          </VListItem> -->
 
           <!-- 👉 FAQ -->
-          <VListItem link>
+          <!-- <VListItem link>
             <template #prepend>
               <VIcon
                 class="me-2"
@@ -104,13 +104,13 @@ const avatarBadgeProps = {
             </template>
 
             <VListItemTitle class="button-HeaderFAQ">FAQ</VListItemTitle>
-          </VListItem>
+          </VListItem> -->
 
           <!-- Divider -->
-          <VDivider class="my-2" />
+          <!-- <VDivider class="my-2" /> -->
 
           <!-- 👉 Logout -->
-          <VListItem to="/login">
+          <!-- <VListItem to="/">
             <template #prepend>
               <VIcon
                 class="me-2"
@@ -122,8 +122,8 @@ const avatarBadgeProps = {
             <VListItemTitle class="button-HeaderLogout">Logout</VListItemTitle>
           </VListItem>
         </VList>
-      </VMenu>
+      </VMenu> -->
       <!-- !SECTION -->
-    </VAvatar>
+    <!-- </VAvatar>
   </VBadge>
-</template>
+</template> -->
