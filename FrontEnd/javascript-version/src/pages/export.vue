@@ -27,7 +27,7 @@ export default{
                 width: doc.internal.pageSize.getWidth(),
                 height: doc.internal.pageSize.getHeight()
             }).then(canvas => {
-                let pdfName = 'GoGridLeaderBoard'; 
+                let pdfName = 'GoGrid'; 
                 const img = canvas.toDataURL("image/png")
                 
                 doc.addImage(img, "PNG", 10, 10, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight())
