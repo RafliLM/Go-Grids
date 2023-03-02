@@ -15,6 +15,7 @@
       </tbody>
     </table>
   </div>
+  <br>
 </template>
 
 <style>
