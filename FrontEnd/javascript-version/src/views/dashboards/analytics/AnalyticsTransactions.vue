@@ -155,6 +155,7 @@ export default {
           >
             <v-btn
               to="AddJournal"
+
               class="button-AddGrid"
               color="primary"
               @click="AddJournal"
