@@ -1,90 +1,55 @@
-<script setup>
-const desserts = [
-  {
-    dessert: 'Frozen Yogurt',
-    calories: 159,
-    fat: 6,
-    carbs: 24,
-    protein: 4,
-  },
-  {
-    dessert: 'Ice cream sandwich',
-    calories: 237,
-    fat: 6,
-    carbs: 24,
-    protein: 4,
-  },
-  {
-    dessert: 'Eclair',
-    calories: 262,
-    fat: 6,
-    carbs: 24,
-    protein: 4,
-  },
-  {
-    dessert: 'Cupcake',
-    calories: 305,
-    fat: 6,
-    carbs: 24,
-    protein: 4,
-  },
-  {
-    dessert: 'Gingerbread',
-    calories: 356,
-    fat: 6,
-    carbs: 24,
-    protein: 4,
-  },
-]
-</script>
-
 <template>
-  <VTable theme="dark">
-    <thead>
-      <tr>
-        <th class="text-uppercase text--primary">
-          Dessert (100g serving)
-        </th>
-        <th class="text-center text-uppercase text--primary">
-          Calories
-        </th>
-        <th class="text-center text-uppercase text--primary">
-          Fat (g)
-        </th>
-        <th class="text-center text-uppercase text--primary">
-          Carbs (g)
-        </th>
-        <th class="text-center text-uppercase text--primary">
-          Protein (g)
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        v-for="item in desserts"
-        :key="item.dessert"
-      >
-        <td>{{ item.dessert }}</td>
-        <td class="text-center">
-          {{ item.calories }}
-        </td>
-        <td class="text-center">
-          {{ item.fat }}
-        </td>
-        <td class="text-center">
-          {{ item.carbs }}
-        </td>
-        <td class="text-center">
-          {{ item.protein }}
-        </td>
-      </tr>
-    </tbody>
-  </VTable>
+  <div>
+    <table class="bordered">
+      <thead>
+        <tr style="color: black;">
+          <th>Timestamp</th>
+          <th>Content</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="dessert in desserts" :key="dessert.name">
+          <td>{{ dessert.name }}</td>
+          <td>{{ dessert.calories }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
-<style lang="scss">
-.v-table {
-  color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity))
+<style>
+.bordered {
+  border-collapse: collapse;
+}
+
+.bordered th,
+.bordered td {
+  border: 3px solid #000000;
+  padding: 10px;
+  padding-left: 50px;
+  text-align: start;
+  color: #000000;
 }
 </style>
 
+<script>
+export default {
+  data() {
+    return {
+      desserts: [
+        { name: 'Anna', calories: 159 },
+        { name: 'Diana', calories: 237 },
+        { name: 'Aziz', calories: 262 },
+        { name: 'Fanny', calories: 305 },
+        { name: 'Faza', calories: 356 },
+        { name: 'Gefi', calories: 375 },
+        { name: 'Nabil A', calories: 392 },
+        { name: 'Rafli', calories: 408 },
+        { name: 'Rifatia', calories: 452 },
+        { name: 'Rijal', calories: 518 },
+        { name: 'Syahda', calories: 550 },
+      ],
+    };
+  },
+};
+</script>

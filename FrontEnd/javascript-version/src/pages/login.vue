@@ -23,7 +23,8 @@ const login = (username, password) => {
     username,
     password,
   }).then(res => {
-    localStorage.setItem('token', res.data.token)
+    localStorage.setItem('token', res.data.token);
+    localStorage.setItem('username', res.data.username);
     window.location.href = 'http://localhost:5173/';
   }).catch(err => {
     console.log(err)
@@ -47,12 +48,14 @@ const login = (username, password) => {
           class="text-b text-base"
       >
         <span>If you don't have an account </span><br>
+        <div class="button-RegisterHere">
         <RouterLink
         class="text-secondary mt-2"
         :to="{ name: 'register' }"
         >
           Register Here!
           </RouterLink>
+        </div>
       </VCol>
     </VCard>
     <VCard
@@ -74,7 +77,7 @@ const login = (username, password) => {
           <VRow>
             <!-- email -->
             <VCol cols="12">
-              <VTextField
+              <VTextField class="input-UsernameLogin"
                 v-model="form.username"
                 label="Username"
               />
@@ -82,7 +85,7 @@ const login = (username, password) => {
 
             <!-- password -->
             <VCol cols="12">
-              <VTextField
+              <VTextField class="input-PasswordLogin"
                 v-model="form.password"
                 label="Password"
                 :type="isPasswordVisible ? 'text' : 'password'"
@@ -92,21 +95,23 @@ const login = (username, password) => {
 
               <!-- remember me checkbox -->
               <div class="d-flex align-center justify-space-between flex-wrap mt-1 mb-4">
-                <VCheckbox
+                <VCheckbox class="button-RememberMeLogin"
                   v-model="form.remember"
                   label="Remember me"
                 />
 
-                <a
-                  class="ms-2 mb-1 text-secondary"
-                  href="javascript:void(0)"
+                <div class="button-ForgetPassword">
+                <RouterLink
+                class="text-secondary mt-2"
+                :to="{ name: 'forgot' }"
                 >
                   Forgot Password?
-                </a>
+                </RouterLink>
+                </div>
               </div>
 
               <!-- login button -->
-              <VBtn
+              <VBtn class="button-LoginLogin"
                 block
                 type="submit"
                 @click="login(form.username, form.password)"

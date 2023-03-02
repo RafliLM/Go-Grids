@@ -23,7 +23,7 @@ const vuetifyTheme = useTheme()
 
     <div class="right" >
       <v-form  ref="form" @submit.onclick="submitForm" enctype="multipart/form-data" style="right: 25px; position: absolute;">
-        <v-btn
+        <v-btn class="button-Today"
           depressed
           elevation="2"
           outlined
