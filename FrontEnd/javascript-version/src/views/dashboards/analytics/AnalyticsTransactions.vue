@@ -55,50 +55,50 @@ export default {
           console.log(error)
         })
     },
-    showSwal() {
-      Swal.fire({
-        title: 'Add Journal ✏️',
-        width: '800px',
-        html:
-          '<input id="swal-input1" class="swal2-input" autofocus placeholder="Journal Title" style="width:600px;">' +
-          '<textarea id="swal-input2" class="swal2-input" autogrow placeholder="Journal Content" style="width:600px; height:100px;">',
-        confirmButtonText: 'Confirm',
-        confirmButtonColor: '#14162E',
-        cancelButtonText: 'Cancel',
-        showCancelButton: true,
-      }).then(result => {
-        if (result.isConfirmed) {
-          const question = document.getElementById('swal-input1').value
-          const answer = document.getElementById('swal-input2').value
-          const newGrid = { question, answer }
-          this.grid.push(newGrid)
-          const token = localStorage.getItem('token')
-          const config = {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-          axios
-            .post('//localhost:5000/api/journal/create', { question, answer }, config)
-            .then(response => {
-              console.log(response.data)
-              Swal.fire({
-                title: 'Success!',
-                text: 'Journal added successfully!',
-                icon: 'success',
-                confirmButtonText: 'OK',
-              })
-            })
-            .catch(error => {
-              console.log(error)
-              Swal.fire({
-                title: 'Error!',
-                text: 'Failed to add journal!',
-                icon: 'error',
-                confirmButtonText: 'OK',
-              })
-            })
-        }
-      })
-    },
+    // showSwal() {
+    //   Swal.fire({
+    //     title: 'Add Journal ✏️',
+    //     width: '800px',
+    //     html:
+    //       '<input id="swal-input1" class="swal2-input" autofocus placeholder="Journal Title" style="width:600px;">' +
+    //       '<textarea id="swal-input2" class="swal2-input" autogrow placeholder="Journal Content" style="width:600px; height:100px;">',
+    //     confirmButtonText: 'Confirm',
+    //     confirmButtonColor: '#14162E',
+    //     cancelButtonText: 'Cancel',
+    //     showCancelButton: true,
+    //   }).then(result => {
+    //     if (result.isConfirmed) {
+    //       const question = document.getElementById('swal-input1').value
+    //       const answer = document.getElementById('swal-input2').value
+    //       const newGrid = { question, answer }
+    //       this.grid.push(newGrid)
+    //       const token = localStorage.getItem('token')
+    //       const config = {
+    //         headers: { Authorization: `Bearer ${token}` },
+    //       }
+    //       axios
+    //         .post('//localhost:5000/api/journal/create', { question, answer }, config)
+    //         .then(response => {
+    //           console.log(response.data)
+    //           Swal.fire({
+    //             title: 'Success!',
+    //             text: 'Journal added successfully!',
+    //             icon: 'success',
+    //             confirmButtonText: 'OK',
+    //           })
+    //         })
+    //         .catch(error => {
+    //           console.log(error)
+    //           Swal.fire({
+    //             title: 'Error!',
+    //             text: 'Failed to add journal!',
+    //             icon: 'error',
+    //             confirmButtonText: 'OK',
+    //           })
+    //         })
+    //     }
+    //   })
+    // },
   },
   mounted() {
     this.getProfile()
@@ -154,9 +154,10 @@ export default {
             style="right: 200px; position: absolute"
           >
             <v-btn
+              to="AddJournal"
               class="button-AddGrid"
               color="primary"
-              @click="AddJournal()"
+              @click="AddJournal"
             >
               + Add Grid Journal
             </v-btn>
