@@ -32,7 +32,6 @@ export default{
                 
                 doc.addImage(img, "PNG", 10, 10, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight())
                 doc.save(pdfName + '.pdf');
-                document.body.appendChild(canvas)
             });
             
         }
