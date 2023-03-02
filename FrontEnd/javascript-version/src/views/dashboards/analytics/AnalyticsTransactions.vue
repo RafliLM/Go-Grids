@@ -156,7 +156,7 @@ export default {
             <v-btn
               class="button-AddGrid"
               color="primary"
-              @click="showSwal()"
+              @click="AddJournal()"
             >
               + Add Grid Journal
             </v-btn>
