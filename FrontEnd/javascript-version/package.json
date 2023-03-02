@@ -15,6 +15,7 @@
         "@jamescoyle/vue-icon": "^0.1.2",
         "@mdi/font": "^7.0.96",
         "@mdi/js": "^7.1.96",
+        "@vueup/vue-quill": "^1.0.0-beta.11",
         "@vueuse/core": "^8.9.4",
         "apexcharts-clevision": "^3.28.5",
         "axios": "^0.27.2",
