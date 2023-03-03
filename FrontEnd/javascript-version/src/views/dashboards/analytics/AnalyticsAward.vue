@@ -116,21 +116,19 @@ const props = defineProps({
         <VCol cols="1" md="7">
           <div style=" padding-left: 20%;">
             <h3>{{ fullname }}</h3>
-            <p>@{{ username }}</p>
+            <p>{{ username }}</p>
           </div>
         </VCol>
-      
-      <VRow>
-        <VCard>
-          <v-date-picker
-            v-model="picker"
-            elevation="15"
-          ></v-date-picker>
-        </VCard>
       </VRow>
-      
-      </VRow>
-      <VueDatePicker v-model="date1" :show-current="false"></VueDatePicker>
+        <VueDatePicker
+         v-model="date" 
+         inline 
+         auto-apply
+         :enable-time-picker="false"
+         position="center"
+         class="pl-5"
+         >
+        </VueDatePicker>
         <h1>Quotes</h1>
         <VCard style="background-color: transparent;">
           <VCardText style="box-shadow: 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); padding: 1rem; border-radius: 1rem">
