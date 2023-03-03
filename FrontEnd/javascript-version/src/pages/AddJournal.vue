@@ -25,6 +25,7 @@ const vuetifyTheme = useTheme()
           <QuillEditor
             theme="snow"
             toolbar="essential"
+            style="height: 250px"
           />
         </v-container>
         <v-form>

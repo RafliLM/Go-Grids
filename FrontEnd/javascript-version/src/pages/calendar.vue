@@ -180,7 +180,6 @@ b { /* used for event dates/times */
 .collab{
   margin-block-end: -1rem;
   padding-top: 10px;
-  padding-left: -12px;
 }
 
 
