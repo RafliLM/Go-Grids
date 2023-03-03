@@ -3,12 +3,12 @@
     <table class="bordered">
       <thead>
         <tr>
-          <th style="text-align: center;" >Timestamp</th>
+          <th class="left-align">Timestamp</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td style="text-align: center;" >Content</td>
+          <td class="center-align">Content</td>
         </tr>
       </tbody>
     </table>
@@ -17,23 +17,17 @@
     <table class="bordered">
       <thead>
         <tr>
-          <th style="text-align: center;" >Timestamp</th>
+          <th class="left-align">Timestamp</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td style="text-align: center;" >Content</td>
+          <td class="center-align">Content</td>
         </tr>
       </tbody>
     </table>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'MyTable',
-}
-</script>
 
 <style>
 .bordered {
@@ -42,9 +36,17 @@ export default {
 
 .bordered th,
 .bordered td {
-  border: 1.5px solid #000000;
+  border: 1.5px solid black;
   padding: 20px;
   padding-left: 20px;
-  color: #000000;
+  color: black;
+}
+
+.left-align {
+  text-align: left;
+}
+
+.center-align {
+  text-align: center;
 }
 </style>
