@@ -31,7 +31,7 @@ const vuetifyTheme = useTheme()
           <v-btn
             ref="form"
             enctype="multipart/form-data"
-            style="right: 1275px; position: absolute"
+            style="right: 172px; position: absolute"
             class="button-AddGrid"
             depressed
             elevation="2"
@@ -43,7 +43,7 @@ const vuetifyTheme = useTheme()
             >submit
           </v-btn>
           <v-btn
-            style="right: 1150px; position: absolute"
+            style="right: 50px; position: absolute"
             to="dashboard"
             class="button-AddGrid"
             color="on-primary"
