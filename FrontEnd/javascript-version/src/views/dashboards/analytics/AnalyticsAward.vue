@@ -114,7 +114,7 @@ const props = defineProps({
       </VAvatar>
         </VCol>
         <VCol cols="1" md="7">
-          <div style=" padding-left: 20%;">
+          <div style=" padding-left: 25%;">
             <h3>{{ fullname }}</h3>
             <p>{{ username }}</p>
           </div>
@@ -126,9 +126,10 @@ const props = defineProps({
          auto-apply
          :enable-time-picker="false"
          position="center"
-         class="pl-5"
+         class="pl-3 py-5"
          >
         </VueDatePicker>
+        
         <h1>Quotes</h1>
         <VCard style="background-color: transparent;">
           <VCardText style="box-shadow: 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); padding: 1rem; border-radius: 1rem">
