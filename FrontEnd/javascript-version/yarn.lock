@@ -1791,6 +1791,13 @@
   "resolved" "https://registry.npmjs.org/csstype/-/csstype-2.6.21.tgz"
   "version" "2.6.21"
 
+"dashdash@^1.12.0":
+  "integrity" "sha512-jRFi8UDGo6j+odZiEpjazZaWqEal3w/basFjQHQEwVtZJGDpxbH1MeYluwCS8Xq5wmLJooDlMgvVarmWfGM44g=="
+  "resolved" "https://registry.npmjs.org/dashdash/-/dashdash-1.14.1.tgz"
+  "version" "1.14.1"
+  dependencies:
+    "assert-plus" "^1.0.0"
+
 "date-fns-tz@^1.3.7":
   "integrity" "sha512-qwNXUFtMHTTU6CFSFjoJ80W8Fzzp24LntbjFFBgL/faqds4e5mo9mftoRLgr3Vi1trISsg4awSpYVsOQCRnapQ=="
   "resolved" "https://registry.npmjs.org/date-fns-tz/-/date-fns-tz-1.3.8.tgz"
@@ -5094,10 +5101,10 @@
     "picocolors" "^1.0.0"
     "stable" "^0.1.8"
 
-"sweetalert2@^11.7.1":
-  "integrity" "sha512-+1bnkbqBl64FnZmi3g4SzAi4F3pL3S2jF1YQvrysv4GbgizfeFqGkJopxR3FnV/eJm6w2SQ2oAmCxSIBjgP/ag=="
-  "resolved" "https://registry.npmjs.org/sweetalert2/-/sweetalert2-11.7.1.tgz"
-  "version" "11.7.1"
+"sweetalert2@^11.4.8":
+  "integrity" "sha512-fUN/fyVSBZNtY4Rr/Qtxn7tNNnlRAbUhQxTQ9uOo0xVMIHBmqq4/9pau5N9dB2pvkB353XL/ywRAycscLoYU3w=="
+  "resolved" "https://registry.npmjs.org/sweetalert2/-/sweetalert2-11.7.3.tgz"
+  "version" "11.7.3"
 
 "symbol-tree@>= 3.1.0 < 4.0.0":
   "integrity" "sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw=="
@@ -5562,6 +5569,11 @@
   "integrity" "sha512-WHwHNRpnDZ2ZUaOlL3oSnIvVSz0kVLmF/OVQUupIYvgV8pERgFN2NtXN5E3bq/DQkMyYcEUcnSQIrzQs2aZ36A=="
   "resolved" "https://registry.npmjs.org/vuetify/-/vuetify-3.0.0-beta.11.tgz"
   "version" "3.0.0-beta.11"
+
+"vueup@^1.3.0":
+  "integrity" "sha512-aTmkkZStl7Ne07I1ixIpKqz97hWeu5OV4Hw8rg6MdyP0OMLNmF1STftzkawuhWTHu7HAh487SrRLbeYcIBY64w=="
+  "resolved" "https://registry.npmjs.org/vueup/-/vueup-1.3.0.tgz"
+  "version" "1.3.0"
 
 "webfontloader@^1.6.28":
   "integrity" "sha512-Egb0oFEga6f+nSgasH3E0M405Pzn6y3/9tOVanv/DLfa1YBIgcv90L18YyWnvXkRbIM17v5Kv6IT2N6g1x5tvQ=="
