@@ -64,11 +64,11 @@ const Demo = defineComponent({
       calendarApi.unselect() // clear date selection
 
       Swal.fire({
-        text: "What event do you want to attend?",
-        input: 'text',
-        inputAttributes: {
-          placeholder: 'Event Name'
-        },
+        text: "Edit Event 🎉",
+        html:
+          '<input id="swal-input1" class="swal2-input" width="200" placeholder="Event Name">' +
+          '<p class="collab">Do you want to invite your friends?</p>'+
+          '<input id="swal-input2" class="swal2-input" placeholder="Username Collaborator">',
         showCancelButton: true,
         cancelButtonText: 'Cancel',
         confirmButtonText: 'Confirm',
@@ -123,23 +123,25 @@ export default Demo
 </script>
 
 <template>
-<div class="main"  style="width: 100%; " >
+<VCard>
+  <div class="main"  style="width: 100%; " >
     <div class="inner">
-  <div class='demo-app'>
-    <div class='demo-app-main'>
-      <FullCalendar
-        class='demo-app-calendar'
-        :options='calendarOptions'
-      >
-        <template v-slot:eventContent='arg'>
-          <b>{{ arg.timeText }}</b>
-          <i>{{ arg.event.title }}</i>
-        </template>
-      </FullCalendar>
+      <div class='demo-app'>
+        <div class='demo-app-main'>
+          <FullCalendar
+            class='demo-app-calendar'
+            :options='calendarOptions'
+          >
+            <template v-slot:eventContent='arg'>
+              <b>{{ arg.timeText }}</b>
+              <i>{{ arg.event.title }}</i>
+            </template>
+          </FullCalendar>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-</div>
+</VCard>
 </template>
 
 <style lang='css'>
@@ -169,6 +171,17 @@ b { /* used for event dates/times */
 .fc { /* the calendar root */
   max-width: 1000px;
   margin: 0 auto;
+}
+
+.swal2-input {
+    height: 3.625em;
+    width: 366px;
+    padding: 0 0.75em;
+}
+
+.collab{
+  margin-block-end: -1rem;
+  padding-top: 10px;
 }
 
 

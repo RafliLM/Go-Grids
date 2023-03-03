@@ -17,21 +17,25 @@ const vuetifyTheme = useTheme()
             Add Journal  ✏️
           </h4>
         <v-container fluid>
+          <h4> Title </h4>
           <v-text-field
-            class="my-6"
             label="Title"
             required
           ></v-text-field>
+          <br>
+          <h4> Content </h4>
           <QuillEditor
+            class="my-1"
             theme="snow"
             toolbar="essential"
+            style="height: 250px"
           />
         </v-container>
         <v-form>
           <v-btn
             ref="form"
             enctype="multipart/form-data"
-            style="right: 1272px; position: absolute"
+            style="right: 172px; position: absolute"
             class="button-AddGrid"
             depressed
             elevation="2"
@@ -43,7 +47,7 @@ const vuetifyTheme = useTheme()
             >submit
           </v-btn>
           <v-btn
-            style="right: 1150px; position: absolute"
+            style="right: 50px; position: absolute"
             to="dashboard"
             class="button-AddGrid"
             color="on-primary"

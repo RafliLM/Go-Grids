@@ -40,13 +40,13 @@ const upgradeBanner = computed(() => {
         icon: { icon: 'mdi-home-outline' }
       }"
     />
-    <VerticalNavLink class="button-NavJournals"
+    <!-- <VerticalNavLink class="button-NavJournals"
       :item="{
         title: 'Journals',
         to: 'journals',
         icon: { icon: 'mdi-notebook-outline' }
       }"
-    />
+    /> -->
     <!-- <VerticalNavLink
       :item="{
         title: 'Icons',
