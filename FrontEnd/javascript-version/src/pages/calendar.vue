@@ -64,7 +64,7 @@ const Demo = defineComponent({
       calendarApi.unselect() // clear date selection
 
       Swal.fire({
-        text: "What event do you want to attend?",
+        text: "Edit Event 🎉",
         html:
           '<input id="swal-input1" class="swal2-input" width="200" placeholder="Event Name">' +
           '<p class="collab">Do you want to invite your friends?</p>'+
