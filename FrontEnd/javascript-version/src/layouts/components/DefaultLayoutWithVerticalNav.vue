@@ -22,18 +22,6 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
 
       <VSpacer />
       <NavbarThemeSwitcher />
-      <VBtn
-        icon
-        variant="text"
-        color="default"
-        class="me-2"
-        size="small"
-      >
-        <VIcon
-          icon="mdi-bell-outline"
-          size="24"
-        />
-      </VBtn>
       <UserProfile />
     </template>
 
