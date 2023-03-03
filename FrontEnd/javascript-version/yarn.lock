@@ -1044,6 +1044,14 @@
   "resolved" "https://registry.npmjs.org/@vue/shared/-/shared-3.2.41.tgz"
   "version" "3.2.41"
 
+"@vuepic/vue-datepicker@^4.1.0":
+  "integrity" "sha512-YW0z2IBZ9rwSS6fSJPJDyvtFHQATo4ekr/gT0se6BZZjas/dxi59rpXvUkDh5t4bBU0O6yoApYClk9299A9UvQ=="
+  "resolved" "https://registry.npmjs.org/@vuepic/vue-datepicker/-/vue-datepicker-4.1.0.tgz"
+  "version" "4.1.0"
+  dependencies:
+    "date-fns" "^2.29.3"
+    "date-fns-tz" "^1.3.7"
+
 "@vuetify/loader-shared@^1.6.0":
   "integrity" "sha512-Db4K67wMhduDsbvdRBYkrYuomti+j0E/1vlz1lnDng5F9LYYBcXa60qypIazVGI6GX/CuY1vshN6XGtGQI4FKg=="
   "resolved" "https://registry.npmjs.org/@vuetify/loader-shared/-/loader-shared-1.7.0.tgz"
@@ -1052,10 +1060,10 @@
     "find-cache-dir" "^3.3.2"
     "upath" "^2.0.1"
 
-"@vueup/vue-quill@^1.0.0-beta.11":
-  "integrity" "sha512-TeCgXPyVbN5muBPKm3EZjmIg/s8R8O0YmTp0RRG4J48skJVe035scLjeWZTDVrt/TEagmzcRUcB+9nPIyvF9fQ=="
-  "resolved" "https://registry.npmjs.org/@vueup/vue-quill/-/vue-quill-1.0.0-beta.11.tgz"
-  "version" "1.0.0-beta.11"
+"@vueup/vue-quill@^1.1.0":
+  "integrity" "sha512-xr1mx2y+JZClPs/lz+qjvGOWgLqh9SWfm1V+ofsJtuvBnN/h9O/QqJBuVWmdAcB6JGFhIeQcjuA2JgzqX2STjg=="
+  "resolved" "https://registry.npmjs.org/@vueup/vue-quill/-/vue-quill-1.1.0.tgz"
+  "version" "1.1.0"
   dependencies:
     "quill" "^1.3.7"
     "quill-delta" "^4.2.2"
@@ -1783,12 +1791,15 @@
   "resolved" "https://registry.npmjs.org/csstype/-/csstype-2.6.21.tgz"
   "version" "2.6.21"
 
-"dashdash@^1.12.0":
-  "integrity" "sha512-jRFi8UDGo6j+odZiEpjazZaWqEal3w/basFjQHQEwVtZJGDpxbH1MeYluwCS8Xq5wmLJooDlMgvVarmWfGM44g=="
-  "resolved" "https://registry.npmjs.org/dashdash/-/dashdash-1.14.1.tgz"
-  "version" "1.14.1"
-  dependencies:
-    "assert-plus" "^1.0.0"
+"date-fns-tz@^1.3.7":
+  "integrity" "sha512-qwNXUFtMHTTU6CFSFjoJ80W8Fzzp24LntbjFFBgL/faqds4e5mo9mftoRLgr3Vi1trISsg4awSpYVsOQCRnapQ=="
+  "resolved" "https://registry.npmjs.org/date-fns-tz/-/date-fns-tz-1.3.8.tgz"
+  "version" "1.3.8"
+
+"date-fns@^2.29.3", "date-fns@>=2.0.0":
+  "integrity" "sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA=="
+  "resolved" "https://registry.npmjs.org/date-fns/-/date-fns-2.29.3.tgz"
+  "version" "2.29.3"
 
 "debug@^2.6.9":
   "integrity" "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA=="
@@ -5522,7 +5533,7 @@
     "@volar/vue-language-core" "0.39.5"
     "@volar/vue-typescript" "0.39.5"
 
-"vue@^2.6.0 || ^3.2.0", "vue@^2.6.12 || ^3.2.4", "vue@^2.6.14 || ^3.2.0", "vue@^3.0.0", "vue@^3.0.0-0 || ^2.6.0", "vue@^3.0.11", "vue@^3.2.0", "vue@^3.2.25", "vue@^3.2.37", "vue@^3.2.41", "vue@> 3.0.0", "vue@2 || 3", "vue@3.2.41", "vue@3.x":
+"vue@^2.6.0 || ^3.2.0", "vue@^2.6.12 || ^3.2.4", "vue@^2.6.14 || ^3.2.0", "vue@^3.0.0", "vue@^3.0.0-0 || ^2.6.0", "vue@^3.0.11", "vue@^3.2.0", "vue@^3.2.25", "vue@^3.2.37", "vue@^3.2.41", "vue@> 3.0.0", "vue@>=3.2.0", "vue@2 || 3", "vue@3.2.41", "vue@3.x":
   "integrity" "sha512-uuuvnrDXEeZ9VUPljgHkqB5IaVO8SxhPpqF2eWOukVrBnRBx2THPSGQBnVRt0GrIG1gvCmFXMGbd7FqcT1ixNQ=="
   "resolved" "https://registry.npmjs.org/vue/-/vue-3.2.41.tgz"
   "version" "3.2.41"
