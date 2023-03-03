@@ -123,23 +123,25 @@ export default Demo
 </script>
 
 <template>
-<div class="main"  style="width: 100%; " >
+<VCard>
+  <div class="main"  style="width: 100%; " >
     <div class="inner">
-  <div class='demo-app'>
-    <div class='demo-app-main'>
-      <FullCalendar
-        class='demo-app-calendar'
-        :options='calendarOptions'
-      >
-        <template v-slot:eventContent='arg'>
-          <b>{{ arg.timeText }}</b>
-          <i>{{ arg.event.title }}</i>
-        </template>
-      </FullCalendar>
+      <div class='demo-app'>
+        <div class='demo-app-main'>
+          <FullCalendar
+            class='demo-app-calendar'
+            :options='calendarOptions'
+          >
+            <template v-slot:eventContent='arg'>
+              <b>{{ arg.timeText }}</b>
+              <i>{{ arg.event.title }}</i>
+            </template>
+          </FullCalendar>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-</div>
+</VCard>
 </template>
 
 <style lang='css'>
