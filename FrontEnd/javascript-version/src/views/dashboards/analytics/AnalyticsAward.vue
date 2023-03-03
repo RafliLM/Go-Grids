@@ -3,6 +3,10 @@ import { useTheme } from 'vuetify'
 import triangleDark from '@/assets/images/misc/triangle-dark.png'
 import triangleLight from '@/assets/images/misc/triangle-light.png'
 import trophy from '@/assets/images/misc/trophy.png'
+import { ref } from 'vue'
+
+
+const date1 = ref(new Date().toISOString().substr(0, 10))
 
 const vuetifyTheme = useTheme()
 const triangleBg = computed(() => {
@@ -126,6 +130,7 @@ const props = defineProps({
       </VRow>
       
       </VRow>
+      <VueDatePicker v-model="date1" :show-current="false"></VueDatePicker>
         <h1>Quotes</h1>
         <VCard style="background-color: transparent;">
           <VCardText style="box-shadow: 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); padding: 1rem; border-radius: 1rem">
