@@ -17,12 +17,15 @@ const vuetifyTheme = useTheme()
             Add Journal  ✏️
           </h4>
         <v-container fluid>
+          <h4> Title </h4>
           <v-text-field
-            class="my-6"
             label="Title"
             required
           ></v-text-field>
+          <br>
+          <h4> Content </h4>
           <QuillEditor
+            class="my-1"
             theme="snow"
             toolbar="essential"
             style="height: 250px"
