@@ -1,129 +1,43 @@
-<!-- <script setup>
-import avatar1 from '@/assets/images/avatars/avatar-1.png'
-
-const avatarBadgeProps = {
-  dot: true,
-  location: 'bottom right',
-  offsetX: 3,
-  offsetY: 3,
-  color: 'success',
-  bordered: true,
-}
+<script>
+export default {
+    data: () => ({
+      items: [
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me 2' },
+      ],
+    }),
+  }
 </script>
-
 <template>
-  <VBadge v-bind="avatarBadgeProps">
-    <VAvatar
-      style="cursor: pointer;"
-      color="primary"
-      variant="tonal"
-    >
-      <VImg :src="avatar1" /> -->
-
-      <!-- SECTION Menu -->
-      <!-- <VMenu
-        activator="parent"
-        width="230"
-        location="bottom end"
-        offset="14px"
-      >
-        <VList> -->
+  <div class="d-flex justify-space-around">
+    <VMenu style="width: 1000px">
+      <template v-slot:activator="{ props }">
+        <VBtn
+          icon
+          variant="text"
+          color="default"
+          class="me-2"
+          size="small"
+          v-bind="props"
+        >
+          <VIcon
+            icon="mdi-bell-outline"
+            size="24"
+          />
+        </VBtn>
+      </template>
+      <VList style="width: 300px;">
           <!-- 👉 User Avatar & Name -->
-          <!-- <VListItem>
-            <template #prepend>
-              <VListItemAction start>
-                <VBadge v-bind="avatarBadgeProps">
-                  <VAvatar
-                    color="primary"
-                    size="40"
-                    variant="tonal"
-                  >
-                    <VImg :src="avatar1" />
-                  </VAvatar>
-                </VBadge>
-              </VListItemAction>
-            </template>
-
-            <VListItemTitle class="font-weight-semibold">
-              John Doe
-            </VListItemTitle>
-            <VListItemSubtitle class="text-disabled">
-              Admin
-            </VListItemSubtitle>
-          </VListItem>
-
-          <VDivider class="my-2" /> -->
-
-          <!-- 👉 Profile -->
-          <!-- <VListItem link>
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="mdi-account-outline"
-                size="22"
-              />
-            </template>
-
-            <VListItemTitle class="button-HeaderProfile">Profile</VListItemTitle>
-          </VListItem> -->
-
-          <!-- 👉 Settings -->
-          <!-- <VListItem link>
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="mdi-cog-outline"
-                size="22"
-              />
-            </template>
-
-            <VListItemTitle class="button-HeaderSettings">Settings</VListItemTitle>
-          </VListItem> -->
-
-          <!-- 👉 Pricing -->
-          <!-- <VListItem link>
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="mdi-currency-usd"
-                size="22"
-              />
-            </template>
-
-            <VListItemTitle class="button-HeaderPricing">Pricing</VListItemTitle>
-          </VListItem> -->
-
-          <!-- 👉 FAQ -->
-          <!-- <VListItem link>
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="mdi-help-circle-outline"
-                size="22"
-              />
-            </template>
-
-            <VListItemTitle class="button-HeaderFAQ">FAQ</VListItemTitle>
-          </VListItem> -->
-
-          <!-- Divider -->
-          <!-- <VDivider class="my-2" /> -->
-
-          <!-- 👉 Logout -->
-          <!-- <VListItem to="/">
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="mdi-logout-variant"
-                size="22"
-              />
-            </template>
-
-            <VListItemTitle class="button-HeaderLogout">Logout</VListItemTitle>
-          </VListItem>
+          <v-list-item
+          v-for="(item, index) in items"
+          :key="index"
+          :value="index"
+        >
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        </v-list-item>
         </VList>
-      </VMenu> -->
-      <!-- !SECTION -->
-    <!-- </VAvatar>
-  </VBadge>
-</template> -->
+    </VMenu>
+  </div>
+</template>
