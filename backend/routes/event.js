@@ -6,5 +6,7 @@ router.get('/', API.getAllEvents)
 router.post('/', API.createEvent)
 router.patch('/:id', API.updateEvent)
 router.delete('/:id', API.deleteEvent)
+router.patch('/accept/:id', API.acceptEvent)
+router.patch('/decline/:id', API.declineEvent)
 
 module.exports = router
