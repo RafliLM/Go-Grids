@@ -3,10 +3,6 @@ import { useTheme } from 'vuetify'
 import triangleDark from '@/assets/images/misc/triangle-dark.png'
 import triangleLight from '@/assets/images/misc/triangle-light.png'
 import trophy from '@/assets/images/misc/trophy.png'
-import { ref } from 'vue'
-
-
-const date1 = ref(new Date().toISOString().substr(0, 10))
 
 const vuetifyTheme = useTheme()
 const triangleBg = computed(() => {
@@ -114,22 +110,24 @@ const props = defineProps({
       </VAvatar>
         </VCol>
         <VCol cols="1" md="7">
-          <div style=" padding-left: 25%;">
+          <div style=" padding-left: 20%;">
             <h3>{{ fullname }}</h3>
-            <p>{{ username }}</p>
+            <p>@{{ username }}</p>
           </div>
         </VCol>
+      
+      <VRow>
+        <VCard>
+          <v-date-picker
+          v-model="picker" 
+          landscape="landscape" 
+          reactive="reactive"
+          ></v-date-picker>
+        </VCard>
       </VRow>
-        <VueDatePicker
-         v-model="date" 
-         inline 
-         auto-apply
-         :enable-time-picker="false"
-         position="center"
-         class="pl-3 py-5"
-         >
-        </VueDatePicker>
-        
+      
+      </VRow>
+      
         <h1>Quotes</h1>
         <VCard style="background-color: transparent;">
           <VCardText style="box-shadow: 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); padding: 1rem; border-radius: 1rem">

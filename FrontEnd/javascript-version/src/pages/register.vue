@@ -17,43 +17,13 @@ const form = ref({
   password: '',
   confirm: '',
 })
-
-const rules = ref({
-  firstnameRules: [
-    v => !!v || 'First Name is required',
-  ],
-  lastnameRules: [
-    v => !!v || 'Last Name is required',
-  ],
-  usernameRules: [
-    v => !!v || 'Username is required',
-    v => (v && v.length >= 9) || 'Username must be more than 8 characters',
-  ],
-  emailRules: [
-    v => !!v || 'Email is required',
-    v => (v && /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/i.test(v)) || 'Email must be valid',
-  ],
-  passwordRules : [
-    v => !!v || 'Password is required',
-    v => (v && /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,32}$/.test(v)) || 'Password must contain uppercase, lowercase, and number',
-  ],
-})
 const vuetifyTheme = useTheme()
 const authThemeMask = computed(() => {
   return vuetifyTheme.global.name.value === 'light' ? authV1MaskLight : authV1MaskDark
 })
 const isPasswordVisible = ref(false)
-
-const input = ref(null)
-
-const validate = async () => {
-  const { valid } = await input.value.validate()
-
-  return valid
-}
-
-const register = async data => {
-  if(await validate()){
+const register = data => {
+  if(data.confirm == data.password){
     axios.post("http://localhost:5000/api/register", {
       firstname : data.firstname,
       lastname : data.lastname,
@@ -61,35 +31,31 @@ const register = async data => {
       email : data.email,
       password : data.password,
     }).then(res => {
+      console.log(res.data);
+    
+      localStorage.setItem("firstname", res.data.firstname);
+      localStorage.setItem("lastname", res.data.lastname);
+      localStorage.setItem("username", res.data.username);
+      localStorage.setItem("email", res.data.email);
+      localStorage.setItem("password", res.data.password);
+
       console.log(res)
       Swal.fire({
         position: 'center',
         icon: 'success',
         title: 'Your Account Has Been Created',
         showConfirmButton: false,
-        timer: 1500,
+        timer: 1500
       })
-      window.location.href = 'http://localhost:5173/'
+      window.location.href = 'http://localhost:5173/';
     }).catch(err => {
-      let message = ''
-      if(err.response.data.message.includes('username')){
-        message = "Username already exist"
-      }
-      else if(err.response.data.message.includes('email')){
-        message = "Email already exist"
-      }
-      else{
-        message = err.message
-      }
-      Swal.fire({
-        position: 'center',
-        icon: 'warning',
-        title: message,
-        showConfirmButton: false,
-        timer: 1500,
-      })
+      console.log(err)
     })
   }
+  else{
+    console.log("Password and Confirm password not match")
+  }
+  
 }
 </script>
 
@@ -130,23 +96,17 @@ const register = async data => {
       </VCardText>
 
       <VCardText>
-        <VForm
-          ref="input"
-          @submit.prevent="() => {}"
-        >
+        <VForm @submit.prevent="() => {}">
           <VRow>
             <VCol cols="6">
-              <VTextField 
+              <VTextField class="input-EnterFirstName"
                 v-model="form.firstname"
-                class="input-EnterFirstName"
-                :rules="rules.firstnameRules"
                 label="Enter First Name"
               />
             </VCol>
             <VCol cols="6">
               <VTextField class="input-EnterLastName"
                 v-model="form.lastname"
-                :rules="rules.lastnameRules"
                 label="Enter Last Name"
               />
             </VCol>
@@ -154,7 +114,6 @@ const register = async data => {
             <VCol cols="12">
               <VTextField class="input-EnterEmail"
                 v-model="form.email"
-                :rules="rules.emailRules"
                 label="Enter Email"
               />
             </VCol>
@@ -162,7 +121,6 @@ const register = async data => {
             <VCol cols="12">
               <VTextField class="input-EnterUsername"
                 v-model="form.username"
-                :rules="rules.usernameRules"
                 label="Enter Username"
               />
             </VCol>
@@ -171,7 +129,6 @@ const register = async data => {
             <VCol cols="12">
               <VTextField class="input-PasswordRegister"
                 v-model="form.password"
-                :rules="rules.passwordRules"
                 label="Password"
                 :type="isPasswordVisible ? 'text' : 'password'"
                 :append-inner-icon="isPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
@@ -182,7 +139,6 @@ const register = async data => {
             <VCol cols="12">
               <VTextField class="input-ConfirmPasswordRegister"
                 v-model="form.confirm"
-                :rules="[(form.password === form.confirm) || 'Password must match']"
                 label="Confirm Password"
                 :type="isPasswordVisible ? 'text' : 'password'"
                 :append-inner-icon="isPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
