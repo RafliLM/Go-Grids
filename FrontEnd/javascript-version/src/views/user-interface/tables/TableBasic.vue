@@ -58,7 +58,7 @@ export default {
       <svg-icon
         type="mdi"
         :path="path"
-        style="cursor: pointer; right: 48px; position: absolute; margin-top: 1px; color: black"
+        style="box-shadow: 0 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); cursor: pointer; right: 48px; position: absolute; margin-top: 1px; color: black"
         href=","
       ></svg-icon>
     </VRow>
@@ -93,7 +93,7 @@ export default {
       <svg-icon
         type="mdi"
         :path="path"
-        style="cursor: pointer; right: 48px; position: absolute; margin-top: 1px; color: black"
+        style="box-shadow: 0 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); cursor: pointer; right: 48px; position: absolute; margin-top: 1px; color: black"
         href=","
       ></svg-icon>
     </VRow>
@@ -128,7 +128,7 @@ export default {
       <svg-icon
         type="mdi"
         :path="path"
-        style="cursor: pointer; right: 48px; position: absolute; margin-top: 1px; color: black"
+        style="box-shadow: 0 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); cursor: pointer; right: 48px; position: absolute; margin-top: 1px; color: black"
         href=","
       ></svg-icon>
     </VRow>
