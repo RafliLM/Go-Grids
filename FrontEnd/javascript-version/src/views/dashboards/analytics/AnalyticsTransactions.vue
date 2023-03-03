@@ -126,9 +126,11 @@ export default {
             style="right: 200px; position: absolute"
           >
             <v-btn
+              to="AddJournal"
+
               class="button-AddGrid"
               color="primary"
-              @click="showSwal()"
+              @click="AddJournal"
             >
               + Add Grid Journal
             </v-btn>
