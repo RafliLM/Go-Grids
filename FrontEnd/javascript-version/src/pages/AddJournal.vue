@@ -3,7 +3,59 @@ import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import { useTheme } from 'vuetify'
 import moment from 'moment'
+import axios from 'axios'
+import { ref } from 'vue'
+import Swal from 'sweetalert2'
+
 const vuetifyTheme = useTheme()
+const grid = ref([
+  {
+    question: '',
+    answer: ''
+  }
+])
+
+const date = ref(moment().format('YYYY-MM-DD HH:mm:ss'))
+
+const createJournal = () => {
+  const token = localStorage.getItem('token') // membaca token dari local storage
+  const config = {
+    headers: { Authorization: `Bearer ${token}` }, // mengirim token pada header permintaan
+  }
+  const data = {
+    grid: grid.value,
+    date: date.value,
+    answer: grid.value[0].answer
+  }
+  data.date = moment().format('YYYY-MM-DD HH:mm:ss')
+  axios
+    .post('//localhost:5000/api/journal/create', data, config)
+    .then(response => {
+      const journal = response.data.grid
+      localStorage.setItem('journal', JSON.stringify(journal))
+      window.location.href = 'http://localhost:5173/dashboard'
+
+    })
+    .catch(error => {
+      console.log(error)
+      Swal.fire({
+        position: 'top',
+        icon: 'error',
+        title: 'Failed to create Journal',
+        showConfirmButton: false,
+        timer: 1500
+      })
+    })
+}
+
+const saveQuillInput = (content) => {
+  grid.value[0].answer = content
+}
+
+const submitForm = () => {
+  createJournal()
+}
+
 </script>
 
 <template>
@@ -17,21 +69,24 @@ const vuetifyTheme = useTheme()
             Add Journal  ✏️
           </h4>
         <v-container fluid>
-          <h4> Title </h4>
+          <h4> Question </h4>
           <v-text-field
-            label="Title"
             required
+            v-model="grid[0].question"
           ></v-text-field>
           <br>
-          <h4> Content </h4>
-          <QuillEditor
-            class="my-1"
-            theme="snow"
-            toolbar="essential"
-            style="height: 250px"
-          />
+          <h4> Answer </h4>
+          <v-textarea
+              class="my-1"
+              theme="snow"
+              toolbar="essential"
+              style="height: 250px"
+              required
+              :value="grid[0].answer"
+              @update:model-value="saveQuillInput"
+            /> 
         </v-container>
-        <v-form>
+        <v-form @submit.prevent="submitForm">
           <v-btn
             ref="form"
             enctype="multipart/form-data"
@@ -44,7 +99,8 @@ const vuetifyTheme = useTheme()
             raised
             color="primary"
             type="submit"
-            >submit
+          >
+            Submit
           </v-btn>
           <v-btn
             style="right: 50px; position: absolute"
@@ -52,7 +108,6 @@ const vuetifyTheme = useTheme()
             class="button-AddGrid"
             color="on-primary"
             variant="white"
-            @click="dashboard"
             elevation="2"
           >
             <strong>Cancel</strong>
