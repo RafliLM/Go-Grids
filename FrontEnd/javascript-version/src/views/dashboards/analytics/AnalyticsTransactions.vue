@@ -194,27 +194,20 @@ export default {
             style="margin-bottom: -40px; margin-left: 20px; position: relative; z-index: 1"
           >
             <v-spacer></v-spacer>
-            <v-btn
-              size="x-small"
-              right
-              icon
-            >
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
           </v-col>
-
+          
           <VCard
-  v-for="(journal, index) in journals"
-  :key="index"
-  @click.stop="showSwalEdit(journal)"
-  style="
-    position: relative;
-    z-index: 0;
-    box-shadow: 0 0 0.5rem 0.5rem hsl(0 0% 0% / 10%);
-    padding: 1rem;
-    border-radius: 1rem;
-  "
->
+            v-for="(journal, index) in journals"
+            :key="index"
+            @click.stop="showSwalEdit(journal)"
+            style="
+              position: relative;
+              z-index: 0;
+              box-shadow: 0 0 0.5rem 0.5rem hsl(0 0% 0% / 10%);
+              padding: 1rem;
+              border-radius: 1rem;
+            "
+          >
   <VCardItem>
     <VCardTitle class="gridTitle">{{ journal.grid[0].question }}</VCardTitle>
   </VCardItem>
@@ -230,8 +223,8 @@ export default {
         <div>
           <center>
             <VCard
-                  class="align-center justify-center auth-card"
-                  style="background-color: transparent; opacity: 50%"
+            class="align-center justify-center auth-card"
+            style="background-color: transparent; opacity: 50%"      
             >
               <img
                 margin="10"
