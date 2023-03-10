@@ -8,13 +8,14 @@ export default {
       profile: {
         username: localStorage.getItem('username'),
       },
+      journals: [] // mengganti variabel journal menjadi journals
     };
   },
   methods: {
     getProfile() {
-      const token = localStorage.getItem('token') // membaca token dari local storage
+      const token = localStorage.getItem('token')
       const config = {
-        headers: { Authorization: `Bearer ${token}` }, // mengirim token pada header permintaan
+        headers: { Authorization: `Bearer ${token}` },
       }
       axios
         .get('//localhost:5000/api/user', config)
@@ -25,58 +26,29 @@ export default {
           console.log(error)
         })
     },
-    showSwal() {
-      Swal.fire({
-        title: 'Add Journal ✏️',
-        width: '800px',
-        html:
-          '<input id="swal-input1" class="swal2-input" autofocus placeholder="Journal Title" style="width:600px;">' +
-          '<textarea id="swal-input2" class="swal2-input" autogrow placeholder="Journal Content" style="width:600px; height:100px;">',
-        confirmButtonText: 'Confirm',
-        confirmButtonColor: '#14162E',
-        cancelButtonText: 'Cancel',
-        showCancelButton: true,
-      }).then((result) => {
-    if (result.isConfirmed) {
-      const question = document.getElementById('swal-input1').value;
-      const answer = document.getElementById('swal-input2').value;
-      const grid = [{ question, answer }];
+    getJournals() {
       const token = localStorage.getItem('token');
       const config = {
-        headers: { Authorization: `Bearer ${token}` }
-      };
-      const data = {
-        grid: grid
-      };
-      axios.post('//localhost:5000/api/journal/create', data, config)
-
+        headers: { Authorization: `Bearer ${token}` },
+      }
+      const currentDate = new Date().toISOString().substr(0, 10);
+      axios
+        .get(`//localhost:5000/api/journal/${currentDate}`, config)
         .then(response => {
-          console.log(response.data);
-          Swal.fire({
-            title: 'Success!',
-            text: 'Journal added successfully!',
-            icon: 'success',
-            confirmButtonText: 'OK'
-          });
+          this.journals = response.data;
         })
         .catch(error => {
           console.log(error);
-          Swal.fire({
-            title: 'Error!',
-            text: 'Failed to add journal!',
-            icon: 'error',
-            confirmButtonText: 'OK'
-          });
         });
-    }
-  });
-    }
+    },
   },
   mounted() {
     this.getProfile()
+    this.getJournals()
   },
 }
 </script>
+
 
 
 <style type="text/css">
@@ -178,26 +150,28 @@ export default {
           </v-col>
 
           <VCard
-            @click.stop="showSwalEdit()"
-            style="
-              position: relative;
-              z-index: 0;
-              box-shadow: 0 0 0.5rem 0.5rem hsl(0 0% 0% / 10%);
-              padding: 1rem;
-              border-radius: 1rem;
-            "
-          >
-            <VCardItem>
-              <VCardTitle class="gridTitle">Today's Goal</VCardTitle>
-            </VCardItem>
+  v-for="(journal, index) in journals"
+  :key="index"
+  @click.stop="showSwalEdit()"
+  style="
+    position: relative;
+    z-index: 0;
+    box-shadow: 0 0 0.5rem 0.5rem hsl(0 0% 0% / 10%);
+    padding: 1rem;
+    border-radius: 1rem;
+  "
+>
+  <VCardItem>
+    <VCardTitle class="gridTitle">{{ journal.grid[0].question }}</VCardTitle>
+  </VCardItem>
 
-            <VCardText
-              style="padding-bottom: 10px"
-              class="gridContent"
-            >
-              Hari ini saya akan mengerjakan tugas mata kuliah Akuntansi
-            </VCardText>
-          </VCard>
+  <VCardText
+    style="padding-bottom: 10px"
+    class="gridContent"
+  >
+    {{ journal.grid[0].answer }}
+  </VCardText>
+</VCard>
         </VCol>
         <div>
           <center>
