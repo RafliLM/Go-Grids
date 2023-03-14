@@ -19,7 +19,30 @@ module.exports = class API {
             start.setHours(0,0,0,0)
             let end = new Date()
             end.setHours(23,59,59,999)
-            const events = await Events.find({timeHeld : {$gte : start ,$lte : end}})
+            const events = await Events.find(
+                { $and : 
+                    [
+                        {
+                            $or : [
+                                {
+                                    creator : req.user._id
+                                },
+                                {
+                                    participants : {
+                                        $elemMatch : {
+                                            username : req.username,
+                                            status : "joined"
+                                        }
+                                    }
+                                }
+                            ],
+                        },
+                        {
+                            timeHeld : {$gte : start ,$lte : end}
+                        }
+                    ]
+                }
+            )
             res.status(200).json(events)
         } catch (error) {
             res.status(400).json({ message : error.message })
@@ -153,7 +176,7 @@ module.exports = class API {
                 res.status(403).json({message : "User is not invited"})
             }
             else{
-
+                res.status(404).json({ message: "Event not found"})
             }
         } catch (error) {
             res.status(400).json({message : error.message})
