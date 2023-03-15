@@ -14,7 +14,7 @@ const form = ref({
 const vuetifyTheme = useTheme()
 
 const forgot = (username) => {
-  axios.post("http://localhost:5000/api/login", {
+  axios.post("http://localhost:5000/api/reset-password", {
     username,
   }).then(res => {
     Swal.fire({
@@ -62,7 +62,7 @@ const forgot = (username) => {
       </VCardText>
 
       <VCardText>
-        <VForm>
+        <VForm @submit.prevent="() => {}">
           <VRow>
             <!-- email -->
             <VCol cols="12">
@@ -82,6 +82,14 @@ const forgot = (username) => {
                 Submit
               </VBtn>
             </VCol>
+            <VCol cols="12">
+            <RouterLink
+              class="text-secondary"
+              to="/"
+              >
+                Log In Here!
+            </RouterLink>
+          </VCol>
           </VRow>
         </VForm>
       </VCardText>
