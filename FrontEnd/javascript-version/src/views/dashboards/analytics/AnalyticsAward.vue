@@ -115,14 +115,14 @@ const props = defineProps({
             <p>@{{ username }}</p>
           </div>
         </VCol>
-      
       <VRow>
         <VCard>
-          <v-date-picker
-          v-model="picker" 
+          <V-date-picker
+          v-model="date" 
+          mode="date"
           landscape="landscape" 
           reactive="reactive"
-          ></v-date-picker>
+          ></V-date-picker>
         </VCard>
       </VRow>
       

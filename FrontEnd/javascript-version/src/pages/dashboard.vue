@@ -1,14 +1,6 @@
 <script setup>
 import AnalyticsAward from '@/views/dashboards/analytics/AnalyticsAward.vue'
-import AnalyticsBarCharts from '@/views/dashboards/analytics/AnalyticsBarCharts.vue'
-import AnalyticsDatatable from '@/views/dashboards/analytics/AnalyticsDatatable.vue'
-import AnalyticsDepositWithdraw from '@/views/dashboards/analytics/AnalyticsDepositWithdraw.vue'
-import AnalyticsSalesByCountries from '@/views/dashboards/analytics/AnalyticsSalesByCountries.vue'
-import AnalyticsTotalEarning from '@/views/dashboards/analytics/AnalyticsTotalEarning.vue'
-import AnalyticsTotalProfitLineCharts from '@/views/dashboards/analytics/AnalyticsTotalProfitLineCharts.vue'
 import AnalyticsTransactions from '@/views/dashboards/analytics/AnalyticsTransactions.vue'
-import AnalyticsWeeklyOverview from '@/views/dashboards/analytics/AnalyticsWeeklyOverview.vue'
-import CardStatisticsVertical from '@core/components/CardStatisticsVertical.vue'
 import axios from 'axios'
 import { onMounted, ref } from 'vue'
 

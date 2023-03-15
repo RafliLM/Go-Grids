@@ -144,29 +144,28 @@ export default {
           </v-col>
           
           <VCard
+            v-for="(journal, index) in journals"
+            :key="index"
+            @click.stop="$router.push({ name: 'EditJournal', params: { id: journal._id } })"
+            style="
+              position: relative;
+              z-index: 0;
+              box-shadow: 0 0 0.5rem 0.5rem hsl(0 0% 0% / 10%);
+              padding: 1rem;
+              border-radius: 1rem;
+            "
+          >
+            <VCardItem>
+              <VCardTitle class="gridTitle">{{ journal.grid[0].question }}</VCardTitle>
+            </VCardItem>
 
-  v-for="(journal, index) in journals"
-  :key="index"
-  @click.stop="$router.push({ name: 'EditJournal', params: { id: journal._id } })"
-  style="
-    position: relative;
-    z-index: 0;
-    box-shadow: 0 0 0.5rem 0.5rem hsl(0 0% 0% / 10%);
-    padding: 1rem;
-    border-radius: 1rem;
-  "
->
-  <VCardItem>
-    <VCardTitle class="gridTitle">{{ journal.grid[0].question }}</VCardTitle>
-  </VCardItem>
-
-  <VCardText
-    style="padding-bottom: 10px"
-    class="gridContent"
-  >
-    {{ journal.grid[0].answer }}
-  </VCardText>
-</VCard>
+            <VCardText
+              style="padding-bottom: 10px"
+              class="gridContent"
+            >
+              {{ journal.grid[0].answer }}
+            </VCardText>
+          </VCard>
         </VCol>
         <div>
           <center>
