@@ -9,9 +9,31 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 
 const form = ref({
-  enter_username: '',
+  username: '',
 })
 const vuetifyTheme = useTheme()
+
+const forgot = (username) => {
+  axios.post("http://localhost:5000/api/login", {
+    username,
+  }).then(res => {
+    Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Your Password has been sent to your email',
+        showConfirmButton: true
+      })
+  }).catch(err => {
+    console.log(err)
+    Swal.fire({
+        position: 'top',
+        icon: 'error',
+        title: 'Your Username not exist',
+        showConfirmButton: false,
+        timer: 1500
+      })
+  })
+}
 </script>
 
 <template>
@@ -55,6 +77,7 @@ const vuetifyTheme = useTheme()
               <VBtn class="button-LoginLogin"
                 block
                 type="submit"
+                @click="forgot(form.username)"
               >
                 Submit
               </VBtn>
