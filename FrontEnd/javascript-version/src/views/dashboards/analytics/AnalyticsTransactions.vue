@@ -71,6 +71,10 @@ export default {
   color: black;
   font-size: small;
 }
+.containercard{
+  display: flex;
+  flex-wrap: wrap;
+}
 </style>
 
 <template>
@@ -145,7 +149,7 @@ export default {
           >
             <v-spacer></v-spacer>
           </v-col>
-          
+        <div class="containercard" >
           <VCard
           v-if="journals != null"
           v-for="(grid, index) in journals.grid"
@@ -157,6 +161,7 @@ export default {
             box-shadow: 0 0 0.5rem 0.5rem hsl(0 0% 0% / 10%);
             padding: 1rem;
             border-radius: 1rem;
+            width: auto;
           "
         >
           <VCardItem>
@@ -169,6 +174,7 @@ export default {
             {{ grid.answer }}
           </VCardText>
         </VCard>
+      </div>
         </VCol>
         <div>
           <center>
