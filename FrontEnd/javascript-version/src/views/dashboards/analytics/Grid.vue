@@ -71,10 +71,7 @@ export default {
   color: black;
   font-size: small;
 }
-.containercard{
-  display: flex;
-  flex-wrap: wrap;
-}
+
 .emoticons {
   display: flex;
   justify-content: left;
@@ -125,7 +122,6 @@ export default {
           >
             <v-btn
               to="AddJournal"
-
               class="button-AddGrid"
               color="primary"
               @click="AddJournal"
@@ -167,32 +163,30 @@ export default {
           >
             <v-spacer></v-spacer>
           </v-col>
-        <div class="containercard" >
-          <VCard
-          v-if="journals != null"
-          v-for="(grid, index) in journals.grid"
-          :key="index"
-          @click.stop="$router.push({ name: 'EditJournal', params: { id: journal._id } })"
-          style="
-            position: relative;
-            z-index: 0;
-            box-shadow: 0 0 0.5rem 0.5rem hsl(0 0% 0% / 10%);
-            padding: 1rem;
-            border-radius: 1rem;
-            width: auto;
-          "
-        >
-          <VCardItem>
-            <VCardTitle class="gridTitle">{{ grid.question }}</VCardTitle>
-          </VCardItem>
-          <VCardText
-            style="padding-bottom: 10px"
-            class="gridContent"
-          >
-            {{ grid.answer }}
-          </VCardText>
-        </VCard>
-      </div>
+          <div class="containercard d-flex">
+            <div class="card-deck flex-row flex-nowrap">
+              <div class="col-md-4" v-for="(grid, index) in journals.grid" :key="index">
+                <VCard
+                  v-if="journals != null"
+                  @click.stop="$router.push({ name: 'EditJournal', params: { id: journals._id } })"
+                  style="
+                    position: relative;
+                    z-index: 0;
+                    box-shadow: 0 0 0.5rem 0.5rem hsl(0 0% 0% / 10%);
+                    padding: 1rem;
+                    border-radius: 1rem;
+                    width: 200px;
+                    margin-right: 20px;
+                  "
+                >
+                  <VCardItem>
+                    <VCardTitle class="gridTitle">{{ grid.question }}</VCardTitle>
+                  </VCardItem>
+                  <VCardText style="padding-bottom: 10px" class="gridContent">{{ grid.answer }}</VCardText>
+                </VCard>
+              </div>
+            </div>
+          </div>
         </VCol>
         <div>
           <center>
