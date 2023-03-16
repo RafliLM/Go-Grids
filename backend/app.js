@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 
 // Database connection
 mongoose
-    .connect('mongodb://localhost:27017/GoGrids', {
+    .connect('mongodb://127.0.0.1:27017/GoGrids', {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
