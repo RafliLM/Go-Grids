@@ -37,7 +37,7 @@
 
 .bordered th,
 .bordered td {
-  border: 1.5px solid black;
+  border: 0px solid black;
   padding: 20px;
   padding-left: 20px;
   color: black;
