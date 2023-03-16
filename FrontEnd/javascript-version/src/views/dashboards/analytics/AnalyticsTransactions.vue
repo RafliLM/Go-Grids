@@ -8,7 +8,10 @@ export default {
       profile: {
         username: localStorage.getItem('username'),
       },
-      journals: [] // mengganti variabel journal menjadi journals
+      journals: {
+        grid : []
+
+      } // mengganti variabel journal menjadi journals
     };
   },
   methods: {
@@ -42,7 +45,7 @@ export default {
         });
     },
   },
-  mounted() {
+  created() {
     this.getProfile()
     this.getJournals()
   },
@@ -144,8 +147,8 @@ export default {
           </v-col>
           
           <VCard
-
-          v-for="(journal, index) in journals"
+          v-if="journals != null"
+          v-for="(grid, index) in journals.grid"
           :key="index"
           @click.stop="$router.push({ name: 'EditJournal', params: { id: journal._id } })"
           style="
@@ -157,20 +160,20 @@ export default {
           "
         >
           <VCardItem>
-            <VCardTitle class="gridTitle">{{ journal.grid[0].question }}</VCardTitle>
+            <VCardTitle class="gridTitle">{{ grid.question }}</VCardTitle>
           </VCardItem>
-
           <VCardText
             style="padding-bottom: 10px"
             class="gridContent"
           >
-            {{ journal.grid[0].answer }}
+            {{ grid.answer }}
           </VCardText>
         </VCard>
         </VCol>
         <div>
           <center>
-            <VCard
+            <VCard 
+            v-if="journals == null"
             class="align-center justify-center auth-card"
             style="background-color: transparent; opacity: 50%"      
             >
