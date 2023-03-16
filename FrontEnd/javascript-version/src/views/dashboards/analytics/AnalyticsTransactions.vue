@@ -75,6 +75,25 @@ export default {
   display: flex;
   flex-wrap: wrap;
 }
+.emoticons {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.emoticon {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  margin: 2px;
+  font-size: 4rem;
+  text-align: center;
+  border-radius: 50%;
+  text-decoration: none;
+  color: black;
+}
 </style>
 
 <template>
@@ -82,17 +101,16 @@ export default {
   <VCard>
     <VCardItem>
       <div
-        class="pt-5 main"
-        style="width: 200%"
+        class="main"
+        style="width: 100%"
       >
         <h1 class="pl-5">Hello, {{ this.profile }} 👋</h1>
         <p class="pl-5">How do you feel today?</p>
-        <a
-          href="\"
-          class="satu"
-        >
-          😀😭😡
-        </a>
+        <div class="emoticons">
+          <a href="/" class="emoticon">😀</a>
+          <a href="/" class="emoticon">😭</a>
+          <a href="/" class="emoticon">😡</a>
+        </div>
 
         <h2 class="pl-5">Today's Journal</h2>
       </div>
