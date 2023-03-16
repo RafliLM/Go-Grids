@@ -16,8 +16,72 @@ const props = defineProps({
   fullname : String,
   username : String
 })
-
 const date = ref(new Date());
+const attrs = ref([
+  {
+    dot: 'pink',
+    dates: '2023-03-01T18:00:00Z',
+  },
+  {
+    dot: 'indigo',
+    dates: '2023-03-11T19:00:00Z',
+  },
+]);
+
+</script>
+
+
+<script>
+import { Calendar, DatePicker } from 'v-calendar';
+import 'v-calendar/style.css';
+
+export default {
+  components: {
+    Calendar,
+    DatePicker,
+  },
+  data() {
+    return {
+      quote1: {
+        text: "",
+        author: ""
+      },
+      quote2: {
+        text: "",
+        author: ""
+      },
+      quotes: []
+    };
+  },
+  created() {
+    this.getQuotes();
+  },
+  methods: {
+    async getQuotes() {
+      const data = await fetch("https://type.fit/api/quotes").then(res => res.json());
+      const randomQuote1 = Math.floor(Math.random() * data.length);
+      let randomQuote2 = Math.floor(Math.random() * data.length);
+      while (randomQuote2 === randomQuote1) {
+        randomQuote2 = Math.floor(Math.random() * data.length);
+      }
+      if (this.quote1.text) {
+        this.quotes = [...this.quotes, this.quote1];
+      }
+      if (this.quote2.text) {
+        this.quotes = [...this.quotes, this.quote2];
+      }
+      this.quote1 = {
+        text: data[randomQuote1].text,
+        author: data[randomQuote1].author
+      };
+      this.quote2 = {
+        text: data[randomQuote2].text,
+        author: data[randomQuote2].author
+      };
+    }
+  }
+
+}
 
 </script>
 
@@ -121,12 +185,15 @@ const date = ref(new Date());
             <p>@{{ username }}</p>
           </div>
         </VCol>
-      <VRow>
-        <VCard class="pl-10">
-          <VueDatePicker v-model="date" 
-          inline auto-apply
-          :enable-time-picker="false"
-          ></VueDatePicker>
+      <VRow class="py-5" style="display: flex; justify-content: center; align-items: center;">
+        <VCard>
+          <DatePicker 
+          v-model="date"
+          mode="date"
+          :attributes="attrs"
+          style="background-color: transparent; border: 0px;"
+          width="100%"
+          ></DatePicker>
         </VCard>
       </VRow>
       
@@ -136,18 +203,18 @@ const date = ref(new Date());
         <VCard style="background-color: transparent;">
           <VCardText style="box-shadow: 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); padding: 1rem; border-radius: 1rem">
             <p style="font-style: italic">
-              “Some wishes are only there to teach us how to wait.”
+              {{ quote1.text }}
             </p>
-            <p style="font-style: italic; text-align: right">―Mandy Hale”</p>
+            <p style="font-style: italic; text-align: right">{{ quote1.author === null ? 'Unknown' : quote1.author }}</p>
           </VCardText>
           <VCardText
             class="mt-7"
             style="box-shadow: 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); padding: 1rem; border-radius: 1rem"
           >
             <p style="font-style: italic">
-              “Don’t rush into love. You’ll find the person meant for you when you least expect it.”
+              {{ quote2.text }}
             </p>
-            <p style="font-style: italic; text-align: right">―Franzie Gubatina”</p>
+            <p style="font-style: italic; text-align: right">{{ quote2.author === null ? 'Unknown' : quote2.author }}</p>
           </VCardText>
         </VCard>
     </div>

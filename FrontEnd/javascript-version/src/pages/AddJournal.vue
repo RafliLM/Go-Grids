@@ -48,10 +48,6 @@ const createJournal = () => {
     })
 }
 
-const saveQuillInput = (content) => {
-  grid.value[0].answer = content
-}
-
 const submitForm = () => {
   createJournal()
 }
