@@ -92,16 +92,11 @@ const login = (username, password) => {
                 @click:append-inner="isPasswordVisible = !isPasswordVisible"
               />
 
-              <!-- remember me checkbox -->
-              <div class="d-flex align-center justify-space-between flex-wrap mt-1 mb-4">
-                <VCheckbox class="button-RememberMeLogin"
-                  v-model="form.remember"
-                  label="Remember me"
-                />
 
-                <div class="button-ForgetPassword">
+              <div class="d-flex align-center justify-end flex-wrap mt-1 mb-4">
+                <div class=" mt-2 button-ForgetPassword">
                 <RouterLink
-                class="text-secondary mt-2"
+                class="text-secondary"
                 :to="{ name: 'forgot' }"
                 >
                   Forgot Password?
@@ -133,6 +128,11 @@ const login = (username, password) => {
 
 <style lang="scss">
 @use "@core/scss/pages/page-auth.scss";
+
+.button-ForgetPassword{
+  display: flex;
+  justify-content: center;
+}
 
 </style>
 

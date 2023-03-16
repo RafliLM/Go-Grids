@@ -67,6 +67,7 @@ export default{
         <VCol cols="12">
         <VCard style="padding-left: 25px;">
             <TableDark id="exportGoGrid"/>
+            <TableDark/>
         </VCard>
         </VCol>
     </VRow>
