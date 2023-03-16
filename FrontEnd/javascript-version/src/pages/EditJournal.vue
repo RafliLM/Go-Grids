@@ -7,6 +7,7 @@ import axios from 'axios'
 import { ref } from 'vue'
 import Swal from 'sweetalert2'
 
+
 const vuetifyTheme = useTheme()
 const grid = ref([
   {
@@ -17,7 +18,9 @@ const grid = ref([
 
 const date = ref(moment().format('YYYY-MM-DD HH:mm:ss'))
 
-const createJournal = () => {
+const updateJournal = () => {
+  const id = journal._id
+
   const token = localStorage.getItem('token') // membaca token dari local storage
   const config = {
     headers: { Authorization: `Bearer ${token}` }, // mengirim token pada header permintaan
@@ -29,31 +32,29 @@ const createJournal = () => {
   }
   data.date = moment().format('YYYY-MM-DD HH:mm:ss')
   axios
-    .post('//localhost:5000/api/journal/create', data, config)
+    .patch(`//localhost:5000/api/journal/${journal._id}`, data, config) // Mengirim ID sebagai bagian dari URL permintaan PATCH
     .then(response => {
       const journal = response.data.grid
       localStorage.setItem('journal', JSON.stringify(journal))
       window.location.href = 'http://localhost:5173/dashboard'
-
     })
     .catch(error => {
       console.log(error)
       Swal.fire({
         position: 'top',
         icon: 'error',
-        title: 'Failed to create Journal',
+        title: 'Failed to update Journal',
         showConfirmButton: false,
         timer: 1500
       })
     })
 }
-
 const saveQuillInput = (content) => {
   grid.value[0].answer = content
 }
 
 const submitForm = () => {
-  createJournal()
+  updateJournal()
 }
 
 </script>
@@ -66,7 +67,7 @@ const submitForm = () => {
             style="padding-left: 25px"
             class="text-h4 font-weight-bold"
           >
-            Add Journal  ✏️
+            Edit Journal  ✏️
           </h4>
         <v-container fluid>
           <h4> Question </h4>
@@ -100,7 +101,7 @@ const submitForm = () => {
             color="primary"
             type="submit"
           >
-            Submit
+            Update
           </v-btn>
           <v-btn
             style="right: 50px; position: absolute"
