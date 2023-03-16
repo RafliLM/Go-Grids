@@ -23,6 +23,8 @@ export default{
             var doc = new jsPDF({
                 format: [1000,1000]
             });
+            console.log(document)
+            console.log(document.querySelector("#exportGoGrid"))
             html2canvas(document.querySelector("#exportGoGrid"), {
                 width: doc.internal.pageSize.getWidth(),
                 height: doc.internal.pageSize.getHeight()
@@ -32,7 +34,8 @@ export default{
                 
                 doc.addImage(img, "PNG", 10, 10, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight())
                 doc.save(pdfName + '.pdf');
-            });
+            })
+            .catch(err => console.log(err));
             
         }
     }
@@ -66,8 +69,9 @@ export default{
         <!-- basic -->
         <VCol cols="12">
         <VCard style="padding-left: 25px;">
-            <TableDark id="exportGoGrid"/>
-            <TableDark/>
+            <div id="exportGoGrid">
+                <TableDark />
+            </div>
         </VCard>
         </VCol>
     </VRow>
