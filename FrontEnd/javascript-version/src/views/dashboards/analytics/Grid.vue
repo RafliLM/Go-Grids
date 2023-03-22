@@ -9,10 +9,9 @@ export default {
         username: localStorage.getItem('username'),
       },
       journals: {
-        grid : []
-
-      } // mengganti variabel journal menjadi journals
-    };
+        grid: [],
+      }, // mengganti variabel journal menjadi journals
+    }
   },
   methods: {
     getProfile() {
@@ -30,19 +29,19 @@ export default {
         })
     },
     getJournals() {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('token')
       const config = {
         headers: { Authorization: `Bearer ${token}` },
       }
-      const currentDate = new Date().toISOString().substr(0, 10);
+      const currentDate = new Date().toISOString().substr(0, 10)
       axios
         .get(`//localhost:5000/api/journal/${currentDate}`, config)
         .then(response => {
-          this.journals = response.data;
+          this.journals = response.data
         })
         .catch(error => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
   },
   created() {
@@ -55,7 +54,6 @@ export default {
 
 
 <style type="text/css">
-
 .jarak {
   margin-top: -20px;
 }
@@ -104,9 +102,21 @@ export default {
         <h1 class="pl-5">Hello, {{ this.profile }} 👋</h1>
         <p class="pl-5">How do you feel today?</p>
         <div class="emoticons">
-          <a href="/" class="emoticon">😀</a>
-          <a href="/" class="emoticon">😭</a>
-          <a href="/" class="emoticon">😡</a>
+          <a
+            href="/"
+            class="emoticon"
+            >😀</a
+          >
+          <a
+            href="/"
+            class="emoticon"
+            >😭</a
+          >
+          <a
+            href="/"
+            class="emoticon"
+            >😡</a
+          >
         </div>
 
         <h2 class="pl-5">Today's Journal</h2>
@@ -128,7 +138,6 @@ export default {
             >
               + Add Grid Journal
             </v-btn>
-
           </v-row>
           <v-form
             ref="form"
@@ -151,7 +160,7 @@ export default {
         </div>
       </VCol>
 
-      <div style="margin-top: 20px">
+      <div style="margin-top: 50px">
         <VCol
           cols="10"
           sm="5"
@@ -164,8 +173,12 @@ export default {
             <v-spacer></v-spacer>
           </v-col>
           <div class="containercard d-flex">
-            <div class="card-deck flex-row flex-nowrap">
-              <div class="col-md-4" v-for="(grid, index) in journals.grid" :key="index">
+            <div class="d-flex flex-row mb-6">
+              <div
+                class="col-md-4"
+                v-for="(grid, index) in journals.grid"
+                :key="index"
+              >
                 <VCard
                   v-if="journals != null"
                   @click.stop="$router.push({ name: 'EditJournal', params: { id: journals._id } })"
@@ -182,7 +195,11 @@ export default {
                   <VCardItem>
                     <VCardTitle class="gridTitle">{{ grid.question }}</VCardTitle>
                   </VCardItem>
-                  <VCardText style="padding-bottom: 10px" class="gridContent">{{ grid.answer }}</VCardText>
+                  <VCardText
+                    style="padding-bottom: 10px"
+                    class="gridContent"
+                    >{{ grid.answer }}
+                  </VCardText>
                 </VCard>
               </div>
             </div>
@@ -190,25 +207,23 @@ export default {
         </VCol>
         <div>
           <center>
-            <VCard 
-            v-if="journals == null"
-            class="align-center justify-center auth-card"
-            style="background-color: transparent; opacity: 50%"      
+            <VCard
+              v-if="journals == null"
+              class="align-center justify-center auth-card"
+              style="background-color: transparent; opacity: 50%"
             >
               <img
                 margin="10"
                 height="170"
                 width="200"
                 src="gglogo.png"
-            />
-            <VCol
-              class="text-b text-base"
-            >
-            <h3>You haven't add any journal</h3>
-            </VCol>
+              />
+              <VCol class="text-b text-base">
+                <h3>You haven't add any journal</h3>
+              </VCol>
             </VCard>
           </center>
-      </div>
+        </div>
       </div>
     </VCardItem>
   </VCard>
