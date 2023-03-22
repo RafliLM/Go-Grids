@@ -22,7 +22,8 @@ module.exports = class API {
             currentDate.setHours(0, 0, 0, 0);
             let tommorow = new Date(`${currentDate.getFullYear()}-${currentDate.getMonth()+1}-${currentDate.getDate() + 1}`)
             const user = await User.findOne(req.user);
-            const journal = await Journals.find({user_id:user._id, date: { $gte: currentDate, $lt: tommorow }});
+            const journal = await Journals.findOne({user_id:user._id, date: { $gte: currentDate, $lt: tommorow }});
+            console.log(journal)
             res.status(200).json(journal);
         } catch (error) {
             res.status(404).json({ message: error.message })

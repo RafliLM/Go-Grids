@@ -1,10 +1,6 @@
 <script setup>
 import { useTheme } from 'vuetify'
 import logo from '@/assets/logo.svg?raw'
-import authV1MaskDark from '@/assets/images/pages/auth-v1-mask-dark.png'
-import authV1MaskLight from '@/assets/images/pages/auth-v1-mask-light.png'
-import authV1Tree2 from '@/assets/images/pages/auth-v1-tree-2.png'
-import authV1Tree from '@/assets/images/pages/auth-v1-tree.png'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 
@@ -27,13 +23,12 @@ const login = (username, password) => {
     localStorage.setItem('username', res.data.username);
     window.location.href = 'http://localhost:5173/';
   }).catch(err => {
-    console.log(err)
     Swal.fire({
         position: 'top',
         icon: 'error',
         title: 'Your Username or Password wrong',
         showConfirmButton: false,
-        timer: 15000
+        timer: 1500
       })
   })
 }
@@ -95,11 +90,6 @@ const login = (username, password) => {
 
               <!-- remember me checkbox -->
               <div class="d-flex align-center justify-space-between flex-wrap mt-1 mb-4">
-                <VCheckbox class="button-RememberMeLogin"
-                  v-model="form.remember"
-                  label="Remember me"
-                />
-
                 <div class="button-ForgetPassword">
                 <RouterLink
                 class="text-secondary mt-2"
