@@ -2,10 +2,8 @@
 export default {
     data: () => ({
       items: [
-        { title: 'Click Me' },
-        { title: 'Click Me' },
-        { title: 'Click Me' },
-        { title: 'Click Me 2' },
+        { title: 'Latest v1.2' },
+        { title: 'v1.1' },
       ],
     }),
   }
