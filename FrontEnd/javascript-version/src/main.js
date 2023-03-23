@@ -14,8 +14,11 @@ import '@vuepic/vue-datepicker/dist/main.css'
 
 loadFonts()
 const app = createApp(App)
+app.config.globalProperties.APIURI = 'http://localhost:5000/api/'
+
 app.use(vuetify)
-app.component('VueDatePicker', VueDatePicker);
+app.component('VueDatePicker', VueDatePicker)
 app.use(createPinia())
 app.use(router)
 app.mount('#app')
+
