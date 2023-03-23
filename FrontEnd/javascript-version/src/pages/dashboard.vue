@@ -1,6 +1,6 @@
 <script setup>
-import AnalyticsAward from '@/views/dashboards/analytics/AnalyticsAward.vue'
-import AnalyticsTransactions from '@/views/dashboards/analytics/AnalyticsTransactions.vue'
+import Grid from '@/views/dashboards/analytics/Grid.vue'
+import Right from '@/views/dashboards/analytics/Right.vue' 
 import axios from 'axios'
 import { onMounted, ref } from 'vue'
 
@@ -28,13 +28,13 @@ onMounted(async () => {
       cols="10"
       md="9"
     >
-      <AnalyticsTransactions />
+      <Grid />
     </VCol>
     <VCol
       cols="10"
       md="3"
     >
-      <AnalyticsAward v-if="data" :fullname="`${data.firstname} ${data.lastname}`" :username="data.username"/>
+      <Right v-if="data" :fullname="`${data.firstname} ${data.lastname}`" :username="data.username"/>
     </VCol>
 
     <!-- <VCol
