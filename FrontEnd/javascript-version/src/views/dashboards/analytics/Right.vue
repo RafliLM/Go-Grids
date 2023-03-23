@@ -131,19 +131,6 @@ export default {
 
           <VDivider class="my-2" />
 
-          <!-- 👉 Profile -->
-          <VListItem link>
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="mdi-account-outline"
-                size="22"
-              />
-            </template>
-
-            <VListItemTitle class="button-Profile">Profile</VListItemTitle>
-          </VListItem>
-
           <!-- 👉 Settings -->
           <VListItem to="account-settings">
             <template  #prepend>
