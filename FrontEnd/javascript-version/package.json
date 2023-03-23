@@ -28,6 +28,10 @@
         "sass": "^1.54.9",
         "sweetalert2": "^11.7.1",
         "unplugin-vue-define-options": "^0.6.2",
+<<<<<<< Updated upstream
+=======
+        "v-calendar": "^3.0.1",
+>>>>>>> Stashed changes
         "vue": "^3.2.37",
         "vue-chartjs": "^4.1.1",
         "vue-flatpickr-component": "9.0.6",
