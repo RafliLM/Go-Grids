@@ -1,6 +1,7 @@
 <script>
 import Swal from 'sweetalert2'
 import axios from 'axios'
+import router from '@/router'
 
 export default {
   data() {
@@ -181,7 +182,7 @@ export default {
               >
                 <VCard
                   v-if="journals != null"
-                  @click.stop="$router.push({ name: 'EditJournal', params: { id: journals._id } })"
+                  @click.stop="$router.push({ name: 'EditJournal', params: { id: grid._id } })"
                   style="
                     position: relative;
                     z-index: 0;
@@ -194,6 +195,7 @@ export default {
                 >
                   <VCardItem>
                     <VCardTitle class="gridTitle">{{ grid.question }}</VCardTitle>
+                    <VCardTitle class="gridTitle">{{ grid._id }}</VCardTitle>
                   </VCardItem>
                   <VCardText
                     style="padding-bottom: 10px"

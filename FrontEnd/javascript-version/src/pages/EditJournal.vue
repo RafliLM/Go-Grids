@@ -6,8 +6,9 @@ import moment from 'moment'
 import axios from 'axios'
 import { ref } from 'vue'
 import Swal from 'sweetalert2'
+import { useRoute } from 'vue-router'
 
-
+const route = useRoute()
 const vuetifyTheme = useTheme()
 const grid = ref([
   {
@@ -18,9 +19,12 @@ const grid = ref([
 
 const date = ref(moment().format('YYYY-MM-DD HH:mm:ss'))
 
-const updateJournal = () => {
-  const id = journal._id
 
+
+const updateJournal = () => {
+  const id = reactive({
+  value: route.params.id
+});
   const token = localStorage.getItem('token') // membaca token dari local storage
   const config = {
     headers: { Authorization: `Bearer ${token}` }, // mengirim token pada header permintaan
@@ -32,7 +36,7 @@ const updateJournal = () => {
   }
   data.date = moment().format('YYYY-MM-DD HH:mm:ss')
   axios
-    .patch(`//localhost:5000/api/journal/${journal._id}`, data, config) // Mengirim ID sebagai bagian dari URL permintaan PATCH
+    .patch(`//localhost:5000/api/journal/${id}`, data, config) // Mengirim ID sebagai bagian dari URL permintaan PATCH
     .then(response => {
       const journal = response.data.grid
       localStorage.setItem('journal', JSON.stringify(journal))
@@ -68,6 +72,7 @@ const submitForm = () => {
             class="text-h4 font-weight-bold"
           >
             Edit Journal  ✏️
+            <div>Parameter ID: {{ $route.params.id }}</div>
           </h4>
         <v-container fluid>
           <h4> Question </h4>
