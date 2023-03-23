@@ -6,7 +6,20 @@ const mongoose = require('mongoose');
 module.exports = class API {
     static async getAllEvents(req, res) {
         try {
-            const events = await Events.find({creator:req.user._id});
+            const events = await Events.find({
+                $or : [
+                    {
+                        creator:req.user._id
+                    },
+                    {
+                        participants : {
+                            $elemMatch : {
+                                username : req.username
+                            }
+                        }
+                    }
+                ]
+            });
             res.status(200).json(events);
         } catch (error) {
             res.status(404).json({ message: error.message })

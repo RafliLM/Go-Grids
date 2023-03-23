@@ -86,6 +86,18 @@ const findUsersByUsername = async (req, res) => {
     }
 }
 
+const getAllUsername = async (req, res) => {
+    try {
+        const users = await Users.find({}, {username : 1})
+        let usernames = []
+        users.forEach(user => usernames.push(user.username))
+        usernames.splice(usernames.indexOf(req.user.username), 1)
+        res.status(200).json(usernames)
+    } catch (error) {
+        res.status(400).json({message: error.message})
+    }
+}
+
 const resetPassword = async (req, res) => {
     try {
         const username = req.body.username
@@ -139,6 +151,7 @@ const userController = {
     login,
     updateProfile,
     getUserProfile,
+    getAllUsername,
     findUsersByUsername,
     resetPassword
 }
