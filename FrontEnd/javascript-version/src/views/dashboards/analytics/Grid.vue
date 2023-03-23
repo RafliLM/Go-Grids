@@ -161,11 +161,9 @@ export default {
       </VCol>
 
       <div style="margin-top: 50px">
-        <VCol
-          cols="10"
-          sm="5"
-          md="4"
-        >
+        <VRow>
+        <VCol cols="4" md="6" v-for="(grid) in journals.grid"
+                :key="grid._id">
           <v-col
             class="text-right"
             style="margin-bottom: -40px; margin-left: 20px; position: relative; z-index: 1"
@@ -174,11 +172,7 @@ export default {
           </v-col>
           <div class="containercard d-flex">
             <div class="d-flex flex-row mb-6">
-              <div
-                class="col-md-4"
-                v-for="(grid, index) in journals.grid"
-                :key="index"
-              >
+              <div>
                 <VCard
                   v-if="journals != null"
                   @click.stop="$router.push({ name: 'EditJournal', params: { id: journals._id } })"
@@ -205,6 +199,7 @@ export default {
             </div>
           </div>
         </VCol>
+        </VRow>
         <div>
           <center>
             <VCard
