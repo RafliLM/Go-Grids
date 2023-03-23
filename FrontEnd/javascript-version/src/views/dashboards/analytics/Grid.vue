@@ -170,7 +170,7 @@ export default {
           >
             <v-spacer></v-spacer>
           </v-col>
-          <div class="containercard d-flex">
+          <div class="containercard d-flex" style="margin-left: 20px;">
             <div class="d-flex flex-row mb-6">
               <div>
                 <VCard
