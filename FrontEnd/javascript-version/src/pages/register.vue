@@ -31,6 +31,14 @@ const register = data => {
       email : data.email,
       password : data.password,
     }).then(res => {
+      console.log(res.data);
+    
+      localStorage.setItem("firstname", res.data.firstname);
+      localStorage.setItem("lastname", res.data.lastname);
+      localStorage.setItem("username", res.data.username);
+      localStorage.setItem("email", res.data.email);
+      localStorage.setItem("password", res.data.password);
+
       console.log(res)
       Swal.fire({
         position: 'center',

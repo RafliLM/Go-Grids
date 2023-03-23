@@ -32,7 +32,7 @@ const login = (username, password) => {
         icon: 'error',
         title: 'Your Username or Password wrong',
         showConfirmButton: false,
-        timer: 1500
+        timer: 10000
       })
   })
 }
@@ -92,20 +92,15 @@ const login = (username, password) => {
                 @click:append-inner="isPasswordVisible = !isPasswordVisible"
               />
 
-              <!-- remember me checkbox -->
-              <div class="d-flex align-center justify-space-between flex-wrap mt-1 mb-4">
-                <VCheckbox class="button-RememberMeLogin"
-                  v-model="form.remember"
-                  label="Remember me"
-                />
 
-                <div class="button-ForgetPassword">
-                <a
-                  class="ms-2 mb-1 text-secondary"
-                  href="javascript:void(0)"
+              <div class="d-flex align-center justify-end flex-wrap mt-1 mb-4">
+                <div class=" mt-2 button-ForgetPassword">
+                <RouterLink
+                class="text-secondary"
+                :to="{ name: 'forgot' }"
                 >
                   Forgot Password?
-                </a>
+                </RouterLink>
                 </div>
               </div>
 
@@ -133,6 +128,11 @@ const login = (username, password) => {
 
 <style lang="scss">
 @use "@core/scss/pages/page-auth.scss";
+
+.button-ForgetPassword{
+  display: flex;
+  justify-content: center;
+}
 
 </style>
 

@@ -1,85 +1,78 @@
 <script>
-  export default {
-    data () {
-      return {
-        desserts: [
-          {
-            name: 'Anna',
-            calories: 159,
-          },
-          {
-            name: 'Diana',
-            calories: 237,
-          },
-          {
-            name: 'Aziz',
-            calories: 262,
-          },
-          {
-            name: 'Fanny',
-            calories: 305,
-          },
-          {
-            name: 'Faza',
-            calories: 356,
-          },
-          {
-            name: 'Gefi',
-            calories: 375,
-          },
-          {
-            name: 'Nabil A',
-            calories: 392,
-          },
-          {
-            name: 'Rafli',
-            calories: 408,
-          },
-          {
-            name: 'Rifatia',
-            calories: 452,
-          },
-          {
-            name: 'Rijal',
-            calories: 518,
-          },
-          {
-            name: 'Syahda',
-            calories: 550,
-          },
-        ],
+import axios from 'axios'
+
+export default {
+  data() {
+    return {
+      journals: {
+        grid : []
+
+      } // mengganti variabel journal menjadi journals
+    };
+  },
+  methods: {
+    getJournals() {
+      const token = localStorage.getItem('token');
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
       }
-    },
-  }
+      const currentDate = new Date().toISOString().substr(0, 10);
+      axios
+        .get(`//localhost:5000/api/journal/${currentDate}`, config)
+        .then(response => {
+          this.journals = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  },
+  created() {
+    this.getJournals()
+  },
+}
 </script>
 
 <template>
-  <v-table
-    fixed-header
-    height="300px"
-  >
-    <thead>
-      <tr>
-        <th width="300px">
-          <h3>
-            Timestemp
-          </h3>
-        </th>
-        <th>
-          <h3>
-            Content
-          </h3>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        v-for="item in desserts"
-        :key="item.name"
-      >
-        <td>{{ item.name }}</td>
-        <td>{{ item.calories }}</td>
-      </tr>
-    </tbody>
-  </v-table>
+  <div>
+    <table 
+    v-if="journals != null"
+    v-for="(grid, index) in journals.grid"
+    :key="index"
+    class="bordered">
+      <thead>
+        <tr>
+          <th class="left-align">Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="center-align">{{ grid.question }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <br>
 </template>
+
+<style>
+.bordered {
+  border-collapse: collapse;
+}
+
+.bordered th,
+.bordered td {
+  border: 0px solid black;
+  padding: 20px;
+  padding-left: 20px;
+  color: black;
+}
+
+.left-align {
+  text-align: left;
+}
+
+.center-align {
+  text-align: center;
+}
+</style>

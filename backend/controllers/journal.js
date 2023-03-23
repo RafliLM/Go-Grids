@@ -19,11 +19,11 @@ module.exports = class API {
         try {
             let currentDate = req.params.date;
             currentDate = new Date(currentDate);
-            currentDate.setHours(0, 0, 0);
+            currentDate.setHours(0, 0, 0, 0);
             let tommorow = new Date(`${currentDate.getFullYear()}-${currentDate.getMonth()+1}-${currentDate.getDate() + 1}`)
-            console.log(currentDate, tommorow)
             const user = await User.findOne(req.user);
-            const journal = await Journals.find({user_id:user._id, date: { $gte: currentDate, $lt: tommorow }});
+            const journal = await Journals.findOne({user_id:user._id, date: { $gte: currentDate, $lt: tommorow }});
+            console.log(journal)
             res.status(200).json(journal);
         } catch (error) {
             res.status(404).json({ message: error.message })
@@ -32,7 +32,9 @@ module.exports = class API {
 
     static async createJournal(req, res) {
         try {
-            const journal = req.body;
+            let journal = req.body;
+            journal.date = new Date(journal.date)
+            journal.date.setHours(0,0,0,0)
             journal.user_id = req.user;
             await Journals.create(journal)
             res.status(201).json({ message: "Successfully create new Journal" })
@@ -47,7 +49,11 @@ module.exports = class API {
             const journal = await Journals.findById(id)
             const user = req.user
             if(journal.user_id.equals(user._id)){
-                const newJournal = req.body;
+                let newJournal = req.body
+                if(newJournal.date){
+                    newJournal.date = new Date(newJournal.date)
+                    newJournal.date.setHours(0,0,0,0)
+                }
                 await Journals.findByIdAndUpdate(id, newJournal)
                 res.status(200).json({ message: "Successfully update your Journal"});
             }
@@ -55,7 +61,8 @@ module.exports = class API {
                 res.status(403).json({message : "Unauthorized"})
             }
         } catch (error) {
-            res.status(404).json({ message: error.message })
+            console.log(error)
+            res.status(400).json({ message: error.message })
         }
     }
 

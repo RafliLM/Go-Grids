@@ -5,13 +5,13 @@ import FullCalendar, { CalendarOptions, EventApi, DateSelectArg, EventClickArg }
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { INITIAL_EVENTS, createEventId } from './event'
 
 // Awal dari perubahan
 
 // Untuk menampilkan pop-up, kita dapat menggunakan Sweetalert2
 // Cara install di terminal : npm install -S vue-sweetalert2
 import Swal from 'sweetalert2'
+import axios from 'axios'
 
 // Akhir dari perubahan
 const Demo = defineComponent({
@@ -32,7 +32,7 @@ const Demo = defineComponent({
           right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
         initialView: 'dayGridMonth',
-        initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
+        // initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
         editable: true,
         selectable: true,
         selectMirror: true,
@@ -40,7 +40,11 @@ const Demo = defineComponent({
         weekends: true,
         select: this.handleDateSelect,
         eventClick: this.handleEventClick,
-        eventsSet: this.handleEvents
+        eventsSet: this.handleEvents,
+        displayEventTime: false,
+        events: [{
+
+        }]
         /* you can update a remote database when these fire:
         eventAdd:
         eventChange:
@@ -48,6 +52,14 @@ const Demo = defineComponent({
         */
       } as CalendarOptions,
       currentEvents: [] as EventApi[],
+      usernames : [],
+      title : "",
+      participants : undefined,
+      dialog : false,
+      selectedDate : new Date(),
+      edit : false,
+      events : [],
+      id : undefined
     }
   },
   methods: {
@@ -55,91 +67,257 @@ const Demo = defineComponent({
       this.calendarOptions.weekends = !this.calendarOptions.weekends // update a property
     },
     handleDateSelect(selectInfo: DateSelectArg) {
-      
-      // Awal perubahan
-      // Penambahan Pop-Up untuk Post
-      
+      let cmpDate = selectInfo.start
       let calendarApi = selectInfo.view.calendar
-
-      calendarApi.unselect() // clear date selection
-
-      Swal.fire({
-        text: "What event do you want to attend?",
-        input: 'text',
-        inputAttributes: {
-          placeholder: 'Event Name'
-        },
-        showCancelButton: true,
-        cancelButtonText: 'Cancel',
-        confirmButtonText: 'Confirm',
-        confirmButtonColor: '#14162E',
-        
-        
-        
-    }).then((result) => {
-      if (result.isConfirmed) {
-        //if (result)
-            calendarApi.addEvent({
-              id: createEventId(),
-              title : result.value, // Judul kegiatan yang dihadiri
-              start: selectInfo.startStr,
-              end: selectInfo.endStr,
-              allDay: selectInfo.allDay
-            })
-            
-            Swal.fire({
-              position: 'top',
-              icon: 'success',
-              title: 'Your event has been saved',
-              showConfirmButton: false,
-              timer: 1500,
-            })
-          }
-});   
-      // Akhir perubahan
+      if(cmpDate.getTime() > new Date().getTime()){
+        this.edit = false
+        cmpDate.setDate(cmpDate.getDate() + 1)
+        if(cmpDate.getTime() != selectInfo.end.getTime()){
+          calendarApi.unselect()
+        }
+        else{
+          cmpDate.setDate(cmpDate.getDate() - 1)
+          this.selectedDate = selectInfo.start
+          this.dialog = true
+        }
+      }
+      else
+        calendarApi.unselect()
     },
     handleEventClick(clickInfo: EventClickArg) { // Ketika mengklik suatu event
-    
-      // Awal perubahan
-      // Penambahan Pop-Up untuk Delete
-    
-      Swal.fire({
-        position: 'top',
-        icon: 'success',
-        title: 'Your event has been deleted!',
-        showConfirmButton: false,
-        timer: 1500
+      let event = this.events.find(e => {
+        return e._id == clickInfo.event.id
       })
-        clickInfo.event.remove()
-        
-        // Akhir perubahan
+      this.title = event.title
+      this.participants = []
+      event.participants.forEach(participant => {
+        this.participants.push(participant.username)
+      })
+      this.id = event._id
+      this.edit = true
+      this.dialog = true
     },
     handleEvents(events: EventApi[]) {
       this.currentEvents = events
     },
+    getEvents(){
+      const token = localStorage.getItem("token")
+      axios.get(`${this.APIURI}event/`, {
+        headers : {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(res => {
+        let events = []
+        this.events = res.data
+        this.events.forEach((event: { _id: any; title: any; timeHeld: any }) => {
+          events.push({
+            id : event._id,
+            title : event.title,
+            start : event.timeHeld
+          })
+        })
+        this.calendarOptions.events = events
+      })
+      .catch(err => {
+        if(err.response.status == 403)
+          console.log("Log out")
+        else{
+          Swal.fire({
+            position : 'center',
+            icon : "error",
+            title : "Something went wrong, try again later",
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }
+      })
+    },
+    async saveEvent(){
+      const { valid } = await this.$refs.form.validate()
+      if(valid){
+        const token = localStorage.getItem("token")
+        if(this.edit){
+          axios.patch(`${this.APIURI}event/${this.id}`, {
+            title : this.title,
+            participants : this.participants
+          }, {
+            headers : {
+              Authorization: `Bearer ${token}`
+            }
+          })
+          .then(res => {
+            this.resetField()
+            Swal.fire({
+              position : 'center',
+              icon : "success",
+              title : res.data.message,
+              showConfirmButton: false,
+              timer: 1500
+            })
+            this.getEvents()
+          })
+          .catch(err => {
+            Swal.fire({
+              position : 'center',
+              icon : "error",
+              title : err.message,
+              showConfirmButton: false,
+              timer: 1500
+          })
+          })
+        }
+        else{
+          this.dialog = false
+          axios.post(`${this.APIURI}event`, {
+            title : this.title,
+            participants : this.participants,
+            timeHeld : this.selectedDate
+          }, {
+            headers : {
+              Authorization: `Bearer ${token}`
+            }
+          })
+          .then(res => {
+            this.resetField()
+            Swal.fire({
+              position : 'center',
+              icon : "success",
+              title : res.data.message,
+              showConfirmButton: false,
+              timer: 1500
+            })
+            this.getEvents()
+          })
+          .catch(err => {
+            Swal.fire({
+              position : 'center',
+              icon : "error",
+              title : err.message,
+              showConfirmButton: false,
+              timer: 1500
+          })
+          })
+        }
+      }
+      
+    },
+    deleteEvent(){
+      const token = localStorage.getItem("token")
+      axios.delete(`${this.APIURI}event/${this.id}`, {
+          headers : {
+            Authorization: `Bearer ${token}`
+          }
+        })
+        .then(res => {
+          this.resetField()
+          Swal.fire({
+            position : 'center',
+            icon : "success",
+            title : res.data.message,
+            showConfirmButton: false,
+            timer: 1500
+          })
+          this.getEvents()
+        })
+        .catch(err => {
+          Swal.fire({
+            position : 'center',
+            icon : "error",
+            title : err.message,
+            showConfirmButton: false,
+            timer: 1500
+          })
+        })
+    },
+    resetField(){
+      this.title = '';
+      this.participants = undefined;
+      this.dialog = false;
+      this.selectedDate = new Date();
+    }
+  },
+  beforeCreate(){
+    const token = localStorage.getItem("token")
+    axios.get(`${this.APIURI}user/all/username`, {
+        headers : {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(res => {
+        this.usernames = res.data
+      })
+      .catch(err => {
+        Swal.fire({
+            position : 'center',
+            icon : "error",
+            title : err.message,
+            showConfirmButton: false,
+            timer: 1500
+        })
+      })
+  },
+  beforeMount(){
+    
+    this.getEvents()
   }
 })
 export default Demo
 </script>
 
 <template>
-<div class="main"  style="width: 100%; " >
+<VCard>
+  <div class="main"  style="width: 100%; " >
     <div class="inner">
-  <div class='demo-app'>
-    <div class='demo-app-main'>
-      <FullCalendar
-        class='demo-app-calendar'
-        :options='calendarOptions'
-      >
-        <template v-slot:eventContent='arg'>
-          <b>{{ arg.timeText }}</b>
-          <i>{{ arg.event.title }}</i>
-        </template>
-      </FullCalendar>
+      <div class='demo-app'>
+        <div class='demo-app-main'>
+          <FullCalendar
+            :options='calendarOptions'
+          >
+          </FullCalendar>
+          <v-dialog
+            v-model="dialog"
+            width="32em"
+            persistent
+          >
+            <v-card>
+              <v-form ref="form">
+                <v-card-text>
+                  <v-text-field 
+                    class="mb-4" 
+                    label="Event Name" 
+                    v-model="title"
+                    :rules="[v => !!v || 'Event name is required']"
+                    required
+                  ></v-text-field>
+                  <v-autocomplete 
+                    label="Participants" 
+                    v-model="participants" 
+                    :items="usernames"
+                    chips
+                    closable-chips
+                    multiple
+                  ></v-autocomplete>
+                </v-card-text>
+                <v-card-actions>
+                  <div v-if="!edit">
+                    <v-btn @click="saveEvent()">Submit</v-btn>
+                  </div>
+                  <div v-else>
+                    <v-btn @click="saveEvent()">Update</v-btn>
+                  </div>
+                  <v-btn v-if="edit" @click="deleteEvent()">Delete</v-btn>
+                  <v-btn @click="resetField()">Cancel</v-btn>
+                </v-card-actions>
+              </v-form>
+             
+            </v-card>
+          </v-dialog>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-</div>
+</VCard>
 </template>
 
 <style lang='css'>
@@ -169,6 +347,17 @@ b { /* used for event dates/times */
 .fc { /* the calendar root */
   max-width: 1000px;
   margin: 0 auto;
+}
+
+.swal2-input {
+    height: 3.625em;
+    width: 366px;
+    padding: 0 0.75em;
+}
+
+.collab{
+  margin-block-end: -1rem;
+  padding-top: 10px;
 }
 
 

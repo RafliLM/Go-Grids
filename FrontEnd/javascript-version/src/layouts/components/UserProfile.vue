@@ -1,129 +1,120 @@
-<script setup>
-import avatar1 from '@/assets/images/avatars/avatar-1.png'
+<script>
+import axios from 'axios'
+import Swal from 'sweetalert2'
 
-const avatarBadgeProps = {
-  dot: true,
-  location: 'bottom right',
-  offsetX: 3,
-  offsetY: 3,
-  color: 'success',
-  bordered: true,
+export default {
+  data(){
+    return {
+      events: [{
+        title : "Test",
+      }],
+      user : undefined,
+    }
+  },
+  beforeMount() {
+    const token = localStorage.getItem("token")
+    axios.get(`${this.APIURI}user/`, {
+      headers : {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(res => {
+        this.user = res.data
+      })
+      .catch(err => {
+        Swal.fire({
+          position : 'center',
+          icon : "error",
+          title : err.message,
+          showConfirmButton: false,
+          timer: 1500,
+        })
+      })
+    axios.get(`${this.APIURI}event`, {
+      headers : {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(res => {
+        const events = res.data
+        let today = new Date()
+        today.setHours(0,0,0,0)
+        events.forEach(event => {
+          let timeHeld = new Date(event.timeHeld)
+          if(timeHeld.getTime() > new Date().getTime()){
+            if(event.creator != this.user._id){
+              let findUser = event.participants.find(obj => {
+                return obj.username == this.user.username && obj.status == "invited"
+              })
+              if(findUser != undefined){
+                this.events.push(event)
+              }
+            }
+          }
+          else if (event.timeHeld.getTime() == new Date().getTime()){
+
+          }
+        })
+      })
+      .catch(err => {
+        Swal.fire({
+          position : 'center',
+          icon : "error",
+          title : err.message,
+          showConfirmButton: false,
+          timer: 1500,
+        })
+      })
+  },
+  methods: {
+    acceptInvite(id){
+
+    },
+    declineEvent(id){
+
+    }
+  },
 }
 </script>
 
 <template>
-  <VBadge v-bind="avatarBadgeProps">
-    <VAvatar
-      style="cursor: pointer;"
-      color="primary"
-      variant="tonal"
-    >
-      <VImg :src="avatar1" />
-
-      <!-- SECTION Menu -->
-      <VMenu
-        activator="parent"
-        width="230"
-        location="bottom end"
-        offset="14px"
-      >
-        <VList>
-          <!-- 👉 User Avatar & Name -->
-          <VListItem>
-            <template #prepend>
-              <VListItemAction start>
-                <VBadge v-bind="avatarBadgeProps">
-                  <VAvatar
-                    color="primary"
-                    size="40"
-                    variant="tonal"
-                  >
-                    <VImg :src="avatar1" />
-                  </VAvatar>
-                </VBadge>
-              </VListItemAction>
-            </template>
-
-            <VListItemTitle class="font-weight-semibold">
-              John Doe
-            </VListItemTitle>
-            <VListItemSubtitle class="text-disabled">
-              Admin
-            </VListItemSubtitle>
-          </VListItem>
-
-          <VDivider class="my-2" />
-
-          <!-- 👉 Profile -->
-          <VListItem link>
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="mdi-account-outline"
-                size="22"
-              />
-            </template>
-
-            <VListItemTitle class="button-HeaderProfile">Profile</VListItemTitle>
-          </VListItem>
-
-          <!-- 👉 Settings -->
-          <VListItem link>
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="mdi-cog-outline"
-                size="22"
-              />
-            </template>
-
-            <VListItemTitle class="button-HeaderSettings">Settings</VListItemTitle>
-          </VListItem>
-
-          <!-- 👉 Pricing -->
-          <VListItem link>
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="mdi-currency-usd"
-                size="22"
-              />
-            </template>
-
-            <VListItemTitle class="button-HeaderPricing">Pricing</VListItemTitle>
-          </VListItem>
-
-          <!-- 👉 FAQ -->
-          <VListItem link>
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="mdi-help-circle-outline"
-                size="22"
-              />
-            </template>
-
-            <VListItemTitle class="button-HeaderFAQ">FAQ</VListItemTitle>
-          </VListItem>
-
-          <!-- Divider -->
-          <VDivider class="my-2" />
-
-          <!-- 👉 Logout -->
-          <VListItem to="/">
-            <template #prepend>
-              <VIcon
-                class="me-2"
-                icon="mdi-logout-variant"
-                size="22"
-              />
-            </template>
-
-            <VListItemTitle class="button-HeaderLogout">Logout</VListItemTitle>
-          </VListItem>
-        </VList>
-      </VMenu>
-      <!-- !SECTION -->
-    </VAvatar>
-  </VBadge>
+  <div class="d-flex justify-space-around">
+    <VMenu style="width: 1000px">
+      <template #activator="{ props }">
+        <VBtn
+          icon
+          variant="text"
+          color="default"
+          class="me-2"
+          size="small"
+          v-bind="props"
+        >
+          <VIcon
+            icon="mdi-bell-outline"
+            size="24"
+          />
+        </VBtn>
+      </template>
+      <VList style="width: 300px;">
+        <!-- 👉 User Avatar & Name -->
+        <VListItem
+          v-for="(event, index) in events"
+          :key="index"
+        >
+          <VListItemContent append-icon="mdi-check">
+            <VListItemTitle v-text="event.title"></VListItemTitle>
+          </VListItemContent>
+          <VListItemIcon>
+              <VBtn
+                variant="outlined"
+                icon
+                small
+              >
+                <VIcon>mdi-check</VIcon>
+              </VBtn>
+            </VListItemIcon>
+        </VListItem>
+      </VList>
+    </VMenu>
+  </div>
 </template>
