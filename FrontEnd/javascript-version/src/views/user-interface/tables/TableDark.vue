@@ -5,7 +5,8 @@ export default {
   data() {
     return {
       journals: {
-        grid : []
+        grid : [],
+        date: ''
 
       } // mengganti variabel journal menjadi journals
     };
@@ -42,7 +43,7 @@ export default {
     class="bordered">
       <thead>
         <tr>
-          <th class="left-align">Timestamp</th>
+          <th class="left-align">{{ journals.date }}</th>
         </tr>
       </thead>
       <tbody>
