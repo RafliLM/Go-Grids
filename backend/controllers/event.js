@@ -14,7 +14,8 @@ module.exports = class API {
                     {
                         participants : {
                             $elemMatch : {
-                                username : req.username
+                                username : req.user.username,
+                                status : "joined"
                             }
                         }
                     }
@@ -43,7 +44,7 @@ module.exports = class API {
                                 {
                                     participants : {
                                         $elemMatch : {
-                                            username : req.username,
+                                            username : req.user.username,
                                             status : "joined"
                                         }
                                     }
@@ -59,6 +60,30 @@ module.exports = class API {
             res.status(200).json(events)
         } catch (error) {
             res.status(400).json({ message : error.message })
+        }
+    }
+
+    static async getInvitation(req, res){
+        try {
+            const events = await Events.find({
+                $and : [
+                    {
+                        participants : {
+                            $elemMatch : {
+                                username : req.user.username,
+                                status : "invited"
+                            }
+                        }
+                    },
+                    {
+                        timeHeld : {$gte : new Date()}
+                    }   
+                ]
+                
+            })
+            res.status(200).json(events)
+        } catch (error) {
+            res.status(400).json({message : error.message})
         }
     }
 
