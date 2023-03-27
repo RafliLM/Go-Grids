@@ -4,6 +4,7 @@ const API = require('../controllers/event');
 
 router.get('/', API.getAllEvents)
 router.get('/today', API.getTodayEvents)
+router.get('/invitation', API.getInvitation)
 router.post('/', API.createEvent)
 router.patch('/:id', API.updateEvent)
 router.delete('/:id', API.deleteEvent)

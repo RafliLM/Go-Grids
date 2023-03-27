@@ -5,23 +5,29 @@ import Swal from 'sweetalert2'
 export default {
   data(){
     return {
-      events: [{
-        title : "Test",
-      }],
+      events: [
+        
+      ],
+      invitations : [
+
+      ]
+      ,
       user : undefined,
     }
   },
   beforeMount() {
     const token = localStorage.getItem("token")
-    axios.get(`${this.APIURI}user/`, {
+    const config = {
       headers : {
         Authorization: `Bearer ${token}`,
       },
-    })
+    }
+    axios.get(`${this.APIURI}event/today`, config)
       .then(res => {
-        this.user = res.data
+        this.events = res.data
       })
       .catch(err => {
+        console.log(err.response.data)
         Swal.fire({
           position : 'center',
           icon : "error",
@@ -30,31 +36,9 @@ export default {
           timer: 1500,
         })
       })
-    axios.get(`${this.APIURI}event`, {
-      headers : {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    axios.get(`${this.APIURI}event/invitation`, config)
       .then(res => {
-        const events = res.data
-        let today = new Date()
-        today.setHours(0,0,0,0)
-        events.forEach(event => {
-          let timeHeld = new Date(event.timeHeld)
-          if(timeHeld.getTime() > new Date().getTime()){
-            if(event.creator != this.user._id){
-              let findUser = event.participants.find(obj => {
-                return obj.username == this.user.username && obj.status == "invited"
-              })
-              if(findUser != undefined){
-                this.events.push(event)
-              }
-            }
-          }
-          else if (event.timeHeld.getTime() == new Date().getTime()){
-
-          }
-        })
+        this.invitations = res.data
       })
       .catch(err => {
         Swal.fire({
@@ -67,12 +51,33 @@ export default {
       })
   },
   methods: {
-    acceptInvite(id){
-
+    handleInvitation(type ,id){
+      const token = localStorage.getItem("token")
+      const config = {
+        headers : {
+          Authorization: `Bearer ${token}`,
+        }
+      }
+      axios.patch(`${this.APIURI}event/${type}/${id}`, "", config)
+        .then(res => {
+          Swal.fire({
+            position : 'center',
+            icon : "success",
+            title : res.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          })
+        })
+        .catch(err => {
+          Swal.fire({
+            position : 'center',
+            icon : "error",
+            title : err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          })
+        })
     },
-    declineEvent(id){
-
-    }
   },
 }
 </script>
@@ -95,26 +100,55 @@ export default {
           />
         </VBtn>
       </template>
-      <VList style="width: 300px;">
-        <!-- 👉 User Avatar & Name -->
-        <VListItem
-          v-for="(event, index) in events"
-          :key="index"
+      <div v-if="invitations.length != 0 || events.length != 0">
+        <VList 
+          style="width: 300px;" 
+          lines="two" 
+          class="pa-0"
         >
-          <VListItemContent append-icon="mdi-check">
-            <VListItemTitle v-text="event.title"></VListItemTitle>
-          </VListItemContent>
-          <VListItemIcon>
-              <VBtn
-                variant="outlined"
-                icon
-                small
-              >
-                <VIcon>mdi-check</VIcon>
-              </VBtn>
-            </VListItemIcon>
-        </VListItem>
-      </VList>
+          <!-- 👉 User Avatar & Name -->
+          <VListItem
+            v-for="(invitation, index) in invitations"
+            :key="index"
+            :title="`Invitation for ${invitation.title}`"
+          >
+            <template #append>
+              <VListItemIcon>
+                <VBtn
+                  variant="outlined"
+                  icon
+                  size="x-small"
+                  @click="handleInvitation('accept', invitation._id)"
+                >
+                  <VIcon>mdi-check</VIcon>
+                </VBtn>
+              </VListItemIcon>
+              <VListItemIcon>
+                <VBtn
+                  variant="outlined"
+                  icon
+                  size="x-small"
+                  @click="handleInvitation('decline', invitation._id)"
+                >
+                  <VIcon>mdi-close</VIcon>
+                </VBtn>
+              </VListItemIcon>
+            </template>
+          </VListItem>
+        
+          <VListItem
+            v-for="(event, index) in events"
+            :key="index"
+            :title="`Event ${event.title} is today`"
+          > 
+          </VListItem>
+        </VList>
+      </div>
+      <div v-else>
+        <VCard>
+          <VCardTitle>Nothing here</VCardTitle>
+        </VCard>
+      </div>
     </VMenu>
   </div>
 </template>

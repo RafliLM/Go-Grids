@@ -59,7 +59,9 @@ const Demo = defineComponent({
       selectedDate : new Date(),
       edit : false,
       events : [],
-      id : undefined
+      id : undefined,
+      user : undefined,
+      creator: undefined
     }
   },
   methods: {
@@ -94,6 +96,7 @@ const Demo = defineComponent({
         this.participants.push(participant.username)
       })
       this.id = event._id
+      this.creator = event.creator
       this.edit = true
       this.dialog = true
     },
@@ -110,9 +113,10 @@ const Demo = defineComponent({
       .then(res => {
         let events = []
         this.events = res.data
-        this.events.forEach((event: { _id: any; title: any; timeHeld: any }) => {
+        this.events.forEach((event) => {
           events.push({
             id : event._id,
+            creator : event.creator,
             title : event.title,
             start : event.timeHeld
           })
@@ -158,6 +162,7 @@ const Demo = defineComponent({
             this.getEvents()
           })
           .catch(err => {
+            this.resetField()
             Swal.fire({
               position : 'center',
               icon : "error",
@@ -190,6 +195,7 @@ const Demo = defineComponent({
             this.getEvents()
           })
           .catch(err => {
+            this.resetField()
             Swal.fire({
               position : 'center',
               icon : "error",
@@ -200,7 +206,6 @@ const Demo = defineComponent({
           })
         }
       }
-      
     },
     deleteEvent(){
       const token = localStorage.getItem("token")
@@ -221,6 +226,7 @@ const Demo = defineComponent({
           this.getEvents()
         })
         .catch(err => {
+          this.resetField()
           Swal.fire({
             position : 'center',
             icon : "error",
@@ -233,8 +239,8 @@ const Demo = defineComponent({
     resetField(){
       this.title = '';
       this.participants = undefined;
-      this.dialog = false;
       this.selectedDate = new Date();
+      this.dialog = false;
     }
   },
   beforeCreate(){
@@ -258,7 +264,24 @@ const Demo = defineComponent({
       })
   },
   beforeMount(){
-    
+    const token = localStorage.getItem("token")
+    axios.get(`${this.APIURI}user`, {
+        headers : {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(res => {
+        this.user = res.data
+      })
+      .catch(err => {
+        Swal.fire({
+            position : 'center',
+            icon : "error",
+            title : err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500
+        })
+      })
     this.getEvents()
   }
 })
@@ -289,25 +312,36 @@ export default Demo
                     v-model="title"
                     :rules="[v => !!v || 'Event name is required']"
                     required
+                    :readonly="creator != user._id"
                   ></v-text-field>
                   <v-autocomplete 
                     label="Participants" 
                     v-model="participants" 
                     :items="usernames"
                     chips
-                    closable-chips
+                    :closable-chips="creator == user._id"
                     multiple
+                    :readonly="creator != user._id"
                   ></v-autocomplete>
                 </v-card-text>
                 <v-card-actions>
-                  <div v-if="!edit">
-                    <v-btn @click="saveEvent()">Submit</v-btn>
-                  </div>
-                  <div v-else>
-                    <v-btn @click="saveEvent()">Update</v-btn>
-                  </div>
-                  <v-btn v-if="edit" @click="deleteEvent()">Delete</v-btn>
-                  <v-btn @click="resetField()">Cancel</v-btn>
+                    <div v-if="!edit">
+                      <v-btn @click="saveEvent()">Submit</v-btn>
+                      <v-btn @click="resetField()">Cancel</v-btn>
+                    </div>
+                    <div v-else>
+                      <div v-if="creator == user._id">
+                        <v-btn @click="saveEvent()">Update</v-btn>
+                        <v-btn v-if="edit" @click="deleteEvent()">Delete</v-btn>
+                        <v-btn @click="resetField()">Cancel</v-btn>
+                      </div>
+                      <div v-else>
+                        <v-btn @click="resetField()">Close</v-btn>
+                      </div>
+                      
+                    </div>
+                    
+                  
                 </v-card-actions>
               </v-form>
              
