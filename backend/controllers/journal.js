@@ -47,7 +47,7 @@ module.exports = class API {
         try {
             let id = req.params.id
             const journal = await Journals.findById(id)
-            const user = req.user
+            const user = req.user //dapetin dari header
             if(journal.user_id.equals(user._id)){
                 let newJournal = req.body
                 if(newJournal.date){

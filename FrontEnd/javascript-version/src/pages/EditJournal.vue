@@ -8,6 +8,7 @@ import { ref } from 'vue'
 import Swal from 'sweetalert2'
 import { useRoute } from 'vue-router'
 
+
 const route = useRoute()
 const vuetifyTheme = useTheme()
 const grid = ref([
@@ -18,13 +19,15 @@ const grid = ref([
 ])
 
 const date = ref(moment().format('YYYY-MM-DD HH:mm:ss'))
-
+console.log(route)
 
 
 const updateJournal = () => {
-  const id = reactive({
-  value: route.params.id
-});
+//   const id = reactive({
+//     value: route.params.id
+//   });
+  
+  const id = route.params.id
   const token = localStorage.getItem('token') // membaca token dari local storage
   const config = {
     headers: { Authorization: `Bearer ${token}` }, // mengirim token pada header permintaan
@@ -61,6 +64,7 @@ const submitForm = () => {
   updateJournal()
 }
 
+
 </script>
 
 <template>
@@ -72,7 +76,7 @@ const submitForm = () => {
             class="text-h4 font-weight-bold"
           >
             Edit Journal  ✏️
-            <div>Parameter ID: {{ $route.params.id }}</div>
+            <div>Parameter ID: {{id}}</div>
           </h4>
         <v-container fluid>
           <h4> Question </h4>
