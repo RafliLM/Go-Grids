@@ -198,7 +198,6 @@ export default {
                 >
                   <VCardItem>
                     <VCardTitle class="gridTitle">{{ grid.question }}</VCardTitle>
-                    <VCardTitle class="gridTitle">{{ grid._id }}</VCardTitle>
                   </VCardItem>
                   <VCardText
                     style="padding-bottom: 10px"

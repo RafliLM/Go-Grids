@@ -35,6 +35,7 @@ const updateJournal = () => {
   const data = {
     grid: grid.value,
     date: date.value,
+    question: grid.value[0].question,
     answer: grid.value[0].answer
   }
   data.date = moment().format('YYYY-MM-DD HH:mm:ss')

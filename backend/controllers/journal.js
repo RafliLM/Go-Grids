@@ -46,15 +46,19 @@ module.exports = class API {
     static async updateJournal(req, res) {
         try {
             let id = req.params.id
-            const journal = await Journals.findById(id)
-            const user = req.user //dapetin dari header
+            const journal = await Journals.findOne({'grid._id': id})
+            const user = req.user // dapetin dari header
             if(journal.user_id.equals(user._id)){
-                let newJournal = req.body
+                const gridIndex = journal.grid.findIndex(grid => grid._id.equals(id))
+                if(gridIndex === -1){
+                    return res.status(404).json({message: "Journal not found"})
+                }
+                const newJournal = req.body
                 if(newJournal.date){
                     newJournal.date = new Date(newJournal.date)
                     newJournal.date.setHours(0,0,0,0)
                 }
-                await Journals.findByIdAndUpdate(id, newJournal)
+                await Journals.updateOne({'grid._id': id}, {'$set': {['grid.' + gridIndex]: newJournal}})
                 res.status(200).json({ message: "Successfully update your Journal"});
             }
             else{
