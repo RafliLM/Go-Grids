@@ -15,6 +15,11 @@ export default {
     }
   },
   methods: {
+    redirectJournal(id) {
+      console.log(id)
+      router.push({name : 'EditJournal', params : {id : id}})
+    },
+    
     getProfile() {
       const token = localStorage.getItem('token')
       const config = {
@@ -48,6 +53,7 @@ export default {
   created() {
     this.getProfile()
     this.getJournals()
+   
   },
 }
 </script>
@@ -182,7 +188,7 @@ export default {
               >
                 <VCard
                   v-if="journals != null"
-                  @click.stop="$router.push({ name: 'EditJournal', params: { id: grid._id } })"
+                  @click="redirectJournal(grid._id)"
                   style="
                     position: relative;
                     z-index: 0;
