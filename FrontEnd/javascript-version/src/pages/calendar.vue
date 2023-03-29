@@ -62,7 +62,7 @@ const Demo = defineComponent({
       id : undefined,
       user : undefined,
       creator: undefined,
-      timeHeld : new Date()
+      timeHeld : undefined
     }
   },
   methods: {
@@ -243,10 +243,13 @@ const Demo = defineComponent({
       this.participants = undefined;
       this.selectedDate = new Date();
       this.dialog = false;
+      this.creator = undefined
+      this.timeHeld = undefined
     }
   },
   beforeCreate(){
     const token = localStorage.getItem("token")
+    
     axios.get(`${this.APIURI}user/all/username`, {
         headers : {
           Authorization: `Bearer ${token}`
@@ -314,7 +317,7 @@ export default Demo
                     v-model="title"
                     :rules="[v => !!v || 'Event name is required']"
                     required
-                    :readonly="!((creator == user._id) && (timeHeld.getTime() > new Date().getTime()))"
+                    :readonly="!((creator == user._id) && (timeHeld.getTime() > new Date().getTime())) && (creator != undefined && timeHeld != undefined)"
                   ></v-text-field>
                   <v-autocomplete 
                     label="Participants" 
@@ -323,7 +326,7 @@ export default Demo
                     chips
                     :closable-chips="(creator == user._id) && (timeHeld.getTime() > new Date().getTime())"
                     multiple
-                    :readonly="!((creator == user._id) && (timeHeld.getTime() > new Date().getTime()))"
+                    :readonly="!((creator == user._id) && (timeHeld.getTime() > new Date().getTime())) && (creator != undefined && timeHeld != undefined)"
                   ></v-autocomplete>
                 </v-card-text>
                 <v-card-actions>
