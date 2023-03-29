@@ -159,12 +159,12 @@ export default {
         >
           <v-col
             class="text-right"
-            style="margin-bottom: -40px; margin-left: 20px; position: relative; z-index: 1"
+            style="margin-bottom: -10px; margin-left: 20px; position: relative; z-index: 1"
           >
             <v-spacer></v-spacer>
           </v-col>
           <div class="containercard d-flex">
-            <div class="card-deck flex-row flex-nowrap">
+            <div class="d-flex flex-row mb-6">
               <div class="col-md-4" v-for="(grid, index) in journals.grid" :key="index">
                 <VCard
                   v-if="journals != null"
