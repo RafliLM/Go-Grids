@@ -34,6 +34,7 @@ const attrs = ref([
 <script>
 import { Calendar, DatePicker } from 'v-calendar';
 import 'v-calendar/style.css';
+import axios from 'axios';
 
 export default {
   components: {
@@ -42,6 +43,9 @@ export default {
   },
   data() {
     return {
+      selectedDate: new Date(),
+      data: null,
+
       quote1: {
         text: "",
         author: ""
@@ -52,6 +56,17 @@ export default {
       },
       quotes: []
     };
+  },
+  methods: {
+    async getJournalsByDatee() {
+      const response = await axios.get(`/api/data/${this.selectedDate}`);
+      this.data = response.data;
+    },
+  },
+  watch: {
+    selectedDate() {
+      this.getJournalsByDate();
+    },
   },
   created() {
     this.getQuotes();
