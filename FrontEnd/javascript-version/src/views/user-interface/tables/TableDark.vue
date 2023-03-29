@@ -42,7 +42,7 @@ export default {
     class="bordered">
       <thead>
         <tr>
-          <th class="left-align">Timestamp</th>
+          <th class="left-align">{{ journals.date }}</th>
         </tr>
       </thead>
       <tbody>
