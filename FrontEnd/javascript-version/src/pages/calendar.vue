@@ -61,7 +61,8 @@ const Demo = defineComponent({
       events : [],
       id : undefined,
       user : undefined,
-      creator: undefined
+      creator: undefined,
+      timeHeld : new Date()
     }
   },
   methods: {
@@ -99,6 +100,7 @@ const Demo = defineComponent({
       this.creator = event.creator
       this.edit = true
       this.dialog = true
+      this.timeHeld = new Date(event.timeHeld)
     },
     handleEvents(events: EventApi[]) {
       this.currentEvents = events
@@ -312,16 +314,16 @@ export default Demo
                     v-model="title"
                     :rules="[v => !!v || 'Event name is required']"
                     required
-                    :readonly="creator != user._id"
+                    :readonly="!((creator == user._id) && (timeHeld.getTime() > new Date().getTime()))"
                   ></v-text-field>
                   <v-autocomplete 
                     label="Participants" 
                     v-model="participants" 
                     :items="usernames"
                     chips
-                    :closable-chips="creator == user._id"
+                    :closable-chips="(creator == user._id) && (timeHeld.getTime() > new Date().getTime())"
                     multiple
-                    :readonly="creator != user._id"
+                    :readonly="!((creator == user._id) && (timeHeld.getTime() > new Date().getTime()))"
                   ></v-autocomplete>
                 </v-card-text>
                 <v-card-actions>
@@ -330,7 +332,7 @@ export default Demo
                       <v-btn @click="resetField()">Cancel</v-btn>
                     </div>
                     <div v-else>
-                      <div v-if="creator == user._id">
+                      <div v-if="(creator == user._id) && (timeHeld.getTime() > new Date().getTime())">
                         <v-btn @click="saveEvent()">Update</v-btn>
                         <v-btn v-if="edit" @click="deleteEvent()">Delete</v-btn>
                         <v-btn @click="resetField()">Cancel</v-btn>
@@ -338,10 +340,7 @@ export default Demo
                       <div v-else>
                         <v-btn @click="resetField()">Close</v-btn>
                       </div>
-                      
                     </div>
-                    
-                  
                 </v-card-actions>
               </v-form>
              
