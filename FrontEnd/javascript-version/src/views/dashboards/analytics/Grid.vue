@@ -170,7 +170,7 @@ export default {
       <div style="margin-top: 50px">
         <VRow style="padding-left: 20px;">
         <VCol cols="10" sm="5" md="4" 
-              v-for="(_id) in journals"
+              v-for="(grid) in journals.grid"
                 :key="journal._id">
           <v-col
             class="text-right"
