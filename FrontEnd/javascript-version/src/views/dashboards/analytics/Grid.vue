@@ -103,17 +103,17 @@ export default {
         <p class="pl-5">How do you feel today?</p>
         <div class="emoticons">
           <a
-            href="/"
+            href="/dashboard"
             class="emoticon"
             >😀</a
           >
           <a
-            href="/"
+            href="/dashboard"
             class="emoticon"
             >😭</a
           >
           <a
-            href="/"
+            href="/dashboard"
             class="emoticon"
             >😡</a
           >
@@ -161,7 +161,7 @@ export default {
       </VCol>
 
       <div style="margin-top: 50px">
-        <VRow style="padding-left: 20px;">
+        <VRow>
         <VCol cols="10" sm="5" md="4" 
               v-for="(grid) in journals.grid"
                 :key="grid._id">
