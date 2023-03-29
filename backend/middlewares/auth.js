@@ -3,21 +3,23 @@ const jwt = require('jsonwebtoken')
 
 const verifyToken = async (req, res, next) => {
     try {
+        if(!req.headers.authorization)
+            return res.status(401).json({message : "Unauthorized"})
         const token = req.headers.authorization.split(' ')[1]
         jwt.verify(token, process.env.SECRET, async (err, decoded) => {
             if (err)
-                return res.status(403).json({message : "Unauthorized"})
+                return res.status(401).json({message : "Unauthorized"})
             const user = await Users.findById(decoded.id)
             if(user){
                 req.user = user
                 next()
             }
             else{
-                res.status(403).json({message : "Unauthorized"})
+                res.status(401).json({message : "Unauthorized"})
             }
         })
     } catch (error) {
-        res.status(403).json({message : error.message})
+        res.status(401).json({message : error.message})
     }
 }
 

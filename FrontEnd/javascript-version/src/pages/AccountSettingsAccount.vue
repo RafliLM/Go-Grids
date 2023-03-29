@@ -45,7 +45,7 @@ const update = (firstname,lastName, username, email,password ) => {
       const config = {
         headers: { Authorization: `Bearer ${token}` }, // mengirim token pada header permintaan
       }
-  axios.put("http://localhost:5000/api/user", {
+  axios.patch("http://localhost:5000/api/user", {
     firstname : firstname,
     lastname : lastName,
     username: username,
