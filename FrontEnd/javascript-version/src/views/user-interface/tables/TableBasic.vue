@@ -1,6 +1,7 @@
 <script>
 import SvgIcon from '@jamescoyle/vue-icon'
 import { mdiDeleteOutline } from '@mdi/js'
+import axios from 'axios'
 
 export default {
   name: 'my-component',
@@ -10,7 +11,27 @@ export default {
   data() {
     return {
       path: mdiDeleteOutline,
-    }
+      events: ''
+    };
+  },
+ methods: {
+    getEvents() {
+      const token = localStorage.getItem('token')
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+      axios
+        .get(`//localhost:5000/api/event/`, config)
+        .then(response => {
+          this.events = response.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+  },
+  created() {
+    this.getEvents()
   },
 }
 </script>
@@ -27,7 +48,7 @@ export default {
   </div>
 
   <VCol>
-    <VRow style="padding-left: 25px; padding-bottom: 20px; padding-top: 10px">
+    <VRow style="padding-left: 25px; padding-bottom: 20px; padding-top: 10px" v-for="event in events">
       <p
         style="
           background-color: #14162e;
@@ -40,7 +61,7 @@ export default {
           align-items: center;
         "
       >
-        09 May 2023
+      {{ event.timeHeld }}
       </p>
       <p
         style="
@@ -53,16 +74,16 @@ export default {
           align-items: center;
         "
       >
-        Faza's birthday
+      {{ event.title }}
       </p>
       <svg-icon
         type="mdi"
         :path="path"
-        style="box-shadow: 0 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); cursor: pointer; right: 48px; position: absolute; margin-top: 1px; color: black"
+        style="cursor: pointer; right: 48px; position: absolute; margin-top: 1px; color: black"
         href=","
       ></svg-icon>
     </VRow>
-    <VRow style="padding-left: 25px; padding-bottom: 20px">
+    <!-- <VRow style="padding-left: 25px; padding-bottom: 20px">
       <p
         style="
           background-color: #14162e;
@@ -93,7 +114,7 @@ export default {
       <svg-icon
         type="mdi"
         :path="path"
-        style="box-shadow: 0 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); cursor: pointer; right: 48px; position: absolute; margin-top: 1px; color: black"
+        style="cursor: pointer; right: 48px; position: absolute; margin-top: 1px; color: black"
         href=","
       ></svg-icon>
     </VRow>
@@ -128,9 +149,9 @@ export default {
       <svg-icon
         type="mdi"
         :path="path"
-        style="box-shadow: 0 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); cursor: pointer; right: 48px; position: absolute; margin-top: 1px; color: black"
+        style="cursor: pointer; right: 48px; position: absolute; margin-top: 1px; color: black"
         href=","
       ></svg-icon>
-    </VRow>
+    </VRow> -->
   </VCol>
 </template>
