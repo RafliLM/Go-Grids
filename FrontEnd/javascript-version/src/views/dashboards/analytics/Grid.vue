@@ -14,6 +14,59 @@ export default {
     }
   },
   methods: {
+    showSwalEdit(journal) {
+    const journalId = journals._id
+    const question = grid.question
+    const answer = grid.answer
+
+    Swal.fire({
+      title: 'Edit Journal',
+      html:
+        `<input id="swal-input1" class="swal2-input" value="${question}">` +
+        `<input id="swal-input2" class="swal2-input" value="${answer}">`,
+      focusConfirm: false,
+      backdrop: true,
+      icon: 'info',
+      customClass: {
+        popup: 'my-popup-class',
+        confirmButton: 'my-confirm-button-class',
+        cancelButton: 'my-cancel-button-class'
+      },
+      confirmButtonText: 'Simpan',
+      cancelButtonText: 'Batal',
+      preConfirm: () => {
+        const newQuestion = Swal.getPopup().querySelector('#swal-input1').value
+        const newAnswer = Swal.getPopup().querySelector('#swal-input2').value
+
+        return { newQuestion, newAnswer }
+      },
+        }).then(result => {
+          if (result.isConfirmed) {
+            const token = localStorage.getItem('token');
+            const config = {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+            const newData = {
+              grid: [
+                {
+                  question: result.value.newQuestion,
+                  answer: result.value.newAnswer,
+                },
+              ],
+            }
+
+            axios.patch(`//localhost:5000/api/journal/${journalId}`, newData, config)
+              .then(response => {
+                Swal.fire('Success', 'Journal has been updated!', 'success')
+                this.getJournals()
+              })
+              .catch(error => {
+                console.log(error)
+                Swal.fire('Error', 'Failed to update journal', 'error')
+              })
+          }
+        })
+      },
     getProfile() {
       const token = localStorage.getItem('token')
       const config = {
@@ -178,7 +231,7 @@ export default {
               >
                 <VCard
                   v-if="journals != null"
-                  @click.stop="$router.push({ name: 'EditJournal', params: { id: journals._id } })"
+                  @click.stop="showSwalEdit(journal)"
                   style="
                     position: relative;
                     z-index: 0;
