@@ -9,7 +9,7 @@ const gridSchema = new mongoose.Schema({
         type : String,
         required : false
     }
-}, { _id : true})
+}, { _id : false})
 
 
 const postSchema = new mongoose.Schema({
