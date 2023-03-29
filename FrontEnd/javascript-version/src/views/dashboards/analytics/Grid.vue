@@ -1,10 +1,18 @@
 <script>
 import Swal from 'sweetalert2'
 import axios from 'axios'
+// import { Calendar, DatePicker } from 'v-calendar';
+// import 'v-calendar/style.css';
+// import VueDatePicker from '@vuepic/vue-datepicker'
+// import '@vuepic/vue-datepicker/dist/main.css'
 
 export default {
+  // components: {
+  //   Calendar,
+  //   DatePicker,
   data() {
     return {
+      // selectedDate: new Date("yyyy-MM-dd"),
       profile: {
         username: localStorage.getItem('username'),
       },
@@ -29,25 +37,22 @@ export default {
           console.log(error)
         })
     },
-    getJournals() {
-      const token = localStorage.getItem('token');
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-      const currentDate = new Date().toISOString().substr(0, 10);
-      axios
-        .get(`//localhost:5000/api/journal/${currentDate}`, config)
-        .then(response => {
-          this.journals = response.data;
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
+//     getJournals(selectedDate) {
+//   const token = localStorage.getItem('token');
+//   const config = {
+//     headers: { Authorization: `Bearer ${token}` },
+//   }
+//   axios
+//     .get(`//localhost:5000/api/journal/${selectedDate}`, config)
+//     .then(response => {
+//       this.journals = response.data;
+//     })
+//     .catch(error => {
+//       console.log(error);
+//     });
   },
   created() {
     this.getProfile()
-    this.getJournals()
   },
 }
 </script>
@@ -162,6 +167,17 @@ export default {
           </v-form>
         </div>
       </VCol>
+      <!-- <div>
+    <h2>Pilih Tanggal</h2>
+    <DatePicker 
+          v-model="selectedDate"
+          mode="date"
+          :attributes="attrs"
+          style="background-color: transparent; border: 0px;"
+          width="100%"
+          ></DatePicker>
+    <button @click="getJournals(selectedDate)">Tampilkan</button>
+  </div> -->
 
       <div style="margin-top: 50px">
         <VCol cols="10" sm="5" md="4" 

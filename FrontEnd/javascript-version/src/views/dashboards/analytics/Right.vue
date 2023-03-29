@@ -7,6 +7,7 @@ import { ref } from 'vue'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 
+
 const vuetifyTheme = useTheme()
 const triangleBg = computed(() => {
   return vuetifyTheme.global.name.value === 'light' ? triangleLight : triangleDark
@@ -34,6 +35,7 @@ const attrs = ref([
 <script>
 import { Calendar, DatePicker } from 'v-calendar';
 import 'v-calendar/style.css';
+import axios from 'axios'
 
 export default {
   components: {
@@ -42,6 +44,10 @@ export default {
   },
   data() {
     return {
+      journals: {
+        grid : []
+      },
+      selectedDate: new Date("yyyy-MM-dd"),
       quote1: {
         text: "",
         author: ""
@@ -52,9 +58,6 @@ export default {
       },
       quotes: []
     };
-  },
-  created() {
-    this.getQuotes();
   },
   methods: {
     async getQuotes() {
@@ -78,8 +81,26 @@ export default {
         text: data[randomQuote2].text,
         author: data[randomQuote2].author
       };
-    }
+    },
+    getJournals(selectedDate) {
+  const token = localStorage.getItem('token');
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
   }
+  axios
+    .get(`//localhost:5000/api/journal/${selectedDate}`, config)
+    .then(response => {
+      this.journals = response.data;
+    })
+    .catch(error => {
+      console.log(error);
+    });
+},
+  },
+  created() {
+    this.getQuotes()
+    this.getJournals()
+  },
 
 }
 
@@ -173,15 +194,19 @@ export default {
           </div>
         </VCol>
       <VRow class="py-5" style="display: flex; justify-content: center; align-items: center;">
-        <VCard>
+        <div>
+      
           <DatePicker 
-          v-model="date"
+          v-model="selectedDate"
           mode="date"
           :attributes="attrs"
           style="background-color: transparent; border: 0px;"
           width="100%"
+          @click="getJournals(selectedDate)"
           ></DatePicker>
-        </VCard>
+
+        
+      </div>
       </VRow>
       
       </VRow>
