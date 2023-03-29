@@ -104,9 +104,21 @@ export default {
         <h1 class="pl-5">Hello, {{ this.profile }} 👋</h1>
         <p class="pl-5">How do you feel today?</p>
         <div class="emoticons">
-          <a href="/" class="emoticon">😀</a>
-          <a href="/" class="emoticon">😭</a>
-          <a href="/" class="emoticon">😡</a>
+          <a
+            href="/dashboard"
+            class="emoticon"
+            >😀</a
+          >
+          <a
+            href="/dashboard"
+            class="emoticon"
+            >😭</a
+          >
+          <a
+            href="/dashboard"
+            class="emoticon"
+            >😡</a
+          >
         </div>
 
         <h2 class="pl-5">Today's Journal</h2>
@@ -151,12 +163,11 @@ export default {
         </div>
       </VCol>
 
-      <div style="margin-top: 20px">
-        <VCol
-          cols="10"
-          sm="5"
-          md="4"
-        >
+      <div style="margin-top: 50px">
+        <VRow>
+        <VCol cols="10" sm="5" md="4" 
+              v-for="(grid) in journals.grid"
+                :key="grid._id">
           <v-col
             class="text-right"
             style="margin-bottom: -10px; margin-left: 20px; position: relative; z-index: 1"
