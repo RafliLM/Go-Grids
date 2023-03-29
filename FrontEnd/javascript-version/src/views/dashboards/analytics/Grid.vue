@@ -164,7 +164,6 @@ export default {
       </VCol>
 
       <div style="margin-top: 50px">
-        <VRow>
         <VCol cols="10" sm="5" md="4" 
               v-for="(grid) in journals.grid"
                 :key="grid._id">
