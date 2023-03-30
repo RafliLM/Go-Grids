@@ -69,11 +69,6 @@ export default {
       })
     },
   },
-  watch: {
-    selectedDate() {
-      this.getJournalsByDate();
-    },
-  },
   created() {
     this.getQuotes();
   },
