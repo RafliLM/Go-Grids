@@ -58,9 +58,15 @@ export default {
     };
   },
   methods: {
-    async getJournalsByDatee() {
-      const response = await axios.get(`/api/data/${this.selectedDate}`);
-      this.data = response.data;
+    getJournalsByDate() {
+    axios
+      .git('https://locallhost:5000/api/journal/:date')
+      .then(response =>{
+        this.journal = response.data
+      })
+      .catch(error => {
+          console.log(error)
+      })
     },
   },
   watch: {
