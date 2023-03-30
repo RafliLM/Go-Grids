@@ -17,11 +17,15 @@ export default {
       const config = {
         headers: { Authorization: `Bearer ${token}` },
       }
+
       const currentDate = new Date().toISOString().substr(0, 10);
+      
       axios
         .get(`//localhost:5000/api/journal/${currentDate}`, config)
+
         .then(response => {
           this.journals = response.data;
+          console.log(response.data);
         })
         .catch(error => {
           console.log(error);
@@ -42,8 +46,8 @@ export default {
     :key="index"
     class="bordered">
       <thead>
-        <tr>
-          <th class="left-align">{{ journals.date }}</th>
+        <tr> 
+          <th class="left-align">{{ journals.date.substr(0, 10) }}</th>
         </tr>
       </thead>
       <tbody>
