@@ -60,12 +60,12 @@ export default {
   methods: {
     getJournalsByDate() {
     axios
-      .git('https://locallhost:5000/api/journal/:date')
+      .get('https://locallhost:5000/api/journal/:date')
       .then(response =>{
         this.journal = response.data
       })
-      .catch(error => {
-          console.log(error)
+      .catch(response => {
+          console.log(response)
       })
     },
   },
