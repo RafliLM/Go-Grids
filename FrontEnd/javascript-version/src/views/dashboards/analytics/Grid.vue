@@ -43,10 +43,30 @@ export default {
           console.log(error)
         })
     },
+    deleteAllJournals() {
+      const token = localStorage.getItem('token')
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+      axios
+        .delete('//localhost:5000/api/journal/${journals._id}', config)
+        .then(response => {
+          Swal.fire({
+            title: 'Success!',
+            text: 'All journals have been deleted.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
   },
   created() {
     this.getProfile()
     this.getJournals()
+    this.deleteAllJournals()
   },
 }
 </script>
@@ -153,6 +173,7 @@ export default {
               type="submit"
               variant="#ffffff"
               color="black"
+              @click="deleteAllJournals(journals._id)"
             >
               <strong>DELETE ALL</strong>
             </v-btn>
