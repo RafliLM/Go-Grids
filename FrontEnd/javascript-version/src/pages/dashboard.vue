@@ -25,17 +25,15 @@ onMounted(async () => {
 <template>
   <VRow class="match-height">
     <VCol
-      cols="10"
-      md="9"
     >
-      <Grid />
+      <Grid  v-if="data" :fullname="`${data.firstname} ${data.lastname}`" :username="data.username" />
     </VCol>
-    <VCol
+    <!-- <VCol
       cols="10"
       md="3"
     >
       <Right v-if="data" :fullname="`${data.firstname} ${data.lastname}`" :username="data.username"/>
-    </VCol>
+    </VCol> -->
 
     <!-- <VCol
       cols="12"
