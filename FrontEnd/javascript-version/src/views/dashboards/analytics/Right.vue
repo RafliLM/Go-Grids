@@ -58,14 +58,16 @@ export default {
     };
   },
   methods: {
-    getJournalsByDate() {
-    axios
+    async getJournalsByDate() {
+    await axios
       .get('https://locallhost:5000/api/journal/:date')
-      .then(response =>{
+      .then((response) =>{
+        console.log(response + "cobain")
         this.journal = response.data
       })
-      .catch(response => {
-          console.log(response)
+      .catch((error) => {
+          console.log(error)
+          this.errored = true
       })
     },
   },
