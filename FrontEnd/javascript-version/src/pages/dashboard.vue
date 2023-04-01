@@ -1,6 +1,5 @@
 <script setup>
 import Grid from '@/views/dashboards/analytics/Grid.vue'
-import Right from '@/views/dashboards/analytics/Right.vue' 
 import axios from 'axios'
 import { onMounted, ref } from 'vue'
 
