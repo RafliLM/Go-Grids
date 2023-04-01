@@ -1,6 +1,5 @@
 <script setup>
 import Grid from '@/views/dashboards/analytics/Grid.vue'
-import Right from '@/views/dashboards/analytics/Right.vue' 
 import axios from 'axios'
 import { onMounted, ref } from 'vue'
 
@@ -25,17 +24,15 @@ onMounted(async () => {
 <template>
   <VRow class="match-height">
     <VCol
-      cols="10"
-      md="9"
     >
-      <Grid />
+      <Grid  v-if="data" :fullname="`${data.firstname} ${data.lastname}`" :username="data.username" />
     </VCol>
-    <VCol
+    <!-- <VCol
       cols="10"
       md="3"
     >
       <Right v-if="data" :fullname="`${data.firstname} ${data.lastname}`" :username="data.username"/>
-    </VCol>
+    </VCol> -->
 
     <!-- <VCol
       cols="12"

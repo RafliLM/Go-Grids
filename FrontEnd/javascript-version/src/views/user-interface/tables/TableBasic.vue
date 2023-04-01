@@ -61,7 +61,7 @@ export default {
           align-items: center;
         "
       >
-      {{ event.timeHeld }}
+      {{ event.timeHeld.substr(0, 10) }}
       </p>
       <p
         style="
