@@ -1,12 +1,64 @@
+<script setup>
+import { useTheme } from 'vuetify'
+import { ref } from 'vue'
+import VueDatePicker from '@vuepic/vue-datepicker'
+import '@vuepic/vue-datepicker/dist/main.css'
+
+const vuetifyTheme = useTheme()
+const triangleBg = computed(() => {
+  return vuetifyTheme.global.name.value === 'light' ? triangleLight : triangleDark
+})
+const props = defineProps({
+  fullname : String,
+  username : String
+})
+const attrs = ref([
+  {
+    dot: 'pink',
+    dates: '2023-03-01T18:00:00Z',
+  },
+  {
+    dot: 'indigo',
+    dates: '2023-03-11T19:00:00Z',
+  },
+]);
+</script>
 <script>
 import Swal from 'sweetalert2'
 import axios from 'axios'
+import { Calendar, DatePicker } from 'v-calendar';
+import 'v-calendar/style.css';
 
 export default {
+  components: {
+    Calendar,
+    DatePicker,
+  },
   data() {
     return {
+      selectedDate: new Date().toISOString().substr(0, 10),
+      calendarAttributes: [
+        {
+          key: 'highlight',
+          dates: [
+            { start: new Date(), end: new Date(new Date().setDate(new Date().getDate() + 7)) },
+          ],
+        },
+      ],
+      quote1: {
+        text: "",
+        author: ""
+      },
+      quote2: {
+        text: "",
+        author: ""
+      },
+      quotes: [],
       profile: {
-        username: localStorage.getItem('username'),
+        username: localStorage.getItem('username')
+      },
+      fullprofile:{
+        fullname: localStorage.getItem('firstname') + ' ' + localStorage.getItem('lastname') 
       },
       journals: {
         grid: [],
@@ -14,6 +66,28 @@ export default {
     }
   },
   methods: {
+    async getQuotes() {
+      const data = await fetch("https://type.fit/api/quotes").then(res => res.json());
+      const randomQuote1 = Math.floor(Math.random() * data.length);
+      let randomQuote2 = Math.floor(Math.random() * data.length);
+      while (randomQuote2 === randomQuote1) {
+        randomQuote2 = Math.floor(Math.random() * data.length);
+      }
+      if (this.quote1.text) {
+        this.quotes = [...this.quotes, this.quote1];
+      }
+      if (this.quote2.text) {
+        this.quotes = [...this.quotes, this.quote2];
+      }
+      this.quote1 = {
+        text: data[randomQuote1].text,
+        author: data[randomQuote1].author
+      };
+      this.quote2 = {
+        text: data[randomQuote2].text,
+        author: data[randomQuote2].author
+      };
+    },
     getProfile() {
       const token = localStorage.getItem('token')
       const config = {
@@ -28,21 +102,26 @@ export default {
           console.log(error)
         })
     },
-    getJournals() {
+      getJournals(date) {
+        console.log('date:', date);
+    if (date instanceof Date) {
       const token = localStorage.getItem('token')
       const config = {
         headers: { Authorization: `Bearer ${token}` },
       }
-      const currentDate = new Date().toISOString().substr(0, 10)
+      const formattedDate = date.toISOString().substr(0, 10)
       axios
-        .get(`//localhost:5000/api/journal/${currentDate}`, config)
+        .get(`//localhost:5000/api/journal/${formattedDate}`, config)
         .then(response => {
           this.journals = response.data
         })
         .catch(error => {
           console.log(error)
         })
-    },
+    } else {
+      console.error('Invalid date object.')
+  }
+},
     showSwalEdit(journal, index) {
       const journalId = journal._id
       const question = journal.grid[index].question
@@ -100,6 +179,7 @@ export default {
   created() {
     this.getProfile()
     this.getJournals()
+    this.getQuotes();
   },
 }
 </script>
@@ -121,6 +201,7 @@ export default {
 .gridContent {
   color: black;
   font-size: small;
+  max-width: 83%;
 }
 
 .swal2-input{
@@ -158,138 +239,272 @@ export default {
 
 <template>
   <!-- Hallo Kurkur -->
-  <VCard>
-    <VCardItem>
-      <div
-        class="main"
-        style="width: 100%"
-      >
-        <h1 class="pl-5">Hello, {{ this.profile }} 👋</h1>
-        <p class="pl-5">How do you feel today?</p>
-        <div class="emoticons">
-          <a
-            href="/dashboard"
-            class="emoticon"
-            >😀</a
-          >
-          <a
-            href="/dashboard"
-            class="emoticon"
-            >😭</a
-          >
-          <a
-            href="/dashboard"
-            class="emoticon"
-            >😡</a
-          >
-        </div>
-
-        <h2 class="pl-5">Today's Journal</h2>
-      </div>
-      <VCol
-        cols="8"
-        md="6"
-      >
-        <div class="right">
-          <v-row
-            justify="center"
-            style="right: 200px; position: absolute"
-          >
-            <v-btn
-              to="AddJournal"
-              class="button-AddGrid"
-              color="primary"
-              @click="AddJournal"
+  <VRow class="match-height">
+    <VCol
+      cols="10"
+      md="9"
+    >
+    <VCard>
+      <VCardItem>
+        <div
+          class="main"
+          style="width: 100%"
+        >
+          <h1 class="pl-5">Hello, {{ this.profile }} 👋</h1>
+          <p class="pl-5">How do you feel today?</p>
+          <div class="emoticons">
+            <a
+              href="/dashboard"
+              class="emoticon"
+              >😀</a
             >
-              + Add Grid Journal
-            </v-btn>
-          </v-row>
-          <v-form
-            ref="form"
-            enctype="multipart/form-data"
-            style="right: 48px; position: absolute; margin-top: -12px"
-          >
-            <v-btn
-              outlined
-              plain
-              raised
-              depressed
-              elevation="2"
-              type="submit"
-              variant="#ffffff"
-              color="black"
+            <a
+              href="/dashboard"
+              class="emoticon"
+              >😭</a
             >
-              <strong>DELETE ALL</strong>
-            </v-btn>
-          </v-form>
-        </div>
-      </VCol>
+            <a
+              href="/dashboard"
+              class="emoticon"
+              >😡</a
+            >
+          </div>
 
-      <div style="margin-top: 50px">
-        <VRow>
-        <VCol cols="10" sm="5" md="4" 
-              v-for="(grid, index) in journals.grid"
-                :key="grid._id">
-          <v-col
-            class="text-right"
-            style="margin-bottom: -40px; margin-left: 20px; position: relative; z-index: 1"
-          >
-            <v-spacer></v-spacer>
-          </v-col>
-          <div class="containercard d-flex" style="margin-left: 20px;">
-            <div class="d-flex flex-row mb-6">
-              <div
-                class="col-md-4"
+          <h2 class="pl-5">Today's Journal</h2>
+        </div>
+        <VCol
+          cols="8"
+          md="6"
+        >
+          <div class="right">
+            <v-row
+              justify="center"
+              style="right: 200px; position: absolute"
+            >
+              <v-btn
+                to="AddJournal"
+                class="button-AddGrid"
+                color="primary"
+                @click="AddJournal"
               >
-                <VCard
-                  v-if="journals != null"
-                  @click="showSwalEdit(journals, index)"
-                  style="
-                    position: relative;
-                    z-index: 0;
-                    box-shadow: 0 0 0.5rem 0.5rem hsl(0 0% 0% / 10%);
-                    padding: 1rem;
-                    border-radius: 1rem;
-                    width: 200px;
-                    margin-right: 20px;
-                  "
-                >
-                  <VCardItem>
-                    <VCardTitle class="gridTitle">{{ grid.question }}</VCardTitle>
-                  </VCardItem>
-                  <VCardText
-                    style="padding-bottom: 10px"
-                    class="gridContent"
-                    >{{ grid.answer }}
-                  </VCardText>
-                </VCard>
-              </div>
-            </div>
+                + Add Grid Journal
+              </v-btn>
+            </v-row>
+            <v-form
+              ref="form"
+              enctype="multipart/form-data"
+              style="right: 48px; position: absolute; margin-top: -12px"
+            >
+              <v-btn
+                outlined
+                plain
+                raised
+                depressed
+                elevation="2"
+                type="submit"
+                variant="#ffffff"
+                color="black"
+              >
+                <strong>DELETE ALL</strong>
+              </v-btn>
+            </v-form>
           </div>
         </VCol>
-        </VRow>
-        <div>
-          <center>
-            <VCard
-              v-if="journals == null"
-              class="align-center justify-center auth-card"
-              style="background-color: transparent; opacity: 50%"
+
+        <div style="margin-top: 50px">
+          <VRow>
+          <VCol cols="10" sm="5" md="4" 
+                v-for="(grid, index) in journals.grid"
+                  :key="grid._id">
+            <v-col
+              class="text-right"
+              style="margin-bottom: -40px; margin-left: 20px; position: relative; z-index: 1; width: 33% "
             >
-              <img
-                margin="10"
-                height="170"
-                width="200"
-                src="gglogo.png"
-              />
-              <VCol class="text-b text-base">
-                <h3>You haven't add any journal</h3>
-              </VCol>
-            </VCard>
-          </center>
+              <v-spacer></v-spacer>
+            </v-col>
+            <div class="containercard d-flex" style="margin-left: 20px; width: 33%;">
+              <div class="d-flex flex-row mb-6">
+                <div
+                  class="col-md-1"
+                >
+                  <VCard
+                    v-if="journals != null"
+                    @click="showSwalEdit(journals, index)"
+                    style="
+                      position: relative;
+                      z-index: 0;
+                      box-shadow: 0 0 0.5rem 0.5rem hsl(0 0% 0% / 10%);
+                      padding: 1rem;
+                      border-radius: 1rem;
+                      width: 100%;
+                      height: 100%;
+                      margin-right: 20px;
+                    "
+                  >
+                    <VCardItem>
+                      <VCardTitle class="gridTitle">{{ grid.question }}</VCardTitle>
+                    </VCardItem>
+                    <VCardText
+                      style="padding-bottom: 10px"
+                      class="gridContent"
+                      >{{ grid.answer }}
+                    </VCardText>
+                  </VCard>
+                </div>
+              </div>
+            </div>
+          </VCol>
+          </VRow>
+          <div>
+            <center>
+              <VCard
+                v-if="journals == null"
+                class="align-center justify-center auth-card"
+                style="background-color: transparent; opacity: 50%"
+              >
+                <img
+                  margin="10"
+                  height="170"
+                  width="200"
+                  src="gglogo.png"
+                />
+                <VCol class="text-b text-base">
+                  <h3>You haven't add any journal</h3>
+                </VCol>
+              </VCard>
+            </center>
+          </div>
         </div>
+      </VCardItem>
+    </VCard>
+    </VCol>
+    <VCol
+      cols="10"
+      md="3"
+    >
+    <VRow >
+      <div style="flex-grow: 1; padding: 20px; width: 25%">
+        <div style="float: left">
+        </div>
+        <VRow>
+          <VCol cols="1" md="1">
+          <VAvatar
+            style="cursor: pointer;"
+            color="primary" 
+            size="50" 
+            variant="tonal">
+        <VImg :src="avatar1" />
+
+        <!-- SECTION Menu -->
+        <VMenu
+          activator="parent"
+          width="230"
+          location="bottom end"
+          offset="14px"
+        >
+          <VList>
+            <!-- 👉 User Avatar & Name -->
+            <VListItem>
+              <template #prepend>
+                <VListItemAction start>
+                    <VAvatar
+                      color="primary"
+                      size="40"
+                      variant="tonal"
+                    >
+                      <VImg :src="avatar1" />
+                    </VAvatar>
+                </VListItemAction>
+              </template>
+
+              <VListItemTitle class="font-weight-semibold">
+                {{ fullname }}
+              </VListItemTitle>
+              <VListItemSubtitle class="text-disabled">
+                {{ username }}
+              </VListItemSubtitle>
+            </VListItem>
+
+            <VDivider class="my-2" />
+
+            <!-- 👉 Settings -->
+            <VListItem to="account-settings">
+              <template  #prepend>
+                <VIcon
+                  class="me-2"
+                  icon="mdi-cog-outline"
+                  size="22"
+                />
+              </template>
+
+              <VListItemTitle class="button-Settings">Settings</VListItemTitle>
+            </VListItem>
+
+            <!-- Divider -->
+            <VDivider class="my-2" />
+
+            <!-- 👉 Logout -->
+            <VListItem to="/">
+              <template #prepend>
+                <VIcon
+                  class="me-2"
+                  icon="mdi-logout-variant"
+                  size="22"
+                />
+              </template>
+
+              <VListItemTitle class="button-Logout">Logout</VListItemTitle>
+            </VListItem>
+          </VList>
+        </VMenu>
+
+
+        <!-- !SECTION -->
+        </VAvatar>
+          </VCol>
+          <VCol cols="1" md="7">
+            <div style=" padding-left: 20%;">
+              <h3>{{ fullname }}</h3>
+              <p>@{{ username }}</p>
+            </div>
+          </VCol>
+        <VRow class="py-5" style="display: flex; justify-content: center; align-items: center;">
+          <VCard>
+            <DatePicker 
+            v-model="selectedDate"
+            :attributes="calendarAttributes" 
+            @click="getJournals(selectedDate)"
+            @selected="getJournals"
+            style="background-color: transparent; border: 0px;"
+            width="100%"
+            ></DatePicker>
+          </VCard>
+        </VRow>
+        
+        </VRow>
+          <br>
+          <h1>Quotes</h1>
+          <VCard style="background-color: transparent;">
+            <VCardText style="box-shadow: 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); padding: 1rem; border-radius: 1rem">
+              <p style="font-style: italic">
+                {{ quote1.text }}
+              </p>
+              <p style="font-style: italic; text-align: right">{{ quote1.author === null ? 'Unknown' : quote1.author }}</p>
+            </VCardText>
+            <VCardText
+              class="mt-7"
+              style="box-shadow: 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); padding: 1rem; border-radius: 1rem"
+            >
+              <p style="font-style: italic">
+                {{ quote2.text }}
+              </p>
+              <p style="font-style: italic; text-align: right">{{ quote2.author === null ? 'Unknown' : quote2.author }}</p>
+            </VCardText>
+          </VCard>
       </div>
-    </VCardItem>
-  </VCard>
+    </VRow>
+  </VCol>
+  </VRow>
 </template>
 
 
