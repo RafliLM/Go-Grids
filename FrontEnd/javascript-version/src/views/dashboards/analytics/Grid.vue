@@ -36,7 +36,7 @@ export default {
   },
   data() {
     return {
-      selectedDate: new Date(),
+      selectedDate: new Date().toISOString().substr(0, 10),
       calendarAttributes: [
         {
           key: 'highlight',
@@ -102,25 +102,24 @@ export default {
           console.log(error)
         })
     },
-    getJournals(date) {
-      console.log('date:', date);
-  if (date instanceof Date) {
-    const token = localStorage.getItem('token')
-    const config = {
-      headers: { Authorization: `Bearer ${token}` },
-    }
-    const formattedDate = date.toISOString().substr(0, 10)
-    console.log('Selected date:', formattedDate)
-    axios
-      .get(`//localhost:5000/api/journal/${formattedDate}`, config)
-      .then(response => {
-        this.journals = response.data
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  } else {
-    console.error('Invalid date object.')
+      getJournals(date) {
+        console.log('date:', date);
+    if (date instanceof Date) {
+      const token = localStorage.getItem('token')
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+      const formattedDate = date.toISOString().substr(0, 10)
+      axios
+        .get(`//localhost:5000/api/journal/${formattedDate}`, config)
+        .then(response => {
+          this.journals = response.data
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    } else {
+      console.error('Invalid date object.')
   }
 },
     showSwalEdit(journal, index) {
@@ -474,7 +473,8 @@ export default {
             <DatePicker 
             v-model="selectedDate"
             :attributes="calendarAttributes" 
-            @click="getJournals"
+            @click="getJournals(selectedDate)"
+            @selected="getJournals"
             style="background-color: transparent; border: 0px;"
             width="100%"
             ></DatePicker>
