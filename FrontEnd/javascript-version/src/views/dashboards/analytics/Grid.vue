@@ -8,7 +8,6 @@ const vuetifyTheme = useTheme()
 const triangleBg = computed(() => {
   return vuetifyTheme.global.name.value === 'light' ? triangleLight : triangleDark
 })
-const date = ref(new Date());
 const props = defineProps({
   fullname : String,
   username : String
@@ -37,6 +36,15 @@ export default {
   },
   data() {
     return {
+      selectedDate: new Date().toISOString().substr(0, 10),
+      calendarAttributes: [
+        {
+          key: 'highlight',
+          dates: [
+            { start: new Date(), end: new Date(new Date().setDate(new Date().getDate() + 7)) },
+          ],
+        },
+      ],
       quote1: {
         text: "",
         author: ""
@@ -94,21 +102,26 @@ export default {
           console.log(error)
         })
     },
-    getJournals() {
+      getJournals(date) {
+        console.log('date:', date);
+    if (date instanceof Date) {
       const token = localStorage.getItem('token')
       const config = {
         headers: { Authorization: `Bearer ${token}` },
       }
-      const currentDate = new Date().toISOString().substr(0, 10)
+      const formattedDate = date.toISOString().substr(0, 10)
       axios
-        .get(`//localhost:5000/api/journal/${currentDate}`, config)
+        .get(`//localhost:5000/api/journal/${formattedDate}`, config)
         .then(response => {
           this.journals = response.data
         })
         .catch(error => {
           console.log(error)
         })
-    },
+    } else {
+      console.error('Invalid date object.')
+  }
+},
     showSwalEdit(journal, index) {
       const journalId = journal._id
       const question = journal.grid[index].question
@@ -458,9 +471,10 @@ export default {
         <VRow class="py-5" style="display: flex; justify-content: center; align-items: center;">
           <VCard>
             <DatePicker 
-            v-model="date"
-            mode="date"
-            :attributes="attrs"
+            v-model="selectedDate"
+            :attributes="calendarAttributes" 
+            @click="getJournals(selectedDate)"
+            @selected="getJournals"
             style="background-color: transparent; border: 0px;"
             width="100%"
             ></DatePicker>
