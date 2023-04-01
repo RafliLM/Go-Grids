@@ -341,9 +341,9 @@ export default {
                           box-shadow: 0 0 0.5rem 0.5rem hsl(0 0% 0% / 10%);
                           padding: 1rem;
                           border-radius: 1rem;
-                          width: 100%;
+                          width: 270px;
                           height: 100%;
-                          margin-right: 120px;
+                          margin-right: 20px;
                         "
                       >
                       <!-- Text judul pada grid -->
