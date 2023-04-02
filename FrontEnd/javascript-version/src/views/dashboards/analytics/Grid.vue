@@ -37,7 +37,7 @@ export default {
   },
   data() {
     return {
-      selectedDate: new Date().toISOString().substr(0, 10),
+      selectedDate: new Date(),
       calendarAttributes: [
         {
           key: 'highlight',
@@ -110,25 +110,33 @@ export default {
         })
     },
     getJournals(date) {
-      console.log('date:', date)
-      if (date instanceof Date) {
-        const token = localStorage.getItem('token')
-        const config = {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-        const formattedDate = date.toISOString().substr(0, 10)
-        axios
-          .get(`//localhost:5000/api/journal/${formattedDate}`, config)
-          .then(response => {
-            this.journals = response.data
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      } else {
-        console.error('Invalid date object.')
-      }
-    },
+  console.log('date:', date)
+  if (date instanceof Date) {
+    const token = localStorage.getItem('token')
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+    const formattedDate = date.toISOString().substr(0, 10)
+    axios
+      .get(`//localhost:5000/api/journal/${formattedDate}`, config)
+      .then(response => {
+        this.journals = response.data
+      })
+      .catch(error => {
+        console.log(error)
+        this.journals = null // menetapkan nilai journals menjadi null ketika ada kesalahan pada permintaan
+      })
+  } else {
+    console.error('Invalid date object.')
+  }
+
+  // menambahkan blok kondisi untuk menampilkan V-Card ketika tidak ada jurnal pada tanggal yang dipilih
+  if (this.journals && !this.journals.grid) {
+  this.grid = false;
+} else {
+  this.grid = true;
+}
+},
     showSwalEdit(journal, index) {
       const journalId = journal._id
       const question = journal.grid[index].question
@@ -188,6 +196,7 @@ export default {
     this.getProfile()
     this.getJournals()
     this.getQuotes()
+    this.getJournals(this.selectedDate);
   },
 }
 </script>
@@ -277,38 +286,9 @@ export default {
               >😡</a
             >
           </div>
-
-          <h2 class="pl-5">Today's Journal</h2>
-        </div>
-        <VCol
-          cols="8"
-          md="6"
-        >
-          <div class="right">
-            <v-row
-              justify="center"
-              style="right: 200px; position: absolute"
-            >
-              <v-btn
-                to="AddJournal"
-                class="button-AddGrid"
-                color="primary"
-                @click="AddJournal"
-              >
-              <a
-                href="/dashboard"
-                class="emoticon"
-                >😭</a
-              >
-              <a
-                href="/dashboard"
-                class="emoticon"
-                >😡</a
-              >
-            </div>
-
+</div>
             <h2 class="pl-5">Today's Journal</h2>
-          </div>
+
           <VCol
             cols="8"
             md="6"
@@ -402,7 +382,7 @@ export default {
             <div>
               <center>
                 <VCard
-                  v-if="journals == null"
+                  v-if="!journals.grid"
                   class="align-center justify-center auth-card"
                   style="background-color: transparent; opacity: 50%"
                 >
