@@ -12,22 +12,13 @@ const props = defineProps({
   fullname : String,
   username : String
 })
-const attrs = ref([
-  {
-    dot: 'pink',
-    dates: '2023-03-01T18:00:00Z',
-  },
-  {
-    dot: 'indigo',
-    dates: '2023-03-11T19:00:00Z',
-  },
-]);
 </script>
 <script>
 import Swal from 'sweetalert2'
 import axios from 'axios'
 import { Calendar, DatePicker } from 'v-calendar';
 import 'v-calendar/style.css';
+
 
 export default {
   components: {
@@ -66,6 +57,14 @@ export default {
     }
   },
   methods: {
+    addDot(date) {
+      this.calendarAttributes.push({
+        key: 'dot',
+        dates: [date],
+        dotColor: 'red',
+      })
+      console.log('Dot added to:', date);
+    },
     async getQuotes() {
       const data = await fetch("https://type.fit/api/quotes").then(res => res.json());
       const randomQuote1 = Math.floor(Math.random() * data.length);
@@ -253,19 +252,19 @@ export default {
           <h1 class="pl-5">Hello, {{ this.profile }} 👋</h1>
           <p class="pl-5">How do you feel today?</p>
           <div class="emoticons">
-            <a
-              href="/dashboard"
-              class="emoticon"
-              >😀</a
+            <button
+
+              class="emoticon" @click="addDot('2023-04-01')" 
+              >😀</button
             >
             <a
-              href="/dashboard"
-              class="emoticon"
+
+              class="emoticon" @click="addDot(selectedDate)" style="cursor: pointer;"
               >😭</a
             >
             <a
-              href="/dashboard"
-              class="emoticon"
+
+              class="emoticon" @click="addDot(selectedDate)" style="cursor: pointer;"
               >😡</a
             >
           </div>
@@ -473,7 +472,7 @@ export default {
             <DatePicker 
             v-model="selectedDate"
             :attributes="calendarAttributes" 
-            @click="getJournals(selectedDate)"
+            @click="getJournals(selectedDate); addDot(selectedDate)"
             @selected="getJournals"
             style="background-color: transparent; border: 0px;"
             width="100%"
