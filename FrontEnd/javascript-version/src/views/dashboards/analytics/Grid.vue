@@ -121,21 +121,21 @@ export default {
       .get(`//localhost:5000/api/journal/${formattedDate}`, config)
       .then(response => {
         this.journals = response.data
+        this.grid = true // set nilai grid menjadi true ketika mendapatkan jurnal
       })
       .catch(error => {
         console.log(error)
         this.journals = null // menetapkan nilai journals menjadi null ketika ada kesalahan pada permintaan
+        this.grid = null // menghapus grid ketika tanggal yang dipilih tidak memiliki jurnal
       })
   } else {
     console.error('Invalid date object.')
   }
 
   // menambahkan blok kondisi untuk menampilkan V-Card ketika tidak ada jurnal pada tanggal yang dipilih
-  if (this.journals && !this.journals.grid) {
-  this.grid = false;
-} else {
-  this.grid = true;
-}
+  if (!this.journals || !this.journals.grid || this.journals.grid.length === 0) {
+    this.grid = null;
+  }
 },
     showSwalEdit(journal, index) {
       const journalId = journal._id
@@ -329,7 +329,7 @@ export default {
           </VCol>
 
           <div style="margin-top: 50px">
-            <VRow>
+            <VRow v-if="journals !== null">
               <VCol
                 cols="10"
                 sm="5"
@@ -379,10 +379,9 @@ export default {
                 </div>
               </VCol>
             </VRow>
-            <div>
+            <div  v-if="journals == null">
               <center>
                 <VCard
-                  v-if="!journals.grid"
                   class="align-center justify-center auth-card"
                   style="background-color: transparent; opacity: 50%"
                 >
@@ -500,7 +499,7 @@ export default {
             <DatePicker 
             v-model="selectedDate"
             :attributes="calendarAttributes" 
-            @click="getJournals(selectedDate); addDot(selectedDate)"
+            @click="getJournals(selectedDate);"
             @selected="getJournals"
             style="background-color: transparent; border: 0px;"
             width="100%"
