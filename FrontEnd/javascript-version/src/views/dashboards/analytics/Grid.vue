@@ -161,10 +161,9 @@ deleteAllJournals(journal) {
       })
   },
     showSwalEdit(journal, index) {
-      const journalId = journal._id
       const question = journal.grid[index].question
       const answer = journal.grid[index].answer
-      console.log(`<textarea id="swal-input2" class="swal2-input ans" value="${answer}" style="">`)
+
       Swal.fire({
         title: 'Edit Journal',
         html:
@@ -188,10 +187,6 @@ deleteAllJournals(journal) {
         },
       }).then(result => {
         if (result.isConfirmed) {
-          const token = localStorage.getItem('token')
-          const config = {
-            headers: { Authorization: `Bearer ${token}` },
-          }
           const newData = {
             grid: [
               {
@@ -200,20 +195,20 @@ deleteAllJournals(journal) {
               },
             ],
           }
+          journal.grid[index] = newData.grid[0]
 
-          axios
-            .patch(`//localhost:5000/api/journal/${journalId}`, newData, config)
-            .then(response => {
-              Swal.fire('Success', 'Journal has been updated!', 'success')
-              this.getJournals()
-            })
-            .catch(error => {
-              console.log(error)
-              Swal.fire('Error', 'Failed to update journal', 'error')
-            })
-        }
-      })
-    },
+              axios.patch(`//localhost:5000/api/journal/${journalId}`, newData, config)
+                .then(response => {
+                  Swal.fire('Success', 'Journal has been updated!', 'success')
+                  this.getJournals()
+                })
+                .catch(error => {
+                  console.log(error)
+                  Swal.fire('Error', 'Failed to update journal', 'error')
+                })
+            }
+          })
+        },
   },
   created() {
     this.getProfile()
