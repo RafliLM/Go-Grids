@@ -76,7 +76,6 @@ export default {
         dotColor: 'red',
       })
       console.log('Dot added to:', date);
-    }
     },
     async getQuotes() {
       const data = await fetch('https://type.fit/api/quotes').then(res => res.json())
