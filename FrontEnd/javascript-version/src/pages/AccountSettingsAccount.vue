@@ -3,69 +3,119 @@ import avatar1 from '@/assets/images/avatars/avatar-1.png'
 import axios from 'axios'
 import { ref } from 'vue'
 import Swal from 'sweetalert2'
+import LZString from 'lz-string'
+
+const cvtBase64 = async file => {
+  return await new Promise(resolve => {
+    let fileReader = new FileReader()
+    fileReader.onload = e => resolve(fileReader.result)
+    fileReader.onerror = error => {
+      console.log(error)
+      alert('An Error occurred please try again, File might be corrupt')
+    }
+    fileReader.readAsDataURL(file)
+  })
+}
+
+const reduceImageSize = async (base64Str, MAX_WIDTH = 200, MAX_HEIGHT = 200) => {
+  return await new Promise((resolve) => {
+    let img = new Image()
+    img.src = base64Str
+    img.onload = () => {
+      let canvas = document.createElement('canvas')
+      let width = img.width
+      let height = img.height
+
+      if (width > height) {
+        if (width > MAX_WIDTH) {
+          height *= MAX_WIDTH / width
+          width = MAX_WIDTH
+        }
+      } else {
+        if (height > MAX_HEIGHT) {
+          width *= MAX_HEIGHT / height
+          height = MAX_HEIGHT
+        }
+      }
+      canvas.width = width
+      canvas.height = height
+      let ctx = canvas.getContext('2d')
+      ctx.drawImage(img, 0, 0, width, height)
+      resolve(canvas.toDataURL()) // this will return base64 image results after resize
+    }
+  });
+}
 
 const accountData = {
   avatarImg: avatar1
 }
 
+const img = ref(null)
 const firstname = ref()
 const lastName = ref()
 const username = ref()
 const email = ref()
 const password = ref()
-// const profile = ref({
-//   firstname: '',
-//   lastName: '',
-//   username : '',
-//   email: ''
-// })
 
 const getProfile =() => {
-      const token = localStorage.getItem('token') // membaca token dari local storage
-      const config = {
-        headers: { Authorization: `Bearer ${token}` }, // mengirim token pada header permintaan
+  const token = localStorage.getItem('token') // membaca token dari local storage
+  const config = {
+    headers: { Authorization: `Bearer ${token}` }, // mengirim token pada header permintaan
+  }
+  axios
+    .get('//localhost:5000/api/user', config)
+    .then(response => {
+      const data = response.data
+      firstname.value = data.firstname,
+      lastName.value = data.lastname,
+      username.value = data.username,
+      email.value = data.email
+      if(data.profilePicture){
+        img.value = LZString.decompressFromBase64(data.profilePicture)
       }
-      console.log("hai")
-      axios
-        .get('//localhost:5000/api/user', config)
-        .then(response => {
-            firstname.value = response.data.firstname,
-            lastName.value = response.data.lastname,
-            username.value = response.data.username,
-            email.value = response.data.email
-            
-        })
-        .catch(error => {
-          console.log(error)
-        })
+      password.value = ""
+    })
+    .catch(error => {
+      console.log(error)
+    })
 }
 
-const update = (firstname,lastName, username, email,password ) => {
+const update = (firstname,lastName, username, email, password, image = null ) => {
   const token = localStorage.getItem('token') // membaca token dari local storage
-      const config = {
-        headers: { Authorization: `Bearer ${token}` }, // mengirim token pada header permintaan
-      }
-  axios.patch("http://localhost:5000/api/user", {
+  let data = {
     firstname : firstname,
     lastname : lastName,
-    username: username,
+    username : username,
     password : password,
-  },config).then(res => {
+  }
+  if(image){
+    data.profilePicture = LZString.compressToBase64(image)
+  }
+  const config = {
+    headers: { Authorization: `Bearer ${token}` }, // mengirim token pada header permintaan
+  }
+  axios.patch("http://localhost:5000/api/user", data ,config).then(res => {
     getProfile()
+    Swal.fire({
+      position: 'top',
+      icon: 'success',
+      title: 'Update success!',
+      showConfirmButton: false,
+      timer: 1500
+    })
   }).catch(err => {
     console.log(err)
     Swal.fire({
-        position: 'top',
-        icon: 'error',
-        title: 'Update failed',
-        showConfirmButton: false,
-        timer: 1500
-      })
+      position: 'top',
+      icon: 'error',
+      title: 'Update failed',
+      showConfirmButton: false,
+      timer: 1500
+    })
   })
 }
 
 getProfile()
-// console.log(profile)
 
 const refInputEl = ref()
 const accountDataLocal = ref(structuredClone(accountData))
@@ -74,11 +124,14 @@ const validateAccountDeactivation = [v => !!v || 'Please confirm account deactiv
 const resetForm = () => {
   accountDataLocal.value = structuredClone(accountDataLocal)
 }
-const changeAvatar = file => {
+const changeAvatar = async file => {
   const fileReader = new FileReader()
   const {files} = file.target
   if (files && files.length) {
     fileReader.readAsDataURL(files[0])
+    console.log(files[0])
+    let base64 = await cvtBase64(files[0])
+    img.value = await reduceImageSize(base64)
     fileReader.onload = () => {
       if (typeof fileReader.result === 'string')
         accountDataLocal.value.avatarImg = fileReader.result
@@ -95,8 +148,6 @@ const resetAvatar = () => {
 const isCurrentPasswordVisible = ref(false)
 const isNewPasswordVisible = ref(false)
 const isConfirmPasswordVisible = ref(false)
-
-
 </script>
 
 
@@ -107,11 +158,11 @@ const isConfirmPasswordVisible = ref(false)
         <h1 style="padding-left: 20px; padding-top: 10px;"> Account Settings ⚙️</h1>
         <VCardText class="d-flex">
           <!-- 👉 Avatar -->
-          <VAvatar
+          <VAvatar 
             rounded="lg"
             size="100"
             class="me-6"
-            :image="accountDataLocal.avatarImg"
+            :image="img ? img : avatar1"
           />
 
           <!-- 👉 Upload Photo -->
@@ -124,13 +175,15 @@ const isConfirmPasswordVisible = ref(false)
                 color="primary"
                 @click="refInputEl?.click()"
               >
-                <VIcon
+                <!--
+                  <VIcon
                   icon="mdi-cloud-upload-outline"
                   class="d-sm-none"
-                />
+                  /> 
+                -->
                 <div class="button-UploadNewPhoto">
-                <span class="d-none d-sm-block">Upload new photo</span>
-              </div>
+                  <span class="d-none d-sm-block">Upload new photo</span>
+                </div>
               </VBtn>
 
               <input
@@ -155,14 +208,16 @@ const isConfirmPasswordVisible = ref(false)
           <!-- 👉 Form -->
           <VForm class="mt-6">
             <VRow>
-              <VCol class="input-FirtsNameAccountSetting"
+              <VCol
+                class="input-FirtsNameAccountSetting"
                 md="6"
                 cols="5"
               >
                 <h3> First Name</h3>
               </VCol>
 
-              <VCol class="input-LasrNameAccountSetting"
+              <VCol
+                class="input-LasrNameAccountSetting"
                 md="6"
                 cols="12"
               >
@@ -198,14 +253,16 @@ const isConfirmPasswordVisible = ref(false)
           <!-- 👉 Form -->
           <VForm class="mt-6">
             <VRow>
-              <VCol class="input-EmailAccountSetting"
+              <VCol
+                class="input-EmailAccountSetting"
                 md="6"
                 cols="5"
               >
                 <h3>Email</h3>
               </VCol>
 
-              <VCol class="input-UsernameAccountSetting"
+              <VCol
+                class="input-UsernameAccountSetting"
                 md="6"
                 cols="12"
               >
@@ -241,44 +298,51 @@ const isConfirmPasswordVisible = ref(false)
         <VCardText>
           <!-- 👉 Form -->
           <VForm class="mt-6">
-            <!-- <VRow>
+            <!--
+              <VRow>
               <VCol class="input-CurrentPasswordAccountSetting"
-                md="6"
-                cols="5"
+              md="6"
+              cols="5"
               >
-                <h3>Current Password</h3>
+              <h3>Current Password</h3>
               </VCol>
-            </VRow> -->
+              </VRow> 
+            -->
 
-            <!-- <VRow>
+            <!--
+              <VRow>
               <VCol
-                cols="12"
-                md="6"
+              cols="12"
+              md="6"
               >
 
-                <VTextField
-                  v-model="password"
-                  :type="isCurrentPasswordVisible ? 'text' : 'password'"
-                  :append-inner-icon="isCurrentPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
-                  @click:append-inner="isCurrentPasswordVisible = !isCurrentPasswordVisible"
-                />
+              <VTextField
+              v-model="password"
+              :type="isCurrentPasswordVisible ? 'text' : 'password'"
+              :append-inner-icon="isCurrentPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
+              @click:append-inner="isCurrentPasswordVisible = !isCurrentPasswordVisible"
+              />
               </VCol>
-            </VRow> -->
+              </VRow> 
+            -->
 
             <VRow>
-              <VCol class="input-NewPasswordAccountSetting"
+              <VCol
+                class="input-NewPasswordAccountSetting"
                 md="6"
                 cols="5"
               >
                 <h3>New Password</h3>
               </VCol>
 
-              <!-- <VCol class="input-ConfirmPasswordAccountSetting"
+              <!--
+                <VCol class="input-ConfirmPasswordAccountSetting"
                 md="6"
                 cols="5"
-              >
+                >
                 <h3>Confirm Password</h3>
-              </VCol> -->
+                </VCol> 
+              -->
             </VRow>
 
             <!-- 👉 New Password -->
@@ -296,27 +360,29 @@ const isConfirmPasswordVisible = ref(false)
                 />
               </VCol>
 
-              <!-- <VCol
+              <!--
+                <VCol
                 cols="12"
                 md="6"
-              >
+                >
                
                 <VTextField
-                  v-model="password"
-                  :type="isConfirmPasswordVisible ? 'text' : 'password'"
-                  :append-inner-icon="isConfirmPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
-                  @click:append-inner="isConfirmPasswordVisible = !isConfirmPasswordVisible"
+                v-model="password"
+                :type="isConfirmPasswordVisible ? 'text' : 'password'"
+                :append-inner-icon="isConfirmPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
+                @click:append-inner="isConfirmPasswordVisible = !isConfirmPasswordVisible"
                 />
-              </VCol> -->
+                </VCol> 
+              -->
             
               <!-- 👉 Form Actions -->
               <div class="button-SaveChanges">
-              <VCol
-                cols="12"
-                class="d-flex flex-wrap gap-4"
-              >
-                <VBtn @click="update(firstname,lastName, username, email,password)"> Save changes </VBtn>
-              </VCol>
+                <VCol
+                  cols="12"
+                  class="d-flex flex-wrap gap-4"
+                >
+                  <VBtn @click="update(firstname,lastName, username, email,password, img)"> Save changes </VBtn>
+                </VCol>
               </div>
             </VRow>
           </VForm>

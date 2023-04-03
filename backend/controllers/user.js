@@ -36,7 +36,7 @@ const login = async (req, res) => {
                 let token = jwt.sign({
                     id : user._id
                 }, process.env.SECRET, {
-                    expiresIn: '1h'
+                    expiresIn: '4h'
                 })
                 res.status(200).json({token})
             }
@@ -109,8 +109,8 @@ const resetPassword = async (req, res) => {
                 port: 465,
                 secure: true, // use SSL
                 auth: {
-                    user: 'raflilutfiansyah28@gmail.com',
-                    pass: 'bzssurdpjrkorxyn'
+                    user: 'gridsgo@gmail.com',
+                    pass: 'ksnmisrcpkdddqsj'
                 }
             })
             let newPassword = new randexp(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,32}$/).gen()
@@ -126,15 +126,61 @@ const resetPassword = async (req, res) => {
                 subject : "Reset Password",
                 html : 
                 `
-                    <h1>Go Grids</h1>
-                    <p>Your new password is ${newPassword}</p>
+                <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            font-size: 14px;
+                            line-height: 1.5;
+                            color: #333;
+                            background-color: #f1f1f1;
+                            padding: 20px;
+                        }
+                        .container {
+                            max-width: 600px;
+                            margin: 0 auto;
+                            background-color: #fff;
+                            padding: 40px;
+                            border-radius: 4px;
+                            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                            
+                        }
+                        h1 {
+                            font-size: 28px;
+                            margin-bottom: 0;
+                            color: #f1781a;
+                            text-align: center;
+                            font-family :'Courier New', Courier, monospace;
+                        }
+                        p {
+                            margin-top: 0;
+                        }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="container">
+                            <h1>Informasi Perubahan Password !</h1> <br> 
+                            <p>Kepada ${user.firstname} ${user.lastname},</p>
+                            <p>Kami Telah menerima permintaan untuk mengubah password akun Go-Grids.</p>
+                            <p>Password Baru: ${newPassword}</p>
+                            <p>Silahkan gunakan password baru ini untuk masuk ke akun anda. Jangan memberikan informasi ini kepada siapa pun.</p>
+                            <p>Jika anda tidak merasa melakukan permintaan ini, silahkan abaikan email ini.</p>
+                            <p>Terima kasih telah menggunakan aplikasi kami.</p>
+                            <p>Salam Hormat,</p>
+                            <p>Go-Grids</p>
+                            <p>Tekan tombol di bawah ini untuk masuk kedalam aplikasi Go-Grids</p>
+                        </div>
+                    </body>
+                    </html>
                 `
             }, (err, result) => {
                 if(err){
-                    res.status(404).json({message : err.message})
+                    res.status(500).json({message : err.message})
                 }
                 else{
-                    res.status(200).json({message : "Reset password success"})
+                    res.status(200).json({message : "Reset password success", email : user.email})
                 }
             })
         }

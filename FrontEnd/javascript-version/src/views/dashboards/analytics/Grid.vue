@@ -65,6 +65,10 @@ export default {
     }
   },
   methods: {
+    logout(){
+      localStorage.removeItem("token")
+      this.$router.push({ path : "/"})
+    },
     addDot(date) {
       this.calendarAttributes.push({
         key: 'dot',
@@ -72,6 +76,7 @@ export default {
         dotColor: 'red',
       })
       console.log('Dot added to:', date);
+    }
     },
     async getQuotes() {
       const data = await fetch('https://type.fit/api/quotes').then(res => res.json())
@@ -489,7 +494,7 @@ deleteAllJournals(journal) {
                     <VDivider class="my-2" />
 
                     <!-- 👉 Logout -->
-                    <VListItem to="/">
+                    <VListItem @click="logout()">
                       <template #prepend>
                         <VIcon
                           class="me-2"
