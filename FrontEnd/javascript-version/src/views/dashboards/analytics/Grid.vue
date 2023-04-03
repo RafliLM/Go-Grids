@@ -137,6 +137,24 @@ export default {
     this.grid = null;
   }
 },
+deleteAllJournals(journal) {
+    const journalId = journal._id
+    const token = localStorage.getItem('token')
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+
+    axios
+      .delete(`//localhost:5000/api/journal/${journalId}`, config)
+      .then(response => {
+        Swal.fire('Success', 'All journals have been deleted!', 'success')
+        this.getJournals()
+      })
+      .catch(error => {
+        console.log(error)
+        Swal.fire('Error', 'Failed to delete journals', 'error')
+      })
+  },
     showSwalEdit(journal, index) {
       const journalId = journal._id
       const question = journal.grid[index].question
@@ -321,6 +339,7 @@ export default {
                   type="submit"
                   variant="#ffffff"
                   color="black"
+                  @click="deleteAllJournals(journals)"
                 >
                   <strong>DELETE ALL</strong>
                 </v-btn>
