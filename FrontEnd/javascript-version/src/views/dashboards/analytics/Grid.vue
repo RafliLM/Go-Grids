@@ -64,6 +64,10 @@ export default {
     }
   },
   methods: {
+    logout(){
+      localStorage.removeItem("token")
+      this.$router.push({ path : "/"})
+    },
     async getQuotes() {
       const data = await fetch('https://type.fit/api/quotes').then(res => res.json())
       const randomQuote1 = Math.floor(Math.random() * data.length)
@@ -453,7 +457,7 @@ export default {
                     <VDivider class="my-2" />
 
                     <!-- 👉 Logout -->
-                    <VListItem to="/">
+                    <VListItem @click="logout()">
                       <template #prepend>
                         <VIcon
                           class="me-2"

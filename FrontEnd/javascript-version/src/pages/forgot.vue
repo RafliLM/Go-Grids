@@ -11,27 +11,37 @@ import Swal from 'sweetalert2'
 const form = ref({
   username: '',
 })
+const loading = ref(false)
 const vuetifyTheme = useTheme()
 
 const forgot = (username) => {
+  loading.value = true
   axios.post("http://localhost:5000/api/reset-password", {
     username,
   }).then(res => {
     Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Your Password has been sent to your email',
-        showConfirmButton: true
-      })
+      position: 'center',
+      icon: 'success',
+      title: `Your Password has been sent to ${res.data.email}`,
+      showConfirmButton: true
+    })
   }).catch(err => {
-    console.log(err)
+    let message = ""
+    if(err.response.status == 404){
+      message = 'Your Username not exist'
+    }
+    else{
+      message = 'Internal Server error, try again later'
+    }
     Swal.fire({
-        position: 'top',
-        icon: 'error',
-        title: 'Your Username not exist',
-        showConfirmButton: false,
-        timer: 1500
-      })
+      position: 'top',
+      icon: 'error',
+      title: message,
+      showConfirmButton: false,
+      timer: 1500
+    })
+  }).finally(() => {
+    loading.value = false
   })
 }
 </script>
@@ -39,13 +49,13 @@ const forgot = (username) => {
 <template>
   <div class="pop auth-wrapper d-flex align-center justify-center pa-4">
     <VCard class="auth-card pa-4 pt-7" max-width="700" max-height="445" style="background-color: transparent;">
-        <img max-width=100% src="gglogo.png">
-        <VCol
+      <img max-width=100% src="gglogo.png">
+      <VCol
         cols="10"
         class="text-b text-base"
-        >
-            <span>No worries, we will send you reset instruction</span>
-        </VCol>
+      >
+        <span>No worries, we will send you reset instruction</span>
+      </VCol>
     </VCard>
     <VCard
       class="auth-card pa-4 pt-7"
@@ -66,30 +76,32 @@ const forgot = (username) => {
           <VRow>
             <!-- email -->
             <VCol cols="12">
-              <VTextField class="input-UsernameLogin"
+              <VTextField
                 v-model="form.username"
+                class="input-UsernameLogin"
                 label="Enter Username"
               />
             </VCol>
 
             <VCol cols="12">
               <!-- login button -->
-              <VBtn class="button-LoginLogin"
-                block
-                type="submit"
-                @click="forgot(form.username)"
+              <VBtn 
+                    block
+                    type="submit"
+                    :loading="loading"
+                    @click="forgot(form.username)"
               >
                 Submit
               </VBtn>
             </VCol>
             <VCol cols="12">
-            <RouterLink
-              class="text-secondary"
-              to="/"
+              <RouterLink
+                class="text-secondary"
+                to="/"
               >
                 Log In Here!
-            </RouterLink>
-          </VCol>
+              </RouterLink>
+            </VCol>
           </VRow>
         </VForm>
       </VCardText>
