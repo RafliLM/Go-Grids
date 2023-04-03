@@ -29,6 +29,7 @@ import axios from 'axios'
 import { Calendar, DatePicker } from 'v-calendar'
 import 'v-calendar/style.css'
 
+
 export default {
   components: {
     Calendar,
@@ -36,7 +37,7 @@ export default {
   },
   data() {
     return {
-      selectedDate: new Date().toISOString().substr(0, 10),
+      selectedDate: new Date(),
       calendarAttributes: [
         {
           key: 'highlight',
@@ -67,6 +68,15 @@ export default {
     logout(){
       localStorage.removeItem("token")
       this.$router.push({ path : "/"})
+    },
+    addDot(date) {
+      this.calendarAttributes.push({
+        key: 'dot',
+        dates: [date],
+        dotColor: 'red',
+      })
+      console.log('Dot added to:', date);
+    }
     },
     async getQuotes() {
       const data = await fetch('https://type.fit/api/quotes').then(res => res.json())
@@ -105,25 +115,33 @@ export default {
         })
     },
     getJournals(date) {
-      console.log('date:', date)
-      if (date instanceof Date) {
-        const token = localStorage.getItem('token')
-        const config = {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-        const formattedDate = date.toISOString().substr(0, 10)
-        axios
-          .get(`//localhost:5000/api/journal/${formattedDate}`, config)
-          .then(response => {
-            this.journals = response.data
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      } else {
-        console.error('Invalid date object.')
-      }
-    },
+  console.log('date:', date)
+  if (date instanceof Date) {
+    const token = localStorage.getItem('token')
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+    const formattedDate = date.toISOString().substr(0, 10)
+    axios
+      .get(`//localhost:5000/api/journal/${formattedDate}`, config)
+      .then(response => {
+        this.journals = response.data
+        this.grid = true // set nilai grid menjadi true ketika mendapatkan jurnal
+      })
+      .catch(error => {
+        console.log(error)
+        this.journals = null // menetapkan nilai journals menjadi null ketika ada kesalahan pada permintaan
+        this.grid = null // menghapus grid ketika tanggal yang dipilih tidak memiliki jurnal
+      })
+  } else {
+    console.error('Invalid date object.')
+  }
+
+  // menambahkan blok kondisi untuk menampilkan V-Card ketika tidak ada jurnal pada tanggal yang dipilih
+  if (!this.journals || !this.journals.grid || this.journals.grid.length === 0) {
+    this.grid = null;
+  }
+},
     showSwalEdit(journal, index) {
       const journalId = journal._id
       const question = journal.grid[index].question
@@ -183,6 +201,7 @@ export default {
     this.getProfile()
     this.getJournals()
     this.getQuotes()
+    this.getJournals(this.selectedDate);
   },
 }
 </script>
@@ -247,34 +266,34 @@ export default {
       cols="10"
       md="9"
     >
-      <VCard>
-        <VCardItem>
-          <div
-            class="main"
-            style="width: 100%"
-          >
-            <h1 class="pl-5">Hello, {{ this.profile }} 👋</h1>
-            <p class="pl-5">How do you feel today?</p>
-            <div class="emoticons">
-              <a
-                href="/dashboard"
-                class="emoticon"
-                >😀</a
-              >
-              <a
-                href="/dashboard"
-                class="emoticon"
-                >😭</a
-              >
-              <a
-                href="/dashboard"
-                class="emoticon"
-                >😡</a
-              >
-            </div>
+    <VCard>
+      <VCardItem>
+        <div
+          class="main"
+          style="width: 100%"
+        >
+          <h1 class="pl-5">Hello, {{ this.profile }} 👋</h1>
+          <p class="pl-5">How do you feel today?</p>
+          <div class="emoticons">
+            <button
 
-            <h2 class="pl-5">Today's Journal</h2>
+              class="emoticon" @click="addDot('2023-04-01')" 
+              >😀</button
+            >
+            <a
+
+              class="emoticon" @click="addDot(selectedDate)" style="cursor: pointer;"
+              >😭</a
+            >
+            <a
+
+              class="emoticon" @click="addDot(selectedDate)" style="cursor: pointer;"
+              >😡</a
+            >
           </div>
+</div>
+            <h2 class="pl-5">Today's Journal</h2>
+
           <VCol
             cols="8"
             md="6"
@@ -315,7 +334,7 @@ export default {
           </VCol>
 
           <div style="margin-top: 50px">
-            <VRow>
+            <VRow v-if="journals !== null">
               <VCol
                 cols="10"
                 sm="5"
@@ -345,9 +364,9 @@ export default {
                           box-shadow: 0 0 0.5rem 0.5rem hsl(0 0% 0% / 10%);
                           padding: 1rem;
                           border-radius: 1rem;
-                          width: 100%;
+                          width: 270px;
                           height: 100%;
-                          margin-right: 120px;
+                          margin-right: 20px;
                         "
                       >
                       <!-- Text judul pada grid -->
@@ -365,10 +384,9 @@ export default {
                 </div>
               </VCol>
             </VRow>
-            <div>
+            <div  v-if="journals == null">
               <center>
                 <VCard
-                  v-if="journals == null"
                   class="align-center justify-center auth-card"
                   style="background-color: transparent; opacity: 50%"
                 >
@@ -471,35 +489,31 @@ export default {
                   </VList>
                 </VMenu>
 
-                <!-- !SECTION -->
-              </VAvatar>
-            </VCol>
-            <VCol
-              cols="1"
-              md="7"
-            >
-              <div style="padding-left: 20%">
-                <h3>{{ fullname }}</h3>
-                <p>@{{ username }}</p>
-              </div>
-            </VCol>
-            <VRow
-              class="py-5"
-              style="display: flex; justify-content: center; align-items: center"
-            >
-              <VCard>
-                <DatePicker
-                  v-model="selectedDate"
-                  :attributes="calendarAttributes"
-                  @click="getJournals(selectedDate)"
-                  @selected="getJournals"
-                  style="background-color: transparent; border: 0px"
-                  width="100%"
-                ></DatePicker>
-              </VCard>
-            </VRow>
-          </VRow>
-          <br />
+
+        <!-- !SECTION -->
+        </VAvatar>
+          </VCol>
+          <VCol cols="1" md="7">
+            <div style=" padding-left: 20%;">
+              <h3>{{ fullname }}</h3>
+              <p>@{{ username }}</p>
+            </div>
+          </VCol>
+        <VRow class="py-5" style="display: flex; justify-content: center; align-items: center;">
+          <VCard>
+            <DatePicker 
+            v-model="selectedDate"
+            :attributes="calendarAttributes" 
+            @click="getJournals(selectedDate);"
+            @selected="getJournals"
+            style="background-color: transparent; border: 0px;"
+            width="100%"
+            ></DatePicker>
+          </VCard>
+        </VRow>
+        
+        </VRow>
+          <br>
           <h1>Quotes</h1>
           <VCard style="background-color: transparent">
             <VCardText style="box-shadow: 0 0.5rem 0.5rem hsl(0 0% 0% / 10%); padding: 1rem; border-radius: 1rem">
