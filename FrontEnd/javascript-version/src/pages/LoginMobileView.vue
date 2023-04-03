@@ -124,7 +124,6 @@ const login = (username, password) => {
 @use "@core/scss/pages/page-auth.scss";
 
 .button-ForgetPassword{
-  display: flex;
   justify-content: center;
 }
 
