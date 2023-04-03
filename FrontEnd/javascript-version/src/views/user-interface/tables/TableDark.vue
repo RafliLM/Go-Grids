@@ -1,28 +1,58 @@
+<script>
+import axios from 'axios'
+
+export default {
+  data() {
+    return {
+      journals: {
+        grid : [],
+        date: ''
+
+      } // mengganti variabel journal menjadi journals
+    };
+  },
+  methods: {
+    getJournals() {
+      const token = localStorage.getItem('token');
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+
+      const currentDate = new Date().toISOString().substr(0, 10);
+      
+      axios
+        .get(`//localhost:5000/api/journal/${currentDate}`, config)
+
+        .then(response => {
+          this.journals = response.data;
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  },
+  created() {
+    this.getJournals()
+  },
+}
+</script>
+
 <template>
   <div>
-    <table class="bordered">
+    <table 
+    v-if="journals != null"
+    v-for="(grid, index) in journals.grid"
+    :key="index"
+    class="bordered">
       <thead>
-        <tr>
-          <th class="left-align">Timestamp</th>
+        <tr> 
+          <th class="left-align">{{ journals.date.substr(0, 10) }}</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td class="center-align">Content</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div>
-    <table class="bordered">
-      <thead>
-        <tr>
-          <th class="left-align">Timestamp</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="center-align">Content</td>
+          <td class="center-align">{{ grid.question }}</td>
         </tr>
       </tbody>
     </table>

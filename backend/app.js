@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 
 // Database connection
 mongoose
-    .connect('mongodb://127.0.0.1:27017/GoGrids', {
+    .connect('mongodb+srv://raflilutfiansyah28:123rafli123@go-grids.jkhydew.mongodb.net/db', {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
@@ -27,4 +27,4 @@ mongoose
 app.use("/api", require('./routes/index'))
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
-app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
+app.listen(PORT, "0.0.0.0", () => console.log(`Server running at port ${PORT}`));
