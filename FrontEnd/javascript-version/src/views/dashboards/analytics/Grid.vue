@@ -169,6 +169,10 @@ export default {
         },
       }).then(result => {
         if (result.isConfirmed) {
+          const token = localStorage.getItem('token');
+          const config = {
+            headers: { Authorization: `Bearer ${token}` },
+          }
           const newData = {
             grid: [
               {
