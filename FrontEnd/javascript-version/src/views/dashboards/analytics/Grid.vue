@@ -65,6 +65,10 @@ export default {
     }
   },
   methods: {
+    logout(){
+      localStorage.removeItem("token")
+      this.$router.push({ path : "/"})
+    },
     addDot(date) {
       this.calendarAttributes.push({
         key: 'dot',
@@ -72,6 +76,7 @@ export default {
         dotColor: 'red',
       })
       console.log('Dot added to:', date);
+    }
     },
     async getQuotes() {
       const data = await fetch('https://type.fit/api/quotes').then(res => res.json())
@@ -121,27 +126,44 @@ export default {
       .get(`//localhost:5000/api/journal/${formattedDate}`, config)
       .then(response => {
         this.journals = response.data
+        this.grid = true // set nilai grid menjadi true ketika mendapatkan jurnal
       })
       .catch(error => {
         console.log(error)
         this.journals = null // menetapkan nilai journals menjadi null ketika ada kesalahan pada permintaan
+        this.grid = null // menghapus grid ketika tanggal yang dipilih tidak memiliki jurnal
       })
   } else {
     console.error('Invalid date object.')
   }
 
   // menambahkan blok kondisi untuk menampilkan V-Card ketika tidak ada jurnal pada tanggal yang dipilih
-  if (this.journals && !this.journals.grid) {
-  this.grid = false;
-} else {
-  this.grid = true;
-}
+  if (!this.journals || !this.journals.grid || this.journals.grid.length === 0) {
+    this.grid = null;
+  }
 },
+deleteAllJournals(journal) {
+    const journalId = journal._id
+    const token = localStorage.getItem('token')
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+
+    axios
+      .delete(`//localhost:5000/api/journal/${journalId}`, config)
+      .then(response => {
+        Swal.fire('Success', 'All journals have been deleted!', 'success')
+        this.getJournals()
+      })
+      .catch(error => {
+        console.log(error)
+        Swal.fire('Error', 'Failed to delete journals', 'error')
+      })
+  },
     showSwalEdit(journal, index) {
-      const journalId = journal._id
       const question = journal.grid[index].question
       const answer = journal.grid[index].answer
-      console.log(`<textarea id="swal-input2" class="swal2-input ans" value="${answer}" style="">`)
+
       Swal.fire({
         title: 'Edit Journal',
         html:
@@ -165,10 +187,6 @@ export default {
         },
       }).then(result => {
         if (result.isConfirmed) {
-          const token = localStorage.getItem('token')
-          const config = {
-            headers: { Authorization: `Bearer ${token}` },
-          }
           const newData = {
             grid: [
               {
@@ -177,20 +195,20 @@ export default {
               },
             ],
           }
+          journal.grid[index] = newData.grid[0]
 
-          axios
-            .patch(`//localhost:5000/api/journal/${journalId}`, newData, config)
-            .then(response => {
-              Swal.fire('Success', 'Journal has been updated!', 'success')
-              this.getJournals()
-            })
-            .catch(error => {
-              console.log(error)
-              Swal.fire('Error', 'Failed to update journal', 'error')
-            })
-        }
-      })
-    },
+              axios.patch(`//localhost:5000/api/journal/${journalId}`, newData, config)
+                .then(response => {
+                  Swal.fire('Success', 'Journal has been updated!', 'success')
+                  this.getJournals()
+                })
+                .catch(error => {
+                  console.log(error)
+                  Swal.fire('Error', 'Failed to update journal', 'error')
+                })
+            }
+          })
+        },
   },
   created() {
     this.getProfile()
@@ -321,6 +339,7 @@ export default {
                   type="submit"
                   variant="#ffffff"
                   color="black"
+                  @click="deleteAllJournals(journals)"
                 >
                   <strong>DELETE ALL</strong>
                 </v-btn>
@@ -329,7 +348,7 @@ export default {
           </VCol>
 
           <div style="margin-top: 50px">
-            <VRow>
+            <VRow v-if="journals !== null">
               <VCol
                 cols="10"
                 sm="5"
@@ -379,10 +398,9 @@ export default {
                 </div>
               </VCol>
             </VRow>
-            <div>
+            <div  v-if="journals == null">
               <center>
                 <VCard
-                  v-if="!journals.grid"
                   class="align-center justify-center auth-card"
                   style="background-color: transparent; opacity: 50%"
                 >
@@ -471,7 +489,7 @@ export default {
                     <VDivider class="my-2" />
 
                     <!-- 👉 Logout -->
-                    <VListItem to="/">
+                    <VListItem @click="logout()">
                       <template #prepend>
                         <VIcon
                           class="me-2"
@@ -500,7 +518,7 @@ export default {
             <DatePicker 
             v-model="selectedDate"
             :attributes="calendarAttributes" 
-            @click="getJournals(selectedDate); addDot(selectedDate)"
+            @click="getJournals(selectedDate);"
             @selected="getJournals"
             style="background-color: transparent; border: 0px;"
             width="100%"
