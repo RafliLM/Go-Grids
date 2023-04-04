@@ -64,6 +64,18 @@ export default {
     }
   },
   methods: {
+    logout(){
+      localStorage.removeItem("token")
+      this.$router.push({ path : "/"})
+    },
+    addDot(date) {
+      this.calendarAttributes.push({
+        key: 'dot',
+        dates: [date],
+        dotColor: 'red',
+      })
+      console.log('Dot added to:', date);
+    },
     async getQuotes() {
       const data = await fetch('https://type.fit/api/quotes').then(res => res.json())
       const randomQuote1 = Math.floor(Math.random() * data.length)
