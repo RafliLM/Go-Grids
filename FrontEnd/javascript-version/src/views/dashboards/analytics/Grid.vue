@@ -1,17 +1,18 @@
 <script setup>
+
 import { useTheme } from 'vuetify'
 import { ref } from 'vue'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 
+
 const vuetifyTheme = useTheme()
 const triangleBg = computed(() => {
   return vuetifyTheme.global.name.value === 'light' ? triangleLight : triangleDark
 })
-const props = defineProps({
-  fullname: String,
-  username: String,
-})
+
+// const avatar = ref(defaultavatar)
+
 const attrs = ref([
   {
     dot: 'pink',
@@ -23,17 +24,23 @@ const attrs = ref([
   },
 ])
 </script>
+
 <script>
+import defaultavatar from '@/assets/images/avatars/avatar-1.png'
 import Swal from 'sweetalert2'
 import axios from 'axios'
 import { Calendar, DatePicker } from 'v-calendar'
 import 'v-calendar/style.css'
+import LZString from 'lz-string'
 
 
 export default {
   components: {
     Calendar,
     DatePicker,
+  },
+  props: {
+    user : Object,
   },
   data() {
     return {
@@ -53,15 +60,11 @@ export default {
         author: '',
       },
       quotes: [],
-      profile: {
-        username: localStorage.getItem('username'),
-      },
-      fullprofile: {
-        fullname: localStorage.getItem('firstname') + ' ' + localStorage.getItem('lastname'),
-      },
       journals: {
         grid: [],
       }, // mengganti variabel journal menjadi journals
+      avatar : defaultavatar,
+      profilePicture : this.user.profilePicture,
     }
   },
   methods: {
@@ -76,7 +79,7 @@ export default {
         dotColor: 'red',
       })
       console.log('Dot added to:', date);
-
+    }
     },
     async getQuotes() {
       const data = await fetch('https://type.fit/api/quotes').then(res => res.json())
@@ -99,20 +102,6 @@ export default {
         text: data[randomQuote2].text,
         author: data[randomQuote2].author,
       }
-    },
-    getProfile() {
-      const token = localStorage.getItem('token')
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-      axios
-        .get('//localhost:5000/api/user', config)
-        .then(response => {
-          this.profile = response.data.firstname
-        })
-        .catch(error => {
-          console.log(error)
-        })
     },
     getJournals(date) {
       console.log('date:', date)
@@ -137,29 +126,29 @@ export default {
         console.error('Invalid date object.')
       }
 
-  // menambahkan blok kondisi untuk menampilkan V-Card ketika tidak ada jurnal pada tanggal yang dipilih
-  if (!this.journals || !this.journals.grid || this.journals.grid.length === 0) {
-    this.grid = null;
-  }
-},
-deleteAllJournals(journal) {
-    const journalId = journal._id
-    const token = localStorage.getItem('token')
-    const config = {
-      headers: { Authorization: `Bearer ${token}` },
-    }
+      // menambahkan blok kondisi untuk menampilkan V-Card ketika tidak ada jurnal pada tanggal yang dipilih
+      if (!this.journals || !this.journals.grid || this.journals.grid.length === 0) {
+        this.grid = null;
+      }
+    },
+    deleteAllJournals(journal) {
+      const journalId = journal._id
+      const token = localStorage.getItem('token')
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      }
 
-    axios
-      .delete(`//localhost:5000/api/journal/${journalId}`, config)
-      .then(response => {
-        Swal.fire('Success', 'All journals have been deleted!', 'success')
-        this.getJournals()
-      })
-      .catch(error => {
-        console.log(error)
-        Swal.fire('Error', 'Failed to delete journals', 'error')
-      })
-  },
+      axios
+        .delete(`//localhost:5000/api/journal/${journalId}`, config)
+        .then(response => {
+          Swal.fire('Success', 'All journals have been deleted!', 'success')
+          this.getJournals()
+        })
+        .catch(error => {
+          console.log(error)
+          Swal.fire('Error', 'Failed to delete journals', 'error')
+        })
+    },
     showSwalEdit(journal, index) {
       const question = journal.grid[index].question
       const answer = journal.grid[index].answer
@@ -201,26 +190,29 @@ deleteAllJournals(journal) {
           }
           journal.grid[index] = newData.grid[0]
 
-              axios.patch(`//localhost:5000/api/journal/${journalId}`, newData, config)
-                .then(response => {
-                  Swal.fire('Success', 'Journal has been updated!', 'success')
-                  this.getJournals()
-                })
-                .catch(error => {
-                  console.log(error)
-                  Swal.fire('Error', 'Failed to update journal', 'error')
-                })
-            }
-          })
-        },
+          axios.patch(`//localhost:5000/api/journal/${journalId}`, newData, config)
+            .then(response => {
+              Swal.fire('Success', 'Journal has been updated!', 'success')
+              this.getJournals()
+            })
+            .catch(error => {
+              console.log(error)
+              Swal.fire('Error', 'Failed to update journal', 'error')
+            })
+        }
+      })
+    },
   },
-  created() {
-    this.getProfile()
+  beforeMount() {
+    if(this.profilePicture){
+      this.profilePicture = LZString.decompressFromBase64(this.profilePicture)
+    }
     this.getJournals()
     this.getQuotes()
-    this.getJournals(this.selectedDate);
-  },
+    this.getJournals(this.selectedDate)
+  }    
 }
+  
 </script>
 
 
@@ -289,7 +281,7 @@ deleteAllJournals(journal) {
           class="main"
           style="width: 100%"
         >
-          <h1 class="pl-5">Hello, {{ this.profile }} 👋</h1>
+          <h1 class="pl-5">Hello, {{ user.firstname }} 👋</h1>
           <p class="pl-5">How do you feel today?</p>
           <div class="emoticons">
             <button
@@ -442,7 +434,7 @@ deleteAllJournals(journal) {
                 size="50"
                 variant="tonal"
               >
-                <VImg :src="avatar1" />
+                <VImg :src="profilePicture ? profilePicture : avatar" />
 
                 <!-- SECTION Menu -->
                 <VMenu
@@ -461,16 +453,16 @@ deleteAllJournals(journal) {
                             size="40"
                             variant="tonal"
                           >
-                            <VImg :src="avatar1" />
+                            <VImg :src="profilePicture ? profilePicture : avatar" />
                           </VAvatar>
                         </VListItemAction>
                       </template>
 
                       <VListItemTitle class="font-weight-semibold">
-                        {{ fullname }}
+                        {{ `${user.firstname} ${user.lastname}` }}
                       </VListItemTitle>
                       <VListItemSubtitle class="text-disabled">
-                        {{ username }}
+                        {{ user.username }}
                       </VListItemSubtitle>
                     </VListItem>
 
@@ -513,8 +505,8 @@ deleteAllJournals(journal) {
           </VCol>
           <VCol cols="1" md="7">
             <div style=" padding-left: 20%;">
-              <h3>{{ fullname }}</h3>
-              <p>@{{ username }}</p>
+              <h3>{{ `${user.firstname} ${user.lastname}` }}</h3>
+              <p>@{{ user.username }}</p>
             </div>
           </VCol>
         <VRow class="py-5" style="display: flex; justify-content: center; align-items: center;">
