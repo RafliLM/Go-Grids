@@ -61,8 +61,15 @@ const updateProfile = async (req, res) => {
                 const password = bcrypt.hashSync(user.password, salt)
                 user.password = password
             }
+            else
+                return res.status(400).json({message : "Password not valid"})
         }
-        await Users.findByIdAndUpdate(req.user.id, user)
+        else{
+            user.password = req.user.password
+        }
+        let keys = Object.keys(user)
+        await Users.validate(user, keys)
+        const result = await Users.findByIdAndUpdate(req.user.id, user)
         res.status(200).json({message: "Profile updated successfully"})
     } catch (error) {
         res.status(400).json({message: error.message})
@@ -104,7 +111,7 @@ const resetPassword = async (req, res) => {
         const user = await Users.findOne({username})
         if(user){
             let transport = nodemailer.createTransport({
-                service : "Gmail",
+                service : "gmail",
                 host: 'smtp.gmail.com',
                 port: 465,
                 secure: true, // use SSL
@@ -122,8 +129,10 @@ const resetPassword = async (req, res) => {
                 password : hashedPassword
             })
             transport.sendMail({
+                from : "gridsgo@gmail.com",
                 to : user.email,
                 subject : "Reset Password",
+                generateTextFromHTML: true,
                 html : 
                 `
                 <!DOCTYPE html>
