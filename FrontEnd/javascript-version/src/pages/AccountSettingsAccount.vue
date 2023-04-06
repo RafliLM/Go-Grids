@@ -195,10 +195,6 @@ const isConfirmPasswordVisible = ref(false)
                 @input="changeAvatar"
               >
             </div>
-
-            <p class="text-body-1 mb-0">
-              Allowed JPG, GIF or PNG. Max size of 800K
-            </p>
           </form>
         </VCardText>
 
