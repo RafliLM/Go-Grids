@@ -10,17 +10,8 @@ mongoose.set('strictQuery', true);
 const PORT = process.env.PORT || 5000;
 const app = express();
 
-var whitelist = ['http://103.172.204.236:5173', 'http://localhost:5173']
-
 app.use(cors({
-    origin: (origin, callback) => {
-        if(whitelist.indexOf(origin) !== -1){
-            callback(null, true)
-        }
-        else{
-            callback(new Error('Not allowed by CORS'))
-        }
-    }
+    origin: '*'
 }));
 app.use(bodyParser.json({limit: '2mb'}));
 
