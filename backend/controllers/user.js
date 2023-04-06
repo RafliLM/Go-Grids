@@ -123,11 +123,7 @@ const resetPassword = async (req, res) => {
             let newPassword = new randexp(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,32}$/).gen()
             const salt = bcrypt.genSaltSync(parseInt(process.env.SALT))
             const hashedPassword = bcrypt.hashSync(newPassword, salt)
-            const updatePassword = await Users.updateOne({
-                username : user.username
-            }, {
-                password : hashedPassword
-            })
+            
             transport.sendMail({
                 from : "gridsgo@gmail.com",
                 to : user.email,
@@ -184,11 +180,16 @@ const resetPassword = async (req, res) => {
                     </body>
                     </html>
                 `
-            }, (err, result) => {
+            }, async (err, result) => {
                 if(err){
                     res.status(500).json({message : err.message})
                 }
                 else{
+                    const updatePassword = await Users.updateOne({
+                        username : user.username
+                    }, {
+                        password : hashedPassword
+                    })
                     res.status(200).json({message : "Reset password success", email : user.email})
                 }
             })
