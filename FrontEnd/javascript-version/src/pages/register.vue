@@ -96,7 +96,7 @@ const register = async data => {
 <template>
   <div class="auth-wrapper d-flex align-center justify-center pa-4">
     <VCard class="auth-card pa-4 pt-7" max-width="700" style="background-color: transparent;" >
-      <img max-width=100% src="gglogo.png">
+      <img max-width=100% src="/public/gglogo.png">
       <VCol
       cols="12"
       class="text-base text-b"
