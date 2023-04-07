@@ -52,7 +52,7 @@ export default {
       </thead>
       <tbody>
         <tr>
-          <td class="center-align">{{ grid.question }}</td>
+          <td class="left-align">{{ grid.answer }}</td>
         </tr>
       </tbody>
     </table>

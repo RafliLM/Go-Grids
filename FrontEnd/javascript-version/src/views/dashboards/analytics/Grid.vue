@@ -79,7 +79,6 @@ export default {
         dotColor: 'red',
       })
       console.log('Dot added to:', date);
-    }
     },
     async getQuotes() {
       const data = await fetch('https://type.fit/api/quotes').then(res => res.json())
@@ -152,6 +151,7 @@ export default {
     showSwalEdit(journal, index) {
       const question = journal.grid[index].question
       const answer = journal.grid[index].answer
+      const journalId = journal._id
 
       Swal.fire({
         title: 'Edit Journal',
