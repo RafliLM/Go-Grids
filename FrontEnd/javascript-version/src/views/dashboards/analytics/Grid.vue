@@ -404,7 +404,7 @@ export default {
                     margin="10"
                     height="170"
                     width="200"
-                    src="gglogo.png"
+                    src="/public/gglogo.png"
                   />
                   <VCol class="text-b text-base">
                     <h3>You haven't add any journal</h3>

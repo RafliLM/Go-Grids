@@ -11,59 +11,41 @@ import Swal from 'sweetalert2'
 const form = ref({
   username: '',
 })
-const loading = ref(false)
 const vuetifyTheme = useTheme()
 
 const forgot = (username) => {
-  loading.value = true
   axios.post("http://localhost:5000/api/reset-password", {
     username,
   }).then(res => {
     Swal.fire({
-      position: 'center',
-      icon: 'success',
-      title: `Your Password has been sent to ${res.data.email}`,
-      showConfirmButton: true
-    })
+        position: 'center',
+        icon: 'success',
+        title: 'Your Password has been sent to your email',
+        showConfirmButton: true
+      })
   }).catch(err => {
-    let message = ""
-    if(err.response.status == 404){
-      message = 'Your Username not exist'
-    }
-    else{
-      message = 'Internal Server error, try again later'
-    }
+    console.log(err)
     Swal.fire({
-      position: 'top',
-      icon: 'error',
-      title: message,
-      showConfirmButton: false,
-      timer: 1500
-    })
-  }).finally(() => {
-    loading.value = false
+        position: 'top',
+        icon: 'error',
+        title: 'Your Username not exist',
+        showConfirmButton: false,
+        timer: 1500
+      })
   })
 }
 </script>
 
 <template>
-  <div class="pop auth-wrapper d-flex align-center justify-center pa-4">
-    <VCard class="auth-card pa-4 pt-7" max-width="700" max-height="445" style="background-color: transparent;">
-      <img max-width=100% src="/public/gglogo.png">
-      <VCol
-        cols="10"
-        class="text-b text-base"
-      >
-        <span>No worries, we will send you reset instruction</span>
-      </VCol>
-    </VCard>
+  <div class="pop auth-wrapper d-flex align-center justify-center pa-4" style="text-align: -webkit-center;">
     <VCard
       class="auth-card pa-4 pt-7"
       max-width="448"
       style="background-color: transparent;"
     >
       <VCardText class="pt-2">
-        <h3 class="text-h3 text-b font-weight-bold mb-0" style="font-family: 'Poppins', sans-serif !important;">
+        <img src="/public/gglogo.png" style="width: 60%;">
+        <h3 class="text-h4 text-b font-weight-bold mb-0" style="font-family: 'Poppins', sans-serif !important;">
           Forgot Password?
         </h3>
         <p class="mb-2 text-b font-weight-normal">
@@ -76,32 +58,30 @@ const forgot = (username) => {
           <VRow>
             <!-- email -->
             <VCol cols="12">
-              <VTextField
+              <VTextField class="input-UsernameLogin"
                 v-model="form.username"
-                class="input-UsernameLogin"
                 label="Enter Username"
               />
             </VCol>
-
+            <span style="color: black;">No worries, we will send you reset instruction</span>
             <VCol cols="12">
               <!-- login button -->
-              <VBtn 
-                    block
-                    type="submit"
-                    :loading="loading"
-                    @click="forgot(form.username)"
+              <VBtn class="button-LoginLogin"
+                block
+                type="submit"
+                @click="forgot(form.username)"
               >
                 Submit
               </VBtn>
             </VCol>
             <VCol cols="12">
-              <RouterLink
-                class="text-secondary"
-                to="/"
+            <RouterLink
+              class="text-secondary"
+              to="/"
               >
                 Log In Here!
-              </RouterLink>
-            </VCol>
+            </RouterLink>
+          </VCol>
           </VRow>
         </VForm>
       </VCardText>
