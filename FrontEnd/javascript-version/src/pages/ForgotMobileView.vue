@@ -44,7 +44,7 @@ const forgot = (username) => {
       style="background-color: transparent;"
     >
       <VCardText class="pt-2">
-        <img src="/public/gglogo.png" style="width: 60%;">
+        <img src="/gglogo.png" style="width: 60%;">
         <h3 class="text-h4 text-b font-weight-bold mb-0" style="font-family: 'Poppins', sans-serif !important;">
           Forgot Password?
         </h3>

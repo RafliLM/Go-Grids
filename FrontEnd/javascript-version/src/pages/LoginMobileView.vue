@@ -48,7 +48,7 @@ const login = (username, password) => {
     >
 
       <VCardText class="pt-2" style="text-align: -webkit-center;">
-        <img src="/public/gglogo.png" style="width: 60%;">
+        <img src="/gglogo.png" style="width: 60%;">
         <h3 class="text-h3 text-b font-weight-bold mb-0" style="font-family: 'Poppins', sans-serif !important;">
           Welcome!
         </h3>
