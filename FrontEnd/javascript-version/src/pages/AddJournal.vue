@@ -6,6 +6,7 @@ import moment from 'moment'
 import axios from 'axios'
 import { ref } from 'vue'
 import Swal from 'sweetalert2'
+import router from '../router'
 
 const vuetifyTheme = useTheme()
 const grid = ref(
@@ -23,58 +24,56 @@ const createJournal = (question, answer) => {
   const config = {
     headers: { Authorization: `Bearer ${token}` }, // mengirim token pada header permintaan
   }
-  let date = moment().format('YYYY-MM-DD HH:mm:ss')
-  const currentDate = new Date().toISOString().substr(0, 10);
-      axios
-        .get(`//localhost:5000/api/journal/${currentDate}`, config)
-        .then(response => {
-          console.log(question, answer)
-          if(response.data == null){
-            axios
-              .post('//localhost:5000/api/journal/create', {grid:[{question,answer}],date}, config)
-              .then(response => {
-                const journal = response.data.grid
-                // localStorage.setItem('journal', JSON.stringify(journal))
-                window.location.href = 'http://localhost:5173/dashboard'
+  const currentDate = localStorage.getItem("date")
+  const date = new Date(currentDate)
+  axios
+    .get(`//localhost:5000/api/journal/${currentDate}`, config)
+    .then(response => {
+      console.log(question, answer)
+      if(response.data == null){
+        axios
+          .post('//localhost:5000/api/journal/create', {grid:[{question,answer}],date}, config)
+          .then(response => {
+            const journal = response.data.grid
+            router.push({name : "dashboard"})
 
-              })
-              .catch(error => {
-                console.log(error)
-                Swal.fire({
-                  position: 'top',
-                  icon: 'error',
-                  title: 'Failed to create Journal',
-                  showConfirmButton: false,
-                  timer: 1500
-                })
-              })
-          } else{
-            let journal = response.data
-            journal.grid.push({question, answer})
-            console.log(journal.grid)
-            axios.patch(`http://localhost:5000/api/journal/${journal._id}`, {grid:journal.grid}, config)
-            .then(response => {
-              window.location.href = 'http://localhost:5173/dashboard'
-              })
-              .catch(error => {
-                console.log(error)
-                Swal.fire({
-                  position: 'top',
-                  icon: 'error',
-                  title: 'Failed to create Journal',
-                  showConfirmButton: false,
-                  timer: 1500
-                })
-              })
-          }
-        })
+          })
+          .catch(error => {
+            console.log(error)
+            Swal.fire({
+              position: 'top',
+              icon: 'error',
+              title: 'Failed to create Journal',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          })
+      } else{
+        let journal = response.data
+        journal.grid.push({question, answer})
+        console.log(journal.grid)
+        axios.patch(`http://localhost:5000/api/journal/${journal._id}`, {grid:journal.grid}, config)
+          .then(response => {
+            router.push({name : "dashboard"})
+          })
+          .catch(error => {
+            console.log(error)
+            Swal.fire({
+              position: 'top',
+              icon: 'error',
+              title: 'Failed to create Journal',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          })
+      }
+    })
   
 }
 
 const submitForm = (question,answer) => {
   createJournal(question,answer)
 }
-
 </script>
 
 <template>

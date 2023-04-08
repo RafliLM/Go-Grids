@@ -41,7 +41,7 @@ const login = (username, password) => {
 <template>
   <div class="pop auth-wrapper d-flex align-center justify-center pa-4">
     <VCard class="auth-card pa-4 pt-7" max-width="700" max-height="445" style="background-color: transparent;">
-      <img max-width=100% src="/public/gglogo.png">
+      <img max-width=100% src="/gglogo.png">
       <VCol
         cols="20"
           class="text-b text-base"

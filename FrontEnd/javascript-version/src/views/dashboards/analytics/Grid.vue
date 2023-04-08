@@ -1,46 +1,30 @@
-<script setup>
-
-import { useTheme } from 'vuetify'
-import { ref } from 'vue'
-import VueDatePicker from '@vuepic/vue-datepicker'
-import '@vuepic/vue-datepicker/dist/main.css'
-
-
-const vuetifyTheme = useTheme()
-const triangleBg = computed(() => {
-  return vuetifyTheme.global.name.value === 'light' ? triangleLight : triangleDark
-})
-
-// const avatar = ref(defaultavatar)
-
-const attrs = ref([
-  {
-    dot: 'pink',
-    dates: '2023-03-01T18:00:00Z',
-  },
-  {
-    dot: 'indigo',
-    dates: '2023-03-11T19:00:00Z',
-  },
-])
-</script>
-
 <script>
 import defaultavatar from '@/assets/images/avatars/avatar-1.png'
 import Swal from 'sweetalert2'
 import axios from 'axios'
 import { Calendar, DatePicker } from 'v-calendar'
+import { useTheme } from 'vuetify'
 import 'v-calendar/style.css'
 import LZString from 'lz-string'
+import VueDatePicker from '@vuepic/vue-datepicker'
+import '@vuepic/vue-datepicker/dist/main.css'
+import router from '../../../router'
 
 
 export default {
   components: {
     Calendar,
     DatePicker,
+    VueDatePicker
   },
   props: {
     user : Object,
+  },
+  setup() {
+    const vuetifyTheme = useTheme()
+    const triangleBg = computed(() => {
+      return vuetifyTheme.global.name.value === 'light' ? triangleLight : triangleDark
+    })
   },
   data() {
     return {
@@ -67,6 +51,14 @@ export default {
       profilePicture : this.user.profilePicture,
     }
   },
+  beforeMount() {
+    if(this.profilePicture){
+      this.profilePicture = LZString.decompressFromBase64(this.profilePicture)
+    }
+    this.getJournals()
+    this.getQuotes()
+    this.getJournals(this.selectedDate)
+  },
   methods: {
     logout(){
       localStorage.removeItem("token")
@@ -78,7 +70,7 @@ export default {
         dates: [date],
         dotColor: 'red',
       })
-      console.log('Dot added to:', date);
+      console.log('Dot added to:', date)
     },
     async getQuotes() {
       const data = await fetch('https://type.fit/api/quotes').then(res => res.json())
@@ -151,12 +143,11 @@ export default {
     showSwalEdit(journal, index) {
       const question = journal.grid[index].question
       const answer = journal.grid[index].answer
-
       Swal.fire({
         title: 'Edit Journal',
         html:
-          `<input id="swal-input1" class="swal2-input" placeholder="${question}">` +
-          `<textarea id="swal-input2" class="swal2-input ans" placeholder="${answer}" style="">`,
+          `<input id="swal-input1" class="swal2-input" value="${question}">` +
+          `<textarea id="swal-input2" class="swal2-input ans" >${answer}</textarea>`,
         focusConfirm: false,
         backdrop: true,
         icon: 'info',
@@ -175,20 +166,19 @@ export default {
         },
       }).then(result => {
         if (result.isConfirmed) {
-          const newData = {
-            grid: [
-              {
-                question: result.value.newQuestion,
-                answer: result.value.newAnswer,
-              },
-            ],
+          let grid = journal.grid
+          grid[index] = {
+            question: result.value.newQuestion,
+            answer: result.value.newAnswer,
           }
-          journal.grid[index] = newData.grid[0]
-
-          axios.patch(`//localhost:5000/api/journal/${journalId}`, newData, config)
+          const token = localStorage.getItem('token')
+          const config = {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+          axios.patch(`//localhost:5000/api/journal/${journal._id}`,{ grid }, config)
             .then(response => {
               Swal.fire('Success', 'Journal has been updated!', 'success')
-              this.getJournals()
+              this.getJournals(this.selectedDate)
             })
             .catch(error => {
               console.log(error)
@@ -197,20 +187,14 @@ export default {
         }
       })
     },
-  },
-  beforeMount() {
-    if(this.profilePicture){
-      this.profilePicture = LZString.decompressFromBase64(this.profilePicture)
-    }
-    this.getJournals()
-    this.getQuotes()
-    this.getJournals(this.selectedDate)
+    addJournal(){
+      const date = `${this.selectedDate.getFullYear()}-${this.selectedDate.getMonth()+1}-${this.selectedDate.getDate()}`
+      localStorage.setItem("date", date)
+      router.push({name : "AddJournal"})
+    },
   }    
-}
-  
+} 
 </script>
-
-
 
 <style type="text/css">
 .jarak {
@@ -308,10 +292,9 @@ export default {
                 style="right: 200px; position: absolute"
               >
                 <v-btn
-                  to="AddJournal"
                   class="button-AddGrid"
                   color="primary"
-                  @click="AddJournal"
+                  @click="addJournal"
                 >
                   + Add Grid Journal
                 </v-btn>
@@ -351,7 +334,7 @@ export default {
                   class="text-right"
                   style="margin-bottom: -40px; margin-left: 20px; position: relative; z-index: 1; width: 33%"
                 >
-                  <v-spacer></v-spacer>
+                  <v-spacer />
                 </v-col>
                 <div
                   class="containercard d-flex"
@@ -399,8 +382,8 @@ export default {
                     margin="10"
                     height="170"
                     width="200"
-                    src="/public/gglogo.png"
-                  />
+                    src="/gglogo.png"
+                  >
                   <VCol class="text-b text-base">
                     <h3>You haven't add any journal</h3>
                   </VCol>
@@ -417,7 +400,7 @@ export default {
     >
       <VRow>
         <div style="flex-grow: 1; padding: 20px; width: 25%">
-          <div style="float: left"></div>
+          <div style="float: left" />
           <VRow>
             <VCol
               cols="1"
@@ -513,7 +496,7 @@ export default {
             @selected="getJournals"
             style="background-color: transparent; border: 0px;"
             width="100%"
-            ></DatePicker>
+            />
           </VCard>
         </VRow>
         
