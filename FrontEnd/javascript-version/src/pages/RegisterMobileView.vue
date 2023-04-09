@@ -95,33 +95,16 @@ const register = async data => {
 
 <template>
   <div class="auth-wrapper d-flex align-center justify-center pa-4">
-    <VCard class="auth-card pa-4 pt-7" max-width="700" style="background-color: transparent;" >
-      <img max-width=100% src="/gglogo.png">
-      <VCol
-      cols="12"
-      class="text-base text-b"
-      >
-        <span>If you already have an account</span><br>
-        <div class="button-LoginHereRegister">
-        <RouterLink
-        class="text-secondary"
-        to="/"
-        >
-          Log In Here!
-        </RouterLink>
-        </div>
-      </VCol>
-    </VCard>
+    
     <VCard
       class="auth-card pa-4"
       max-width="448"
       style="background-color: transparent;"
     >
-      <VCardItem class="justify-center">
-      </VCardItem>
 
-      <VCardText class="pt-2">
-        <h3 class="text-h3 font-weight-bold mb-0" style="font-family: 'Poppins', sans-serif !important;">
+      <VCardText class="pt-2" style="text-align: -webkit-center;">
+        <img src="/gglogo.png" style="width: 60%;">
+        <h3 class="text-h4 font-weight-bold mb-0" style="font-family: 'Poppins', sans-serif !important;">
           Get Started!
         </h3>
         <p class="mb-2 text-b">
@@ -188,6 +171,25 @@ const register = async data => {
                 :append-inner-icon="isPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
                 @click:append-inner="isPasswordVisible = !isPasswordVisible"
               />
+
+              <VCard class="auth-card pa-4 pt-7" max-width="700" style="background-color: transparent; text-align: center;" >
+     
+                <VCol
+                  cols="12"
+                  class="text-base text-b"
+                  >
+                  <span>If you already have an account</span><br>
+                  <div class="button-LoginHereRegister">
+                  <RouterLink
+                  class="text-secondary"
+                  to="/"
+                  >
+                    Log In Here!
+                  </RouterLink>
+                  </div>
+                </VCol>
+              </VCard>
+
               <div class="button-SignUpRegister">
               <VBtn
                 block
