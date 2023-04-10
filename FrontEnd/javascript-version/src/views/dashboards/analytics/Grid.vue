@@ -54,7 +54,6 @@ export default {
     if(this.profilePicture){
       this.profilePicture = LZString.decompressFromBase64(this.profilePicture)
     }
-    this.selectedDate.setDate(this.selectedDate.getDate() + 1)
     this.getQuotes()
     this.getJournals(this.selectedDate)
   },
@@ -95,13 +94,11 @@ export default {
     },
     getJournals(date) {
       if (date instanceof Date) {
-        const today = date
-        today.setDate(today.getDate() -1)
         const token = localStorage.getItem('token')
         const config = {
           headers: { Authorization: `Bearer ${token}` },
         }
-        const formattedDate = today.toISOString().substr(0, 10)
+        const formattedDate = date.toISOString().substr(0, 10)
         axios
           .get(`http://103.172.204.236:5000/api/journal/${formattedDate}`, config)
           .then(response => {
@@ -133,7 +130,7 @@ export default {
         .delete(`http://103.172.204.236:5000/api/journal/${journalId}`, config)
         .then(response => {
           Swal.fire('Success', 'All journals have been deleted!', 'success')
-          this.getJournals()
+          this.getJournals(this.selectedDate)
         })
         .catch(error => {
           console.log(error)
@@ -310,7 +307,6 @@ export default {
                   raised
                   depressed
                   elevation="2"
-                  type="submit"
                   variant="#ffffff"
                   color="black"
                   @click="deleteAllJournals(journals)"
