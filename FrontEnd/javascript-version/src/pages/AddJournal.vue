@@ -26,6 +26,7 @@ const createJournal = (question, answer) => {
   }
   const currentDate = localStorage.getItem("date")
   const date = new Date(currentDate)
+  date.setDate(date.getDate() + 1)
   axios
     .get(`http://103.172.204.236:5000/api/journal/${currentDate}`, config)
     .then(response => {
@@ -36,7 +37,6 @@ const createJournal = (question, answer) => {
           .then(response => {
             const journal = response.data.grid
             router.push({name : "dashboard"})
-
           })
           .catch(error => {
             console.log(error)
