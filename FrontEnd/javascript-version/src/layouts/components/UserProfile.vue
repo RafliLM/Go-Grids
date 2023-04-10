@@ -16,39 +16,7 @@ export default {
     }
   },
   beforeMount() {
-    const token = localStorage.getItem("token")
-    const config = {
-      headers : {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-    axios.get(`${this.APIURI}event/today`, config)
-      .then(res => {
-        this.events = res.data
-      })
-      .catch(err => {
-        console.log(err.response.data)
-        Swal.fire({
-          position : 'center',
-          icon : "error",
-          title : err.message,
-          showConfirmButton: false,
-          timer: 1500,
-        })
-      })
-    axios.get(`${this.APIURI}event/invitation`, config)
-      .then(res => {
-        this.invitations = res.data
-      })
-      .catch(err => {
-        Swal.fire({
-          position : 'center',
-          icon : "error",
-          title : err.message,
-          showConfirmButton: false,
-          timer: 1500,
-        })
-      })
+    this.getNotification()
   },
   methods: {
     handleInvitation(type ,id){
@@ -67,12 +35,48 @@ export default {
             showConfirmButton: false,
             timer: 1500,
           })
+          this.getNotification()
         })
         .catch(err => {
           Swal.fire({
             position : 'center',
             icon : "error",
             title : err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500,
+          })
+        })
+    },
+    getNotification(){
+      const token = localStorage.getItem("token")
+      const config = {
+        headers : {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      axios.get(`${this.APIURI}event/today`, config)
+        .then(res => {
+          this.events = res.data
+        })
+        .catch(err => {
+          console.log(err.response.data)
+          Swal.fire({
+            position : 'center',
+            icon : "error",
+            title : err.message,
+            showConfirmButton: false,
+            timer: 1500,
+          })
+        })
+      axios.get(`${this.APIURI}event/invitation`, config)
+        .then(res => {
+          this.invitations = res.data
+        })
+        .catch(err => {
+          Swal.fire({
+            position : 'center',
+            icon : "error",
+            title : err.message,
             showConfirmButton: false,
             timer: 1500,
           })

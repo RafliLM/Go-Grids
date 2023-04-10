@@ -21,7 +21,7 @@ export default {
         headers: { Authorization: `Bearer ${token}` },
       }
       axios
-        .get(`//localhost:5000/api/event/`, config)
+        .get(`http://103.172.204.236:5000/api/event/`, config)
         .then(response => {
           this.events = response.data
         })
