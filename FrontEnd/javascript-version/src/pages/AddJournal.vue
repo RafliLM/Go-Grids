@@ -27,12 +27,12 @@ const createJournal = (question, answer) => {
   const currentDate = localStorage.getItem("date")
   const date = new Date(currentDate)
   axios
-    .get(`//localhost:5000/api/journal/${currentDate}`, config)
+    .get(`http://103.172.204.236:5000/api/journal/${currentDate}`, config)
     .then(response => {
       console.log(question, answer)
       if(response.data == null){
         axios
-          .post('//localhost:5000/api/journal/create', {grid:[{question,answer}],date}, config)
+          .post('http://103.172.204.236:5000/api/journal/create', {grid:[{question,answer}],date}, config)
           .then(response => {
             const journal = response.data.grid
             router.push({name : "dashboard"})
@@ -52,7 +52,7 @@ const createJournal = (question, answer) => {
         let journal = response.data
         journal.grid.push({question, answer})
         console.log(journal.grid)
-        axios.patch(`http://localhost:5000/api/journal/${journal._id}`, {grid:journal.grid}, config)
+        axios.patch(`http://103.172.204.236:5000/api/journal/${journal._id}`, {grid:journal.grid}, config)
           .then(response => {
             router.push({name : "dashboard"})
           })

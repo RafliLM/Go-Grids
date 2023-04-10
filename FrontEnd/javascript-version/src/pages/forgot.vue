@@ -16,7 +16,7 @@ const vuetifyTheme = useTheme()
 
 const forgot = (username) => {
   loading.value = true
-  axios.post("http://localhost:5000/api/reset-password", {
+  axios.post("http://103.172.204.236:5000/api/reset-password", {
     username,
   }).then(res => {
     Swal.fire({

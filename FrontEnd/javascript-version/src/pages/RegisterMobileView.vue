@@ -8,6 +8,7 @@ import authV1Tree2 from '@/assets/images/pages/auth-v1-tree-2.png'
 import authV1Tree from '@/assets/images/pages/auth-v1-tree.png'
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import router from '../router'
 
 const form = ref({
   firstname: '',
@@ -54,7 +55,7 @@ const validate = async () => {
 
 const register = async data => {
   if(await validate()){
-    axios.post("http://localhost:5000/api/register", {
+    axios.post("http://103.172.204.236:5000/api/register", {
       firstname : data.firstname,
       lastname : data.lastname,
       username : data.username,
@@ -69,7 +70,7 @@ const register = async data => {
         showConfirmButton: false,
         timer: 1500,
       })
-      window.location.href = 'http://localhost:5173/'
+      router.push({name : "index"})
     }).catch(err => {
       let message = ''
       if(err.response.data.message.includes('username')){

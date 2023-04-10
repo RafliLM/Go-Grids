@@ -10,7 +10,6 @@ import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import router from '../../../router'
 
-
 export default {
   components: {
     Calendar,
@@ -55,7 +54,7 @@ export default {
     if(this.profilePicture){
       this.profilePicture = LZString.decompressFromBase64(this.profilePicture)
     }
-    this.getJournals()
+    this.selectedDate.setDate(this.selectedDate.getDate() + 1)
     this.getQuotes()
     this.getJournals(this.selectedDate)
   },
@@ -95,15 +94,16 @@ export default {
       }
     },
     getJournals(date) {
-      console.log('date:', date)
       if (date instanceof Date) {
+        const today = date
+        today.setDate(today.getDate() -1)
         const token = localStorage.getItem('token')
         const config = {
           headers: { Authorization: `Bearer ${token}` },
         }
-        const formattedDate = date.toISOString().substr(0, 10)
+        const formattedDate = today.toISOString().substr(0, 10)
         axios
-          .get(`//localhost:5000/api/journal/${formattedDate}`, config)
+          .get(`http://103.172.204.236:5000/api/journal/${formattedDate}`, config)
           .then(response => {
             this.journals = response.data
             this.grid = true // set nilai grid menjadi true ketika mendapatkan jurnal
@@ -130,7 +130,7 @@ export default {
       }
 
       axios
-        .delete(`//localhost:5000/api/journal/${journalId}`, config)
+        .delete(`http://103.172.204.236:5000/api/journal/${journalId}`, config)
         .then(response => {
           Swal.fire('Success', 'All journals have been deleted!', 'success')
           this.getJournals()
@@ -175,7 +175,7 @@ export default {
           const config = {
             headers: { Authorization: `Bearer ${token}` },
           }
-          axios.patch(`//localhost:5000/api/journal/${journal._id}`,{ grid }, config)
+          axios.patch(`http://103.172.204.236:5000/api/journal/${journal._id}`,{ grid }, config)
             .then(response => {
               Swal.fire('Success', 'Journal has been updated!', 'success')
               this.getJournals(this.selectedDate)
