@@ -7,6 +7,7 @@ import authV1Tree2 from '@/assets/images/pages/auth-v1-tree-2.png'
 import authV1Tree from '@/assets/images/pages/auth-v1-tree.png'
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import router from '../router'
 
 const form = ref({
   username: '',
@@ -19,12 +20,12 @@ const authThemeMask = computed(() => {
 })
 const isPasswordVisible = ref(false)
 const login = (username, password) => {
-  axios.post("http://localhost:5000/api/login", {
+  axios.post("http://103.172.204.236:5000/api/login", {
     username,
     password,
   }).then(res => {
     localStorage.setItem('token', res.data.token)
-    window.location.href = 'http://localhost:5173/dashboard';
+    router.push({name : "dashboard"})
   }).catch(err => {
     console.log(err)
     Swal.fire({

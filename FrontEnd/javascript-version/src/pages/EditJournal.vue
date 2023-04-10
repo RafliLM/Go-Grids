@@ -6,6 +6,7 @@ import moment from 'moment'
 import axios from 'axios'
 import { ref } from 'vue'
 import Swal from 'sweetalert2'
+import router from '../router'
 
 
 const vuetifyTheme = useTheme()
@@ -32,11 +33,11 @@ const updateJournal = () => {
   }
   data.date = moment().format('YYYY-MM-DD HH:mm:ss')
   axios
-    .patch(`//localhost:5000/api/journal/${journal._id}`, data, config) // Mengirim ID sebagai bagian dari URL permintaan PATCH
+    .patch(`http://103.172.204.236:5000/api/journal/${journal._id}`, data, config) // Mengirim ID sebagai bagian dari URL permintaan PATCH
     .then(response => {
       const journal = response.data.grid
       localStorage.setItem('journal', JSON.stringify(journal))
-      window.location.href = 'http://localhost:5173/dashboard'
+      router.push({name : "dashboard"})
     })
     .catch(error => {
       console.log(error)
