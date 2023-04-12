@@ -39,7 +39,9 @@ export default {
       axios
         .get(`http://103.172.204.236:5000/api/event/`, config)
         .then(response => {
-          this.events = response.data
+          let arr = response.data
+          arr.sort((a,b) => {return new Date(a.timeHeld) - new Date(b.timeHeld)})
+          this.events = arr
         })
         .catch(error => {
           console.log(error)
