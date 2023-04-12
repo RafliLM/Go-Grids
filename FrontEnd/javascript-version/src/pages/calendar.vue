@@ -29,7 +29,7 @@ const Demo = defineComponent({
         headerToolbar: {
           left: 'prev,next today',
           center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+          right: 'dayGridMonth,dayGridWeek'
         },
         initialView: 'dayGridMonth',
         // initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
@@ -116,11 +116,13 @@ const Demo = defineComponent({
         let events = []
         this.events = res.data
         this.events.forEach((event) => {
+          let date = new Date(event.timeHeld)
+          date.setDate(date.getDate() - 1)
           events.push({
             id : event._id,
             creator : event.creator,
             title : event.title,
-            start : event.timeHeld
+            start : date
           })
         })
         this.calendarOptions.events = events
@@ -175,11 +177,12 @@ const Demo = defineComponent({
           })
         }
         else{
-          this.dialog = false
+          let date = new Date(this.selectedDate)
+          date.setDate(date.getDate() + 1)
           axios.post(`${this.APIURI}event`, {
             title : this.title,
             participants : this.participants,
-            timeHeld : this.selectedDate
+            timeHeld : date
           }, {
             headers : {
               Authorization: `Bearer ${token}`
