@@ -1,5 +1,5 @@
 <script lang='ts'>
-import { defineComponent } from 'vue'
+import { defineComponent, nextTick } from 'vue'
 import '@fullcalendar/core/vdom' // solve problem with Vite
 import FullCalendar, { CalendarOptions, EventApi, DateSelectArg, EventClickArg } from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -155,24 +155,29 @@ const Demo = defineComponent({
             }
           })
           .then(res => {
-            this.resetField()
+            this.dialog = false;
             Swal.fire({
               position : 'center',
               icon : "success",
               title : res.data.message,
               showConfirmButton: false,
               timer: 1500
-            })
+            }).then(() => {
+            this.resetField()
             this.getEvents()
           })
+          })
           .catch(err => {
-            this.resetField()
+            this.dialog = false;
             Swal.fire({
               position : 'center',
               icon : "error",
               title : err.message,
               showConfirmButton: false,
               timer: 1500
+          }).then(() => {
+            this.resetField()
+            this.getEvents()
           })
           })
         }
@@ -189,24 +194,29 @@ const Demo = defineComponent({
             }
           })
           .then(res => {
-            this.resetField()
+            this.dialog = false;
             Swal.fire({
               position : 'center',
               icon : "success",
               title : res.data.message,
               showConfirmButton: false,
               timer: 1500
-            })
+            }).then(() => {
+            this.resetField()
             this.getEvents()
           })
+          })
           .catch(err => {
-            this.resetField()
+            this.dialog = false;
             Swal.fire({
               position : 'center',
               icon : "error",
               title : err.message,
               showConfirmButton: false,
               timer: 1500
+          }).then(() => {
+            this.resetField()
+            this.getEvents()
           })
           })
         }
@@ -220,24 +230,29 @@ const Demo = defineComponent({
           }
         })
         .then(res => {
-          this.resetField()
+          this.dialog = false;
           Swal.fire({
             position : 'center',
             icon : "success",
             title : res.data.message,
             showConfirmButton: false,
             timer: 1500
+          }).then(() => {
+            this.resetField()
+            this.getEvents()
           })
-          this.getEvents()
         })
         .catch(err => {
-          this.resetField()
+          this.dialog = false;
           Swal.fire({
             position : 'center',
             icon : "error",
             title : err.message,
             showConfirmButton: false,
             timer: 1500
+          }).then(() => {
+            this.resetField()
+            this.getEvents()
           })
         })
     },
@@ -245,9 +260,14 @@ const Demo = defineComponent({
       this.title = '';
       this.participants = undefined;
       this.selectedDate = new Date();
-      this.dialog = false;
       this.creator = undefined
       this.timeHeld = undefined
+    },
+    cancel(){
+      this.dialog = false;
+      nextTick(() => {
+        this.resetField()
+      })
     }
   },
   beforeCreate(){
@@ -335,16 +355,16 @@ export default Demo
                 <v-card-actions>
                     <div v-if="!edit">
                       <v-btn @click="saveEvent()">Submit</v-btn>
-                      <v-btn @click="resetField()">Cancel</v-btn>
+                      <v-btn @click="cancel()">Cancel</v-btn>
                     </div>
                     <div v-else>
                       <div v-if="(creator == user._id) && (timeHeld.getTime() > new Date().getTime())">
                         <v-btn @click="saveEvent()">Update</v-btn>
                         <v-btn v-if="edit" @click="deleteEvent()">Delete</v-btn>
-                        <v-btn @click="resetField()">Cancel</v-btn>
+                        <v-btn @click="cancel()">Cancel</v-btn>
                       </div>
                       <div v-else>
-                        <v-btn @click="resetField()">Close</v-btn>
+                        <v-btn @click="cancel()">Close</v-btn>
                       </div>
                     </div>
                 </v-card-actions>
