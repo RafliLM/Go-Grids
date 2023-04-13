@@ -86,6 +86,18 @@ export default {
 }
 </script>
 
+<style>
+.red-dot {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: red;
+}
+</style>
+
 <template>
   <div class="d-flex justify-space-around">
     <VMenu style="width: 1000px">
@@ -102,6 +114,7 @@ export default {
             icon="mdi-bell-outline"
             size="24"
           />
+          <div v-if="invitations.length != 0 || events.length != 0" class="red-dot"></div>
         </VBtn>
       </template>
       <div v-if="invitations.length != 0 || events.length != 0">
