@@ -42,15 +42,15 @@ export default {
   <div>
     <table 
     v-if="journals != null"
-    v-for="(grid, index) in journals.grid"
-    :key="grid"
+    v-for="journal in journals"
     class="bordered">
       <thead>
         <tr> 
-          <th class="left-align">{{ journals.date.substr(0, 10) }}</th>
+          <th class="left-align">{{ journal.date.substr(0, 10) }}</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody  v-for="(grid,index) in journal.grid"
+      :key="index">
         <tr>
           <td class="center-align">{{ grid.question }}</td>
         </tr>
