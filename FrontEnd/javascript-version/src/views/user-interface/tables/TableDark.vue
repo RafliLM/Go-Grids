@@ -21,7 +21,7 @@ export default {
       const currentDate = new Date().toISOString().substr(0, 10);
       
       axios
-        .get(`//localhost:5000/api/journal/${currentDate}`, config)
+        .get(`http://103.172.204.236:5000/api/journal/all`, config)
 
         .then(response => {
           this.journals = response.data;
@@ -43,7 +43,7 @@ export default {
     <table 
     v-if="journals != null"
     v-for="(grid, index) in journals.grid"
-    :key="index"
+    :key="grid"
     class="bordered">
       <thead>
         <tr> 

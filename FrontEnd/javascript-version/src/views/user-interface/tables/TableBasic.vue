@@ -2,6 +2,7 @@
 import SvgIcon from '@jamescoyle/vue-icon'
 import { mdiDeleteOutline } from '@mdi/js'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'my-component',
@@ -11,22 +12,65 @@ export default {
   data() {
     return {
       path: mdiDeleteOutline,
-      events: ''
-    };
+      events: '',
+      user: null,
+    }
   },
- methods: {
+  beforeMount() {
+    const token = localStorage.getItem('token')
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+    axios
+      .get(`http://103.172.204.236:5000/api/user/`, config)
+      .then(response => {
+        this.user = response.data._id
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  },
+  methods: {
     getEvents() {
       const token = localStorage.getItem('token')
       const config = {
         headers: { Authorization: `Bearer ${token}` },
       }
       axios
-        .get(`//localhost:5000/api/event/`, config)
+        .get(`http://103.172.204.236:5000/api/event/`, config)
         .then(response => {
-          this.events = response.data
+          let arr = response.data
+          arr.sort((a,b) => {return new Date(a.timeHeld) - new Date(b.timeHeld)})
+          this.events = arr
         })
         .catch(error => {
           console.log(error)
+        })
+    },
+    deleteEvents(id){
+      const token = localStorage.getItem('token')
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+      axios.delete(`http://103.172.204.236:5000/api/event/${id}`, config)
+        .then(res => {
+          this.getEvents()
+          Swal.fire({
+            position: 'top',
+            icon: 'success',
+            title: res.data.message,
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }).catch(err => {
+          console.log(err)
+          Swal.fire({
+            position: 'top',
+            icon: 'error',
+            title: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500
+          })
         })
     },
   },
@@ -44,11 +88,11 @@ export default {
     >
       Timeline⌛
     </h4>
-    <p style="padding-left: 25px">Look your upcoming event here</p>
+    <p style="padding-left: 25px">Look your event schedule here</p>
   </div>
 
   <VCol>
-    <VRow style="padding-left: 25px; padding-bottom: 20px; padding-top: 10px" v-for="event in events">
+    <VRow style="padding-left: 25px; padding-bottom: 20px; padding-top: 10px" v-for="(event,index) in events">
       <p
         style="
           background-color: #14162e;
@@ -76,82 +120,16 @@ export default {
       >
       {{ event.title }}
       </p>
-      <svg-icon
-        type="mdi"
-        :path="path"
-        style="cursor: pointer; right: 48px; position: absolute; margin-top: 1px; color: black"
-        href=","
-      ></svg-icon>
+      <div v-if="event.creator == user">
+        <svg-icon
+          type="mdi"
+          :path="path"
+          style="cursor: pointer; right: 48px; position: absolute; margin-top: 1px; color: black"
+          href=","
+          @click="deleteEvents(event._id)"
+        ></svg-icon>
+      </div>
+      
     </VRow>
-    <!-- <VRow style="padding-left: 25px; padding-bottom: 20px">
-      <p
-        style="
-          background-color: #14162e;
-          color: white;
-          width: 130px;
-          border-radius: 10px;
-          display: flex;
-          justify-content: center;
-          height: 30px;
-          align-items: center;
-        "
-      >
-        12 May 2023
-      </p>
-      <p
-        style="
-          padding-left: 20px;
-          color: black;
-          height: 30px;
-          display: flex;
-          justify-content: center;
-          height: 30px;
-          align-items: center;
-        "
-      >
-        Anna's birthday
-      </p>
-      <svg-icon
-        type="mdi"
-        :path="path"
-        style="cursor: pointer; right: 48px; position: absolute; margin-top: 1px; color: black"
-        href=","
-      ></svg-icon>
-    </VRow>
-    <VRow style="padding-left: 25px">
-      <p
-        style="
-          background-color: #14162e;
-          color: white;
-          width: 130px;
-          border-radius: 10px;
-          display: flex;
-          justify-content: center;
-          height: 30px;
-          align-items: center;
-        "
-      >
-        20 May 2023
-      </p>
-      <p
-        style="
-          padding-left: 20px;
-          color: black;
-          height: 30px;
-          display: flex;
-          justify-content: center;
-          height: 30px;
-          align-items: center;
-        "
-      >
-        Gempi's birthday
-      </p>
-      <svg-icon
-        type="mdi"
-        :path="path"
-        style="cursor: pointer; right: 48px; position: absolute; margin-top: 1px; color: black"
-        href=","
-      ></svg-icon>
-    </VRow> -->
   </VCol>
 </template>

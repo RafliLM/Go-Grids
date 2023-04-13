@@ -29,41 +29,27 @@ const login = (username, password) => {
   }).catch(err => {
     console.log(err)
     Swal.fire({
-      position: 'top',
-      icon: 'error',
-      title: 'Your Username or Password wrong',
-      showConfirmButton: false,
-      timer: 10000
-    })
+        position: 'top',
+        icon: 'error',
+        title: 'Your Username or Password wrong',
+        showConfirmButton: false,
+        timer: 10000
+      })
   })
 }
 </script>
 
 <template>
   <div class="pop auth-wrapper d-flex align-center justify-center pa-4">
-    <VCard class="auth-card pa-4 pt-7" max-width="700" max-height="445" style="background-color: transparent;">
-      <img max-width=100% src="/gglogo.png">
-      <VCol
-        cols="20"
-          class="text-b text-base"
-      >
-        <span>If you don't have an account </span><br>
-        <div class="button-RegisterHere">
-        <RouterLink
-        class="text-secondary mt-2"
-        :to="{ name: 'register' }"
-        >
-          Register Here!
-          </RouterLink>
-        </div>
-      </VCol>
-    </VCard>
+
     <VCard
       class="auth-card pa-4 pt-7"
       max-width="448"
       style="background-color: transparent;"
     >
-      <VCardText class="pt-2">
+
+      <VCardText class="pt-2" style="text-align: -webkit-center;">
+        <img src="/gglogo.png" style="width: 60%;">
         <h3 class="text-h3 text-b font-weight-bold mb-0" style="font-family: 'Poppins', sans-serif !important;">
           Welcome!
         </h3>
@@ -92,18 +78,26 @@ const login = (username, password) => {
                 :append-inner-icon="isPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
                 @click:append-inner="isPasswordVisible = !isPasswordVisible"
               />
-
-
-              <div class="d-flex align-center justify-end flex-wrap mt-1 mb-4">
+              
+              <VCol cols="20" class="text-b text-base">
                 <div class=" mt-2 button-ForgetPassword">
                 <RouterLink
-                class="text-secondary"
+                class="text-secondary mt-1"
                 :to="{ name: 'forgot' }"
-                >
+                style="font-size: small;">
                   Forgot Password?
                 </RouterLink>
                 </div>
-              </div>
+                <span style="font-size: small;">If you don't have an account </span><br>
+                <div class="button-RegisterHere">
+                <RouterLink
+                class="text-secondary mt-2"
+                :to="{ name: 'register' }"
+                style="font-size: small;">
+                  Register Here!
+                  </RouterLink>
+                </div>
+              </VCol>
 
               <!-- login button -->
               <VBtn class="button-LoginLogin"
@@ -131,7 +125,6 @@ const login = (username, password) => {
 @use "@core/scss/pages/page-auth.scss";
 
 .button-ForgetPassword{
-  display: flex;
   justify-content: center;
 }
 

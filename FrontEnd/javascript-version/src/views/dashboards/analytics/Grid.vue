@@ -1,38 +1,25 @@
-<script setup>
-import { useTheme } from 'vuetify'
-import { ref } from 'vue'
-import VueDatePicker from '@vuepic/vue-datepicker'
-import '@vuepic/vue-datepicker/dist/main.css'
-
-const vuetifyTheme = useTheme()
-const triangleBg = computed(() => {
-  return vuetifyTheme.global.name.value === 'light' ? triangleLight : triangleDark
-})
-const props = defineProps({
-  fullname: String,
-  username: String,
-})
-const attrs = ref([
-  {
-    dot: 'pink',
-    dates: '2023-03-01T18:00:00Z',
-  },
-  {
-    dot: 'indigo',
-    dates: '2023-03-11T19:00:00Z',
-  },
-])
-</script>
 <script>
+import defaultavatar from '@/assets/images/avatars/avatar-1.png'
 import Swal from 'sweetalert2'
 import axios from 'axios'
 import { Calendar, DatePicker } from 'v-calendar'
+import { useTheme } from 'vuetify'
 import 'v-calendar/style.css'
 
 export default {
   components: {
     Calendar,
     DatePicker,
+    VueDatePicker
+  },
+  props: {
+    user : Object,
+  },
+  setup() {
+    const vuetifyTheme = useTheme()
+    const triangleBg = computed(() => {
+      return vuetifyTheme.global.name.value === 'light' ? triangleLight : triangleDark
+    })
   },
   data() {
     return {
@@ -52,16 +39,19 @@ export default {
         author: '',
       },
       quotes: [],
-      profile: {
-        username: localStorage.getItem('username'),
-      },
-      fullprofile: {
-        fullname: localStorage.getItem('firstname') + ' ' + localStorage.getItem('lastname'),
-      },
       journals: {
         grid: [],
       }, // mengganti variabel journal menjadi journals
+      avatar : defaultavatar,
+      profilePicture : this.user.profilePicture,
     }
+  },
+  beforeMount() {
+    if(this.profilePicture){
+      this.profilePicture = LZString.decompressFromBase64(this.profilePicture)
+    }
+    this.getQuotes()
+    this.getJournals(this.selectedDate)
   },
   methods: {
     logout(){
@@ -74,7 +64,7 @@ export default {
         dates: [date],
         dotColor: 'red',
       })
-      console.log('Dot added to:', date);
+      console.log('Dot added to:', date)
     },
     async getQuotes() {
       const data = await fetch('https://type.fit/api/quotes').then(res => res.json())
@@ -98,18 +88,49 @@ export default {
         author: data[randomQuote2].author,
       }
     },
-    getProfile() {
+    getJournals(date) {
+      if (date instanceof Date) {
+        const token = localStorage.getItem('token')
+        const config = {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+        const formattedDate = date.toISOString().substr(0, 10)
+        axios
+          .get(`http://103.172.204.236:5000/api/journal/${formattedDate}`, config)
+          .then(response => {
+            this.journals = response.data
+            this.grid = true // set nilai grid menjadi true ketika mendapatkan jurnal
+          })
+          .catch(error => {
+            console.log(error)
+            this.journals = null // menetapkan nilai journals menjadi null ketika ada kesalahan pada permintaan
+            this.grid = null // menghapus grid ketika tanggal yang dipilih tidak memiliki jurnal
+          })
+      } else {
+        console.error('Invalid date object.')
+      }
+
+      // menambahkan blok kondisi untuk menampilkan V-Card ketika tidak ada jurnal pada tanggal yang dipilih
+      if (!this.journals || !this.journals.grid || this.journals.grid.length === 0) {
+        this.grid = null;
+      }
+    },
+    deleteAllJournals(journal) {
+      const journalId = journal._id
       const token = localStorage.getItem('token')
       const config = {
         headers: { Authorization: `Bearer ${token}` },
       }
+
       axios
-        .get('//localhost:5000/api/user', config)
+        .delete(`http://103.172.204.236:5000/api/journal/${journalId}`, config)
         .then(response => {
-          this.profile = response.data.firstname
+          Swal.fire('Success', 'All journals have been deleted!', 'success')
+          this.getJournals(this.selectedDate)
         })
         .catch(error => {
           console.log(error)
+          Swal.fire('Error', 'Failed to delete journals', 'error')
         })
     },
     getJournals(date) {
@@ -140,8 +161,8 @@ export default {
       Swal.fire({
         title: 'Edit Journal',
         html:
-          `<input id="swal-input1" class="swal2-input" placeholder="${question}">` +
-          `<textarea id="swal-input2" class="swal2-input ans" placeholder="${answer}" style="">`,
+          `<input id="swal-input1" class="swal2-input" value="${question}">` +
+          `<textarea id="swal-input2" class="swal2-input ans" >${answer}</textarea>`,
         focusConfirm: false,
         backdrop: true,
         icon: 'info',
@@ -194,8 +215,6 @@ export default {
   },
 }
 </script>
-
-
 
 <style type="text/css">
 .jarak {
@@ -293,10 +312,9 @@ export default {
                 style="right: 200px; position: absolute"
               >
                 <v-btn
-                  to="AddJournal"
                   class="button-AddGrid"
                   color="primary"
-                  @click="AddJournal"
+                  @click="addJournal"
                 >
                   + Add Grid Journal
                 </v-btn>
@@ -312,7 +330,6 @@ export default {
                   raised
                   depressed
                   elevation="2"
-                  type="submit"
                   variant="#ffffff"
                   color="black"
                 >
@@ -335,7 +352,7 @@ export default {
                   class="text-right"
                   style="margin-bottom: -40px; margin-left: 20px; position: relative; z-index: 1; width: 33%"
                 >
-                  <v-spacer></v-spacer>
+                  <v-spacer />
                 </v-col>
                 <div
                   class="containercard d-flex"
@@ -384,8 +401,8 @@ export default {
                     margin="10"
                     height="170"
                     width="200"
-                    src="gglogo.png"
-                  />
+                    src="/gglogo.png"
+                  >
                   <VCol class="text-b text-base">
                     <h3>You haven't add any journal</h3>
                   </VCol>
@@ -402,7 +419,7 @@ export default {
     >
       <VRow>
         <div style="flex-grow: 1; padding: 20px; width: 25%">
-          <div style="float: left"></div>
+          <div style="float: left" />
           <VRow>
             <VCol
               cols="1"
@@ -414,7 +431,7 @@ export default {
                 size="50"
                 variant="tonal"
               >
-                <VImg :src="avatar1" />
+                <VImg :src="profilePicture ? profilePicture : avatar" />
 
                 <!-- SECTION Menu -->
                 <VMenu
@@ -433,16 +450,16 @@ export default {
                             size="40"
                             variant="tonal"
                           >
-                            <VImg :src="avatar1" />
+                            <VImg :src="profilePicture ? profilePicture : avatar" />
                           </VAvatar>
                         </VListItemAction>
                       </template>
 
                       <VListItemTitle class="font-weight-semibold">
-                        {{ fullname }}
+                        {{ `${user.firstname} ${user.lastname}` }}
                       </VListItemTitle>
                       <VListItemSubtitle class="text-disabled">
-                        {{ username }}
+                        {{ user.username }}
                       </VListItemSubtitle>
                     </VListItem>
 

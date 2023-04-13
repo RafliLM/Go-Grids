@@ -1,7 +1,7 @@
 <script setup>
 import avatar1 from '@/assets/images/avatars/avatar-1.png'
 import axios from 'axios'
-import { ref } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import Swal from 'sweetalert2'
 import LZString from 'lz-string'
 
@@ -51,11 +51,40 @@ const accountData = {
 }
 
 const img = ref(null)
-const firstname = ref()
-const lastName = ref()
-const username = ref()
-const email = ref()
-const password = ref()
+const firstname = ref(null)
+const lastName = ref(null)
+const username = ref(null)
+const email = ref(null)
+const password = ref(null)
+const loading = ref(false)
+
+const rules = ref({
+  firstnameRules: [
+    v => !!v || 'First Name is required',
+  ],
+  lastnameRules: [
+    v => !!v || 'Last Name is required',
+  ],
+  usernameRules: [
+    v => !!v || 'Username is required',
+    v => (v && v.length >= 9) || 'Username must be more than 8 characters',
+  ],
+  emailRules: [
+    v => !!v || 'Email is required',
+    v => (v && /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/i.test(v)) || 'Email must be valid',
+  ],
+  passwordRules : [
+    v => (v && /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,32}$/.test(v)) || 'Password must contain uppercase, lowercase, and number',
+  ],
+})
+
+const input = ref(null)
+
+const validate = async () => {
+  const { valid } = await input.value.validate()
+
+  return valid
+}
 
 const getProfile =() => {
   const token = localStorage.getItem('token') // membaca token dari local storage
@@ -63,7 +92,7 @@ const getProfile =() => {
     headers: { Authorization: `Bearer ${token}` }, // mengirim token pada header permintaan
   }
   axios
-    .get('//localhost:5000/api/user', config)
+    .get('http://103.172.204.236:5000/api/user', config)
     .then(response => {
       const data = response.data
       firstname.value = data.firstname,
@@ -73,49 +102,61 @@ const getProfile =() => {
       if(data.profilePicture){
         img.value = LZString.decompressFromBase64(data.profilePicture)
       }
-      password.value = ""
+      else
+        img.value = null
+      password.value = null
     })
     .catch(error => {
       console.log(error)
     })
 }
 
-const update = (firstname,lastName, username, email, password, image = null ) => {
-  const token = localStorage.getItem('token') // membaca token dari local storage
-  let data = {
-    firstname : firstname,
-    lastname : lastName,
-    username : username,
-    password : password,
-  }
-  if(image){
-    data.profilePicture = LZString.compressToBase64(image)
-  }
-  const config = {
-    headers: { Authorization: `Bearer ${token}` }, // mengirim token pada header permintaan
-  }
-  axios.patch("http://localhost:5000/api/user", data ,config).then(res => {
-    getProfile()
-    Swal.fire({
-      position: 'top',
-      icon: 'success',
-      title: 'Update success!',
-      showConfirmButton: false,
-      timer: 1500
+const update = async (firstname,lastname, username, email, password, image = null ) => {
+  loading.value = true
+  if(await validate()){
+    const token = localStorage.getItem('token') // membaca token dari local storage
+    let data = {
+      firstname,
+      lastname,
+      username,
+      email,
+      password,
+    }
+    if(image){
+      data.profilePicture = LZString.compressToBase64(image)
+    }
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }, // mengirim token pada header permintaan
+    }
+    axios.patch("http://103.172.204.236:5000/api/user", data ,config).then(res => {
+      getProfile()
+      Swal.fire({
+        position: 'top',
+        icon: 'success',
+        title: 'Update success!',
+        showConfirmButton: false,
+        timer: 1500
+      })
+    }).catch(err => {
+      console.log(err)
+      Swal.fire({
+        position: 'top',
+        icon: 'error',
+        title: err.response.data.message,
+        showConfirmButton: false,
+        timer: 1500
+      })
     })
-  }).catch(err => {
-    console.log(err)
-    Swal.fire({
-      position: 'top',
-      icon: 'error',
-      title: 'Update failed',
-      showConfirmButton: false,
-      timer: 1500
-    })
-  })
+      .finally(() => {
+        loading.value = false
+      })
+  }
+  loading.value = false 
 }
 
-getProfile()
+onBeforeMount(() => {
+  getProfile()
+})
 
 const refInputEl = ref()
 const accountDataLocal = ref(structuredClone(accountData))
@@ -167,7 +208,6 @@ const isConfirmPasswordVisible = ref(false)
 
           <!-- 👉 Upload Photo -->
           <form
-            ref="refForm"
             class="d-flex flex-column justify-center gap-5"
           >
             <div class="d-flex flex-wrap gap-2">
@@ -195,10 +235,6 @@ const isConfirmPasswordVisible = ref(false)
                 @input="changeAvatar"
               >
             </div>
-
-            <p class="text-body-1 mb-0">
-              Allowed JPG, GIF or PNG. Max size of 800K
-            </p>
           </form>
         </VCardText>
 
@@ -206,7 +242,7 @@ const isConfirmPasswordVisible = ref(false)
 
         <VCardText>
           <!-- 👉 Form -->
-          <VForm class="mt-6">
+          <VForm ref="input" class="mt-6" >
             <VRow>
               <VCol
                 class="input-FirtsNameAccountSetting"
@@ -233,6 +269,7 @@ const isConfirmPasswordVisible = ref(false)
               >
                 <VTextField
                   v-model="firstname"
+                  :rules="rules.firstnameRules"
                 />
               </VCol>
 
@@ -243,6 +280,7 @@ const isConfirmPasswordVisible = ref(false)
               >
                 <VTextField
                   v-model="lastName"
+                  :rules="rules.lastnameRules"
                 />
               </VCol>
             </VRow>
@@ -278,6 +316,7 @@ const isConfirmPasswordVisible = ref(false)
               >
                 <VTextField
                   v-model="email"
+                  :rules="rules.emailRules"
                   type="email"
                 />
               </VCol>
@@ -289,6 +328,7 @@ const isConfirmPasswordVisible = ref(false)
               >
                 <VTextField
                   v-model="username"
+                  :rules="rules.usernameRules"
                 />
               </VCol>
             </VRow>
@@ -331,6 +371,7 @@ const isConfirmPasswordVisible = ref(false)
                 class="input-NewPasswordAccountSetting"
                 md="6"
                 cols="5"
+                :rules="rules.passwordRules"
               >
                 <h3>New Password</h3>
               </VCol>
@@ -381,7 +422,7 @@ const isConfirmPasswordVisible = ref(false)
                   cols="12"
                   class="d-flex flex-wrap gap-4"
                 >
-                  <VBtn @click="update(firstname,lastName, username, email,password, img)"> Save changes </VBtn>
+                  <VBtn @click="update(firstname,lastName, username, email, password, img)" :loading="loading"> Save changes </VBtn>
                 </VCol>
               </div>
             </VRow>

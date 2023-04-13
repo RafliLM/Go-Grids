@@ -8,7 +8,7 @@ const token = localStorage.getItem("token")
 const data = ref(null)
 
 onMounted(async () => {
-  await axios.get("http://localhost:5000/api/user/", {
+  await axios.get("http://103.172.204.236:5000/api/user/", {
     headers : {
       Authorization: `Bearer ${token}`
     }
@@ -25,7 +25,7 @@ onMounted(async () => {
   <VRow class="match-height">
     <VCol
     >
-      <Grid  v-if="data" :fullname="`${data.firstname} ${data.lastname}`" :username="data.username" />
+      <Grid  v-if="data" :user="data" />
     </VCol>
     <!-- <VCol
       cols="10"

@@ -16,7 +16,7 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const token = localStorage.getItem("token")
   try {
-    const user = await axios.get(`http://localhost:5000/api/user`, {
+    const user = await axios.get(`http://103.172.204.236:5000/api/user`, {
       headers : {
         Authorization: `Bearer ${token}`,
       },
