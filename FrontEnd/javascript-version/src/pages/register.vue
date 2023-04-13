@@ -8,6 +8,7 @@ import authV1Tree2 from '@/assets/images/pages/auth-v1-tree-2.png'
 import authV1Tree from '@/assets/images/pages/auth-v1-tree.png'
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import router from '../router'
 
 const form = ref({
   firstname: '',
@@ -54,7 +55,7 @@ const validate = async () => {
 
 const register = async data => {
   if(await validate()){
-    axios.post("http://localhost:5000/api/register", {
+    axios.post("http://103.172.204.236:5000/api/register", {
       firstname : data.firstname,
       lastname : data.lastname,
       username : data.username,
@@ -69,7 +70,7 @@ const register = async data => {
         showConfirmButton: false,
         timer: 1500,
       })
-      window.location.href = 'http://localhost:5173/'
+      router.push({name : "index"})
     }).catch(err => {
       let message = ''
       if(err.response.data.message.includes('username')){
@@ -96,7 +97,7 @@ const register = async data => {
 <template>
   <div class="auth-wrapper d-flex align-center justify-center pa-4">
     <VCard class="auth-card pa-4 pt-7" max-width="700" style="background-color: transparent;" >
-      <img max-width=100% src="/public/gglogo.png">
+      <img max-width=100% src="/gglogo.png">
       <VCol
       cols="12"
       class="text-base text-b"

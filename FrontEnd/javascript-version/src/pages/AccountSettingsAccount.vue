@@ -92,7 +92,7 @@ const getProfile =() => {
     headers: { Authorization: `Bearer ${token}` }, // mengirim token pada header permintaan
   }
   axios
-    .get('//localhost:5000/api/user', config)
+    .get('http://103.172.204.236:5000/api/user', config)
     .then(response => {
       const data = response.data
       firstname.value = data.firstname,
@@ -128,7 +128,7 @@ const update = async (firstname,lastname, username, email, password, image = nul
     const config = {
       headers: { Authorization: `Bearer ${token}` }, // mengirim token pada header permintaan
     }
-    axios.patch("http://localhost:5000/api/user", data ,config).then(res => {
+    axios.patch("http://103.172.204.236:5000/api/user", data ,config).then(res => {
       getProfile()
       Swal.fire({
         position: 'top',

@@ -21,7 +21,7 @@ export default {
       const currentDate = new Date().toISOString().substr(0, 10);
       
       axios
-        .get(`//localhost:5000/api/journal/${currentDate}`, config)
+        .get(`http://103.172.204.236:5000/api/journal/${currentDate}`, config)
 
         .then(response => {
           this.journals = response.data;

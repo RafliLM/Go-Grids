@@ -7,6 +7,7 @@ import authV1Tree2 from '@/assets/images/pages/auth-v1-tree-2.png'
 import authV1Tree from '@/assets/images/pages/auth-v1-tree.png'
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import router from '../router'
 
 const form = ref({
   username: '',
@@ -19,21 +20,21 @@ const authThemeMask = computed(() => {
 })
 const isPasswordVisible = ref(false)
 const login = (username, password) => {
-  axios.post("http://localhost:5000/api/login", {
+  axios.post("http://103.172.204.236:5000/api/login", {
     username,
     password,
   }).then(res => {
     localStorage.setItem('token', res.data.token)
-    window.location.href = 'http://localhost:5173/dashboard';
+    router.push({name : "dashboard"})
   }).catch(err => {
     console.log(err)
     Swal.fire({
-        position: 'top',
-        icon: 'error',
-        title: 'Your Username or Password wrong',
-        showConfirmButton: false,
-        timer: 10000
-      })
+      position: 'top',
+      icon: 'error',
+      title: 'Your Username or Password wrong',
+      showConfirmButton: false,
+      timer: 10000
+    })
   })
 }
 </script>
@@ -41,7 +42,7 @@ const login = (username, password) => {
 <template>
   <div class="pop auth-wrapper d-flex align-center justify-center pa-4">
     <VCard class="auth-card pa-4 pt-7" max-width="700" max-height="445" style="background-color: transparent;">
-      <img max-width=100% src="/public/gglogo.png">
+      <img max-width=100% src="/gglogo.png">
       <VCol
         cols="20"
           class="text-b text-base"

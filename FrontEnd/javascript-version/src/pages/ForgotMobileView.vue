@@ -14,7 +14,7 @@ const form = ref({
 const vuetifyTheme = useTheme()
 
 const forgot = (username) => {
-  axios.post("http://localhost:5000/api/reset-password", {
+  axios.post("http://103.172.204.236:5000/api/reset-password", {
     username,
   }).then(res => {
     Swal.fire({
@@ -44,7 +44,7 @@ const forgot = (username) => {
       style="background-color: transparent;"
     >
       <VCardText class="pt-2">
-        <img src="/public/gglogo.png" style="width: 60%;">
+        <img src="/gglogo.png" style="width: 60%;">
         <h3 class="text-h4 text-b font-weight-bold mb-0" style="font-family: 'Poppins', sans-serif !important;">
           Forgot Password?
         </h3>

@@ -3,33 +3,35 @@ import { useTheme } from 'vuetify'
 import logo from '@/assets/logo.svg?raw'
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import router from '../router'
 
 const form = ref({
   username: '',
   password: '',
   remember: false,
 })
+
 const vuetifyTheme = useTheme()
 const authThemeMask = computed(() => {
   return vuetifyTheme.global.name.value === 'light' ? authV1MaskLight : authV1MaskDark
 })
 const isPasswordVisible = ref(false)
 const login = (username, password) => {
-  axios.post("http://localhost:5000/api/login", {
+  axios.post("http://103.172.204.236:5000/api/login", {
     username,
     password,
   }).then(res => {
     localStorage.setItem('token', res.data.token);
     localStorage.setItem('username', res.data.username);
-    window.location.href = 'http://localhost:5173/';
+    router.push({name : "dashboard"})
   }).catch(err => {
     Swal.fire({
-        position: 'top',
-        icon: 'error',
-        title: 'Your Username or Password wrong',
-        showConfirmButton: false,
-        timer: 1500
-      })
+      position: 'top',
+      icon: 'error',
+      title: 'Your Username or Password wrong',
+      showConfirmButton: false,
+      timer: 5000
+    })
   })
 }
 </script>
@@ -37,7 +39,7 @@ const login = (username, password) => {
 <template>
   <div class="pop auth-wrapper d-flex align-center justify-center pa-4">
     <VCard class="auth-card pa-4 pt-7" max-width="700" max-height="445" style="background-color: transparent;">
-      <img max-width=100% src="/public/gglogo.png">
+      <img max-width=100% src="/gglogo.png">
       <VCol
         cols="20"
           class="text-b text-base"
