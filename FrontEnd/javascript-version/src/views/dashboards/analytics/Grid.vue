@@ -259,7 +259,7 @@ export default {
           class="main"
           style="width: 100%"
         >
-          <h1 class="pl-5">Hello, {{ user.firstname }} 👋</h1>
+          <h1 class="pl-5" color="black">Hello, {{ user.firstname }} 👋</h1>
           <p class="pl-5">How do you feel today?</p>
           <div class="emoticons">
             <button
@@ -304,16 +304,11 @@ export default {
                 style="right: 48px; position: absolute; margin-top: -12px"
               >
                 <v-btn
-                  outlined
-                  plain
-                  raised
-                  depressed
-                  elevation="2"
-                  variant="#ffffff"
-                  color="black"
+                  class="button-AddGrid"
+                  color="white"
                   @click="deleteAllJournals(journals)"
                 >
-                  <strong>DELETE ALL</strong>
+                  <h4>DELETE ALL</h4>
                 </v-btn>
               </v-form>
             </div>
