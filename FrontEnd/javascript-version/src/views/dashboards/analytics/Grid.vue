@@ -140,6 +140,8 @@ export default {
     showSwalEdit(journal, index) {
       const question = journal.grid[index].question
       const answer = journal.grid[index].answer
+      const journalId = journal._id
+
       Swal.fire({
         title: 'Edit Journal',
         html:
@@ -320,54 +322,49 @@ export default {
           <div style="margin-top: 50px">
             <VRow v-if="journals !== null">
               <VCol
-                cols="10"
-                sm="5"
-                md="4"
+                cols="12" 
+                sm="6" 
+                md="4" 
+                lg="4"
                 v-for="(grid, index) in journals.grid"
                 :key="grid._id"
               >
-                <v-col
-                  class="text-right"
-                  style="margin-bottom: -40px; margin-left: 20px; position: relative; z-index: 1; width: 33%"
+                <v-col 
+                  class="d-flex justify-center"
+                  style="margin-bottom: 5px;"
                 >
-                  <v-spacer />
-                </v-col>
-                <div
-                  class="containercard d-flex"
-                  style="margin-left: 20px; width: 33%"
-                >
-                <!-- Text isi pada grid -->
-                  <div class="d-flex flex-row mb-6">
-                    <div class="col-md-1">
-                      <VCard
-                        v-if="journals != null"
-                        @click="showSwalEdit(journals, index)"
-                        style="
-                          position: relative;
-                          z-index: 0;
-                          box-shadow: 0 0 0.5rem 0.5rem hsl(0 0% 0% / 10%);
-                          padding: 1rem;
-                          border-radius: 1rem;
-                          width: 270px;
-                          height: 100%;
-                          margin-right: 20px;
-                        "
-                      >
-                      <!-- Text judul pada grid -->
-                        <VCardItem>
-                          <VCardTitle class="gridTitle" style="text-align:center">{{ grid.question }}</VCardTitle>
-                        </VCardItem>
-                        <VCardText
-                          style="padding-bottom: 10px"
-                          class="gridContent"
-                          >{{ grid.answer }}
-                        </VCardText>
-                      </VCard>
-                    </div>
+                  <div 
+                    class="containercard"
+                    style="width: 100%; height: 220px; max-width: 350px;"
+                  >
+                    <VCard
+                      v-if="journals != null"
+                      @click="showSwalEdit(journals, index)"
+                      style="
+                        box-shadow: 0 0 0.5rem 0.5rem hsl(0 0% 0% / 10%);
+                        padding: 0.2rem;
+                        border-radius: 1rem;
+                        width: 100%;
+                        height: 100%;
+                      "
+                    >
+                      <VCardItem>
+                        <VCardTitle class="gridTitle" style="text-align:center">{{ grid.question }}</VCardTitle>
+                      </VCardItem>
+                      <VCardText class="gridContent" style="
+                        display: -webkit-box;
+                        -webkit-line-clamp: 8;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        margin-bottom: 10px;
+                      ">{{ grid.answer }}</VCardText>
+                    </VCard>
                   </div>
-                </div>
+                </v-col>
               </VCol>
             </VRow>
+
             <div  v-if="journals == null">
               <center>
                 <VCard
@@ -419,7 +416,12 @@ export default {
                 >
                   <VList>
                     <!-- 👉 User Avatar & Name -->
-                    <VListItem>
+                    <VListItem
+                      v-for="(user, index) in users"
+                      :key="index"
+                      :two-line="isSmallScreen"
+                      :three-line="isMediumScreen"
+                    >
                       <template #prepend>
                         <VListItemAction start>
                           <VAvatar
@@ -427,7 +429,7 @@ export default {
                             size="40"
                             variant="tonal"
                           >
-                            <VImg :src="profilePicture ? profilePicture : avatar" />
+                            <VImg :src="user.profilePicture ? user.profilePicture : avatar" />
                           </VAvatar>
                         </VListItemAction>
                       </template>
@@ -483,18 +485,18 @@ export default {
               <p>@{{ user.username }}</p>
             </div>
           </VCol>
-        <VRow class="py-5" style="display: flex; justify-content: center; align-items: center;">
-          <VCard>
-            <DatePicker 
-            v-model="selectedDate"
-            :attributes="calendarAttributes" 
-            @click="getJournals(selectedDate);"
-            @selected="getJournals"
-            style="background-color: transparent; border: 0px;"
-            width="100%"
-            />
-          </VCard>
-        </VRow>
+          <VRow class="py-5" style="display: flex; justify-content: center; align-items: center;">
+            <VCard>
+              <DatePicker 
+              v-model="selectedDate"
+              :attributes="calendarAttributes" 
+              @click="getJournals(selectedDate);"
+              @selected="getJournals"
+              style="background-color: transparent; border: 0px;"
+              width="100%"
+              />
+            </VCard>
+          </VRow>
         
         </VRow>
           <br>

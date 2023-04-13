@@ -52,7 +52,7 @@ export default {
       <tbody  v-for="(grid,index) in journal.grid"
       :key="index">
         <tr>
-          <td class="center-align">{{ grid.question }}</td>
+          <td class="left-align">{{ grid.answer }}</td>
         </tr>
       </tbody>
     </table>
