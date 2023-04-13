@@ -17,8 +17,6 @@ export default {
       const config = {
         headers: { Authorization: `Bearer ${token}` },
       }
-
-      const currentDate = new Date().toISOString().substr(0, 10);
       
       axios
         .get(`http://103.172.204.236:5000/api/journal/all`, config)
@@ -46,7 +44,7 @@ export default {
     class="bordered">
       <thead>
         <tr> 
-          <th class="left-align">{{ journal.date.substr(0, 10) }}</th>
+          <th class="left-align" v-if="journal.date">{{ journal.date.slice(0,10) }}</th>
         </tr>
       </thead>
       <tbody  v-for="(grid,index) in journal.grid"
