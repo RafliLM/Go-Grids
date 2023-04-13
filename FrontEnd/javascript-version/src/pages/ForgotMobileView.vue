@@ -48,7 +48,7 @@ const forgot = (username) => {
         <h3 class="text-h4 text-b font-weight-bold mb-0" style="font-family: 'Poppins', sans-serif !important;">
           Forgot Password?
         </h3>
-        <p class="mb-2 text-b font-weight-normal">
+        <p class="mb-0 text-b font-weight-normal">
           Please enter your username
         </p>
       </VCardText>
