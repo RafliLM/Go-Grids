@@ -30,7 +30,7 @@ const login = (username, password) => {
       icon: 'error',
       title: 'Your Username or Password wrong',
       showConfirmButton: false,
-      timer: 5000
+      timer: 1500
     })
   })
 }
