@@ -8,20 +8,6 @@ import {
 } from '@layouts'
 import { useTheme } from 'vuetify'
 
-const ads = ref(`
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3259834036444796"
-     crossorigin="anonymous"><\/script>
-<!-- Go Grids -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-3259834036444796"
-     data-ad-slot="5780851193"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-<\/script>`)
-
 const vuetifyTheme = useTheme()
 const upgradeBanner = computed(() => {
   return vuetifyTheme.global.name.value === 'light' ? upgradeBannerLight : upgradeBannerDark
@@ -90,7 +76,6 @@ const upgradeBanner = computed(() => {
       }"
     />
   </ul>
-  <div v-html="ads"></div>
   
 
   <!-- 👉 illustration -->
